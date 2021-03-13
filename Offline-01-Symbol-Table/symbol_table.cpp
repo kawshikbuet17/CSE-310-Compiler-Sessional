@@ -93,7 +93,7 @@ public:
 
     int hashFunction(string str)
     {
-        cout<<"ScopeTable hashFunction"<<endl;
+        //cout<<"ScopeTable hashFunction"<<endl;
         int hashVal = 0;
         int sumAscii = 0;
         for(int i=0; i<str.length(); i++)
@@ -107,7 +107,7 @@ public:
 
     bool Insert(SymbolInfo symbol)
     {
-        cout<<"ScopeTable Insert"<<endl;
+        //cout<<"ScopeTable Insert"<<endl;
         SymbolInfo* location = NIL;
         location = Lookup(symbol.getSymbolName());
         if(location == NIL)
@@ -137,7 +137,7 @@ public:
 
     SymbolInfo* Lookup(string symbolName)
     {
-        cout<<"ScopeTable Lookup"<<endl;
+        //cout<<"ScopeTable Lookup"<<endl;
         int hashVal = hashFunction(symbolName);
         SymbolInfo* temp = NIL;
         for(int i=0; i<hashTable[hashVal].size(); i++)
@@ -145,6 +145,7 @@ public:
             if(hashTable[hashVal][i].getSymbolName() == symbolName)
             {
                 temp = &hashTable[hashVal][i];
+                cout<<"Found in ScopeTable# "<< id <<" at position "<< hashVal <<", " << i << endl;
                 break;
             }
         }
@@ -159,7 +160,7 @@ public:
             cout << i << " --> ";
             for(auto j : hashTable[i])
             {
-                cout<< "<" << j.getSymbolName() << " : " << j.getSymbolType() << "> ";
+                cout<< "< " << j.getSymbolName() << " : " << j.getSymbolType() << " > ";
             }
             cout<<endl;
         }
@@ -195,7 +196,7 @@ public:
     }
     void EnterScope()
     {
-        cout<<"EnterScope currentCount "<<current<<endl;
+        //cout<<"EnterScope currentCount "<<current<<endl;
         string newId = current->getId() + "." + to_string(current->getChildCount()+1);
         current->setChildCount(current->getChildCount()+1);
         temp = new ScopeTable(totalBucket, newId);
@@ -211,7 +212,7 @@ public:
 
     bool Insert(SymbolInfo symbol)
     {
-        cout<<"SymbolTable Insert"<<endl;
+        //cout<<"SymbolTable Insert"<<endl;
         return current->Insert(symbol);
     }
 
@@ -222,11 +223,13 @@ public:
 
     SymbolInfo* Lookup(string symbolName)
     {
-        cout<<"SymbolTable Lookup"<<endl;
+        //cout<<"SymbolTable Lookup"<<endl;
+        SymbolInfo* x;
         temp = current;
         while(temp != NIL)
         {
-            if(temp->Lookup(symbolName) != NIL)
+            x = temp->Lookup(symbolName);
+            if(x != NIL)
             {
                 break;
             }
@@ -235,7 +238,11 @@ public:
                 temp = temp->getParentScope();
             }
         }
-        return temp->Lookup(symbolName);
+        if(x == NIL)
+        {
+            cout<<"Not found"<<endl;
+        }
+        return x;
     }
     void PrintAllTables()
     {
