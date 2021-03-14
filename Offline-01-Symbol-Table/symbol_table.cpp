@@ -135,7 +135,11 @@ public:
             return true;
         }
         else
+        {
+            cout<<symbolName<<" not found"<<endl;
             return false;
+        }
+
     }
 
     bool LookupBoolean(string symbolName)
@@ -182,6 +186,7 @@ public:
             }
             cout<<endl;
         }
+        cout<<endl;
     }
 };
 
@@ -189,7 +194,7 @@ public:
 class SymbolTable
 {
     vector<ScopeTable> scope;
-    ScopeTable* previous;
+
     ScopeTable* current;
     ScopeTable* temp;
 
@@ -204,8 +209,12 @@ public:
         previousCount = "1";
         current = new ScopeTable(totalBucket, previousCount);
         current->makeParentScope(NIL);
-        previous = current;
         temp = NIL;
+    }
+
+    ~SymbolTable()
+    {
+        delete current;
     }
 
     ScopeTable* getCurrentScope()
@@ -226,7 +235,9 @@ public:
     void ExitScope()
     {
         cout<<"ScopeTable with id "<<current->getId()<<" removed"<<endl;
-        current = current->getParentScope();
+        temp = current->getParentScope();
+        delete current;
+        current = temp;
     }
 
     bool Insert(SymbolInfo symbol)
@@ -281,9 +292,12 @@ public:
 
 int32_t main()
 {
+    cout<<"Go to file : output.txt"<<endl;
+    freopen("input.txt","r",stdin);      ///comment this line to give input in console
+    freopen ("output.txt","w",stdout);  ///comment this line to see output in console
+
     int N;
     cin >> N;
-
     SymbolTable* st = new SymbolTable(N);
     char c;
 
@@ -294,45 +308,67 @@ int32_t main()
         if(c == 'I')
         {
             cin>>symbolName>>symbolType;
+            cout<<c<<" "<<symbolName<<" "<<symbolType<<endl;
+            cout<<endl;
             SymbolInfo* si = new SymbolInfo(symbolName, symbolType);
             st->Insert(*si);
+            cout<<endl;
         }
 
         else if(c == 'L')
         {
             cin>>symbolName;
+            cout<<c<<" "<<symbolName<<endl;
+            cout<<endl;
             st->Lookup(symbolName);
+            cout<<endl;
         }
 
         else if(c == 'D')
         {
             cin>>symbolName;
+            cout<<c<<" "<<symbolName<<endl;
+            cout<<endl;
             st->Remove(symbolName);
+            cout<<endl;
         }
 
         else if(c == 'P')
         {
             char p;
             cin >> p;
+            cout<<c<<" "<<p<<endl;
+            cout<<endl;
             if(p == 'A')
             {
                 st->PrintAllTables();
+                cout<<endl;
             }
 
             else if(p == 'C')
             {
                 st->PrintCurrentTable(st->getCurrentScope());
+                cout<<endl;
             }
         }
 
         else if(c == 'S')
         {
+            cout<<c<<endl;
+            cout<<endl;
             st->EnterScope();
+            cout<<endl;
         }
 
         else if(c == 'E')
         {
+            cout<<c<<endl;
+            cout<<endl;
             st->ExitScope();
+            cout<<endl;
         }
     }
+    fclose(stdin);
+    fclose(stdout);
+    return 0;
 }
