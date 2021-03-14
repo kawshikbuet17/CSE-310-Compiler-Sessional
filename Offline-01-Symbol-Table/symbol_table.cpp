@@ -108,16 +108,7 @@ public:
     bool Insert(SymbolInfo symbol)
     {
         //cout<<"ScopeTable Insert"<<endl;
-        int hashVal = hashFunction(symbol.getSymbolName());
-        bool found = false;
-        for(int i=0; i<hashTable[hashVal].size(); i++)
-        {
-            if(hashTable[hashVal][i].getSymbolName() == symbol.getSymbolName())
-            {
-                found = true;
-                break;
-            }
-        }
+        bool found = LookupBoolean(symbol.getSymbolName());
 
         if(found == false)
         {
@@ -145,6 +136,21 @@ public:
         }
         else
             return false;
+    }
+
+    bool LookupBoolean(string symbolName)
+    {
+        int hashVal = hashFunction(symbolName);
+        bool found = false;
+        for(int i=0; i<hashTable[hashVal].size(); i++)
+        {
+            if(hashTable[hashVal][i].getSymbolName() == symbolName)
+            {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
     SymbolInfo* Lookup(string symbolName)
