@@ -108,9 +108,18 @@ public:
     bool Insert(SymbolInfo symbol)
     {
         //cout<<"ScopeTable Insert"<<endl;
-        SymbolInfo* location = NIL;
-        location = Lookup(symbol.getSymbolName());
-        if(location == NIL)
+        int hashVal = hashFunction(symbol.getSymbolName());
+        bool found = false;
+        for(int i=0; i<hashTable[hashVal].size(); i++)
+        {
+            if(hashTable[hashVal][i].getSymbolName() == symbol.getSymbolName())
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if(found == false)
         {
             int hashVal = hashFunction(symbol.getSymbolName());
             hashTable[hashVal].push_back(symbol);
@@ -118,7 +127,10 @@ public:
             return true;
         }
         else
+        {
+            cout << "<" << symbol.getSymbolName()<< "," << symbol.getSymbolType() << "> already exists in current ScopeTable"<<endl;
             return false;
+        }
     }
 
     bool Delete(string symbolName)
@@ -160,7 +172,7 @@ public:
             cout << i << " --> ";
             for(auto j : hashTable[i])
             {
-                cout<< "< " << j.getSymbolName() << " : " << j.getSymbolType() << " > ";
+                cout<< " < " << j.getSymbolName() << " : " << j.getSymbolType() << " >  ";
             }
             cout<<endl;
         }
@@ -207,6 +219,7 @@ public:
 
     void ExitScope()
     {
+        cout<<"ScopeTable with id "<<current->getId()<<" removed"<<endl;
         current = current->getParentScope();
     }
 
