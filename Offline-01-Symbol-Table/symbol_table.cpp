@@ -128,10 +128,18 @@ public:
     {
         int hashVal = hashFunction(symbolName);
         SymbolInfo* location = Lookup(symbolName);
+        int index = -1;
         if(location != NIL)
         {
+            for(int i=0; i<hashTable[hashVal].size(); i++)
+            {
+                if(hashTable[hashVal][i].getSymbolName()==symbolName)
+                    index = i;
+
+            }
             swap(*location, hashTable[hashVal][hashTable[hashVal].size()-1]);
             hashTable[hashVal].pop_back();
+            cout<<"Deleted Entry "<<hashVal<<", "<<index<<" from current ScopeTable"<<endl;
             return true;
         }
         else
