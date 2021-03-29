@@ -58,7 +58,7 @@ public:
 
     ~ScopeTable()
     {
-        delete hashTable;
+        delete [] hashTable;
     }
 
     void makeParentScope(ScopeTable* parentScope)
@@ -76,7 +76,7 @@ public:
         return id;
     }
 
-    int setChildCount(int n)
+    void setChildCount(int n)
     {
         childCount = n;
     }
