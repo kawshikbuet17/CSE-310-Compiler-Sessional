@@ -2,7 +2,7 @@
 using namespace std;
 
 #define NIL NULL
-#define int long long
+
 
 class SymbolInfo
 {
