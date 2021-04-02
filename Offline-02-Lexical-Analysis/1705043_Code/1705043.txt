@@ -1,15 +1,17 @@
-int main(){
-
-    int a;
-    int b = 10;
-    a = 12.23.23; //DEKHI KI HOY1
-    flaot f;
-    f = 1.23;
-    char str1[100] = "kawshik is a good boy"; //DEKHI KI HOY2
-    char c = '\n';
-    
-
-    return 0;
-
-
-}
+1.2.345
+1E10.7
+12abcd //this is comment
+/*this is a
+multiline comment*/
+'ab'
+'a
+'
+'ab cd'
+'\'
+''
+"abcd
+"abcd\
+efgh
+ijk"
+/**abc
+def
