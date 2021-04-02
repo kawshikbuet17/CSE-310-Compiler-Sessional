@@ -1,1 +1,1 @@
-<CONST_FLOAT, 1.2> <CONST_FLOAT, .345> <CONST_FLOAT, 1E10> <CONST_FLOAT, .7> <CONST_INT, 12> <ID, abcd> <ID, ab> <ID, a> <ID, ab> <ID, cd> <CONST_CHAR, '\'> <ID, abcd> <ID, abcd> <ID, efgh> <ID, ijk> 
+<ID, thikthak> <ID, ache> <ID, naki> <ID, nai> <ID, cd> <CONST_CHAR, '\'> <ID, abcd> <ID, abcd> <ID, efgh> <ID, ijk> 

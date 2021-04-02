@@ -3,6 +3,25 @@
 12abcd //this is comment
 /*this is a
 multiline comment*/
+
+//this is another\
+multiline comment2\
+arek line add korlam\ 
+
+
+//testing multi\
+line comment\ 
+thikthak ache\
+naki nai
+
+
+
+
+
+
+
+
+
 'ab'
 'a
 '

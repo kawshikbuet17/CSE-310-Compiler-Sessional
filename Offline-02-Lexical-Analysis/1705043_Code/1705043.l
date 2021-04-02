@@ -2,6 +2,7 @@
 
 %x str
 %x comment
+%x comment2
 
 %{
 #include<bits/stdc++.h>
@@ -69,7 +70,6 @@ UNFINISHED_CHARACTER_ERROR \'(\\)*{ALPHANUMERIC}*(\\)*
 UNRECOGNIZED_CHARACTER [^{ALPHANUMERIC}]
 
 %%
-{SINGLE_LINE_COMMENT} {}  
 "if"        {PrintKeyword("IF", yytext, lineCount);}
 "else"      {PrintKeyword("ELSE", yytext, lineCount);}
 "for"       {PrintKeyword("FOR", yytext, lineCount);}
@@ -103,34 +103,37 @@ UNRECOGNIZED_CHARACTER [^{ALPHANUMERIC}]
 "]"         {PrintOperator("RTHIRD", yytext, lineCount);}
 ","         {PrintOperator("COMMA", yytext, lineCount);}
 ";"         {PrintOperator("SEMICOLON", yytext, lineCount);}
-\/\/[^\r\n]*    {}
+\/\/[^\r\n]*    {/* //comment here */}
 "/*"         {
              BEGIN(comment);
              }
 <comment>[^*\n]*        {/* eat anything that's not a '*' */}
 <comment>"*"+[^*/\n]*   {/* eat up '*'s not followed by '/'s */}
-<comment>\n             {lineCount++;}
+<comment>\n             {++lineCount;}
 <comment>"*"+"/"        {BEGIN(INITIAL);}
 
-TOO_MANY_DECIMAL {PrintError("too many decimal points", lineCount); errorCount++;}
-ILL_FORMED_NUMBER {PrintError("ILL_FORMED_NUMBER", lineCount); errorCount++;}
-INVALID_PREFIX {PrintError("INVALID_PREFIX", lineCount); errorCount++;}
-CHARACTER_CONSTANT_ERROR {PrintError("CHARACTER_CONSTANT_ERROR", lineCount); errorCount++;}
-UNFINISHED_CHARACTER_ERROR {PrintError("UNFINISHED_CHARACTER_ERROR", lineCount); errorCount++;}
-UNRECOGNIZED_CHARACTER {PrintError("UNRECOGNIZED_CHARACTER", lineCount); errorCount++;}
+\/\/[^\r\n]*\\\n {++lineCount;BEGIN(comment2);}
+<comment2>[^\r\n]*\\\n {++lineCount;}
+<comment2>[^\r\n\\]* {BEGIN(INITIAL);}
 
 
-{NEWLINE}     {lineCount++;}
+{NEWLINE}     {++lineCount;}
 {IDENTIFIER}    {PrintIdentifier("ID", yytext, lineCount);}
 {INTEGER}   {PrintIdentifier("CONST_INT", yytext, lineCount);}
 {FLOAT}     {PrintIdentifier("CONST_FLOAT", yytext, lineCount);}
 
 {CHARCTER_LITERAL}  {PrintIdentifier("CONST_CHAR", yytext, lineCount);}
 
+{TOO_MANY_DECIMAL} {PrintError("too many decimal points", lineCount); ++errorCount;}
+{ILL_FORMED_NUMBER} {PrintError("ILL_FORMED_NUMBER", lineCount); ++errorCount;}
+{INVALID_PREFIX} {PrintError("INVALID_PREFIX", lineCount); ++errorCount;}
+{CHARACTER_CONSTANT_ERROR} {PrintError("CHARACTER_CONSTANT_ERROR", lineCount); ++errorCount;}
+{UNFINISHED_CHARACTER_ERROR} {PrintError("UNFINISHED_CHARACTER_ERROR", lineCount); ++errorCount;}
+{UNRECOGNIZED_CHARACTER} {PrintError("UNRECOGNIZED_CHARACTER", lineCount); ++errorCount;}
 <<EOF>> {log_file<<"Total lines : "<<lineCount<<endl;
             log_file<<"Total errors : "<<errorCount<<endl;
             return 0;}
-.   {}
+
 %%
 int main(int argc,char *argv[]){
 	

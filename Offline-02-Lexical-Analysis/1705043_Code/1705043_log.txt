@@ -1,197 +1,155 @@
-Line no 1: Token CONST_FLOAT Lexeme 1.2 found
+Line no 1: Error too many decimal points
+Line no 2: Error ILL_FORMED_NUMBER
+Line no 3: Error INVALID_PREFIX
+Line no 3: Error UNRECOGNIZED_CHARACTER
+Line no 9: Error UNRECOGNIZED_CHARACTER
+Line no 9: Error UNRECOGNIZED_CHARACTER
+Line no 13: Error UNRECOGNIZED_CHARACTER
+Line no 13: Error UNRECOGNIZED_CHARACTER
+Line no 14: Token ID Lexeme thikthak found
 ScopeTable # 1
 0 --> 
 1 --> 
 2 --> 
 3 --> 
 4 --> 
-5 -->  < 1.2 : CONST_FLOAT >  
-6 --> 
+5 --> 
+6 -->  < thikthak : ID >  
 7 --> 
 8 --> 
 9 --> 
 
-Line no 1: Token CONST_FLOAT Lexeme .345 found
+Line no 14: Error UNRECOGNIZED_CHARACTER
+Line no 14: Token ID Lexeme ache found
 ScopeTable # 1
 0 --> 
-1 --> 
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 --> 
 3 --> 
 4 --> 
-5 -->  < 1.2 : CONST_FLOAT >  
-6 --> 
+5 --> 
+6 -->  < thikthak : ID >  
 7 --> 
 8 --> 
 9 --> 
 
-Line no 2: Token CONST_FLOAT Lexeme 1E10 found
+Line no 14: Error UNRECOGNIZED_CHARACTER
+Line no 15: Token ID Lexeme naki found
 ScopeTable # 1
 0 --> 
-1 --> 
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 --> 
 3 --> 
 4 --> 
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >  
-6 --> 
+5 --> 
+6 -->  < thikthak : ID >  
 7 --> 
 8 --> 
-9 --> 
+9 -->  < naki : ID >  
 
-Line no 2: Token CONST_FLOAT Lexeme .7 found
+Line no 15: Error UNRECOGNIZED_CHARACTER
+Line no 15: Token ID Lexeme nai found
 ScopeTable # 1
 0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
 4 --> 
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >  
-6 --> 
+5 --> 
+6 -->  < thikthak : ID >  
 7 --> 
 8 --> 
-9 --> 
+9 -->  < naki : ID >  
 
-Line no 3: Token CONST_INT Lexeme 12 found
+Line no 25: Error CHARACTER_CONSTANT_ERROR
+Line no 26: Error UNFINISHED_CHARACTER_ERROR
+Line no 27: Error UNFINISHED_CHARACTER_ERROR
+Line no 28: Error UNFINISHED_CHARACTER_ERROR
+Line no 28: Error UNRECOGNIZED_CHARACTER
+Line no 28: Token ID Lexeme cd found
 ScopeTable # 1
 0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
 4 --> 
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >  
-6 --> 
+5 --> 
+6 -->  < thikthak : ID >  
 7 --> 
 8 --> 
-9 -->  < 12 : CONST_INT >  
+9 -->  < naki : ID >   < cd : ID >  
 
-Line no 3: Token ID Lexeme abcd found
-ScopeTable # 1
-0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
-3 --> 
-4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >  
-6 --> 
-7 --> 
-8 --> 
-9 -->  < 12 : CONST_INT >  
-
-Line no 6: Token ID Lexeme ab found
-ScopeTable # 1
-0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
-3 --> 
-4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 --> 
-8 --> 
-9 -->  < 12 : CONST_INT >  
-
-Line no 7: Token ID Lexeme a found
-ScopeTable # 1
-0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
-3 --> 
-4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
-8 --> 
-9 -->  < 12 : CONST_INT >  
-
-Line no 9: Token ID Lexeme ab found
-ScopeTable # 1
-0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
-3 --> 
-4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
-8 --> 
-9 -->  < 12 : CONST_INT >  
-
-Line no 9: Token ID Lexeme cd found
-ScopeTable # 1
-0 --> 
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
-3 --> 
-4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
-8 --> 
-9 -->  < 12 : CONST_INT >   < cd : ID >  
-
-Line no 10: Token CONST_CHAR Lexeme '\' found
+Line no 28: Error UNFINISHED_CHARACTER_ERROR
+Line no 29: Token CONST_CHAR Lexeme '\' found
 ScopeTable # 1
 0 -->  < '\' : CONST_CHAR >  
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
-4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
+4 --> 
+5 --> 
+6 -->  < thikthak : ID >  
+7 --> 
 8 --> 
-9 -->  < 12 : CONST_INT >   < cd : ID >  
+9 -->  < naki : ID >   < cd : ID >  
 
-Line no 12: Token ID Lexeme abcd found
+Line no 30: Error UNFINISHED_CHARACTER_ERROR
+Line no 30: Error UNFINISHED_CHARACTER_ERROR
+Line no 31: Error UNRECOGNIZED_CHARACTER
+Line no 31: Token ID Lexeme abcd found
 ScopeTable # 1
 0 -->  < '\' : CONST_CHAR >  
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
 4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
+5 --> 
+6 -->  < thikthak : ID >  
+7 --> 
 8 --> 
-9 -->  < 12 : CONST_INT >   < cd : ID >  
+9 -->  < naki : ID >   < cd : ID >  
 
-Line no 13: Token ID Lexeme abcd found
+Line no 32: Error UNRECOGNIZED_CHARACTER
+Line no 32: Token ID Lexeme abcd found
 ScopeTable # 1
 0 -->  < '\' : CONST_CHAR >  
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
 4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
+5 --> 
+6 -->  < thikthak : ID >  
+7 --> 
 8 --> 
-9 -->  < 12 : CONST_INT >   < cd : ID >  
+9 -->  < naki : ID >   < cd : ID >  
 
-Line no 14: Token ID Lexeme efgh found
+Line no 32: Error UNRECOGNIZED_CHARACTER
+Line no 33: Token ID Lexeme efgh found
 ScopeTable # 1
 0 -->  < '\' : CONST_CHAR >   < efgh : ID >  
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
 4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
+5 --> 
+6 -->  < thikthak : ID >  
+7 --> 
 8 --> 
-9 -->  < 12 : CONST_INT >   < cd : ID >  
+9 -->  < naki : ID >   < cd : ID >  
 
-Line no 15: Token ID Lexeme ijk found
+Line no 34: Token ID Lexeme ijk found
 ScopeTable # 1
 0 -->  < '\' : CONST_CHAR >   < efgh : ID >  
-1 -->  < .7 : CONST_FLOAT >  
-2 -->  < .345 : CONST_FLOAT >  
+1 -->  < ache : ID >  
+2 -->  < nai : ID >  
 3 --> 
 4 -->  < abcd : ID >  
-5 -->  < 1.2 : CONST_FLOAT >   < 1E10 : CONST_FLOAT >   < ab : ID >  
-6 --> 
-7 -->  < a : ID >  
+5 --> 
+6 -->  < thikthak : ID >  
+7 --> 
 8 -->  < ijk : ID >  
-9 -->  < 12 : CONST_INT >   < cd : ID >  
+9 -->  < naki : ID >   < cd : ID >  
 
-Total lines : 18
-Total errors : 0
+Line no 34: Error UNRECOGNIZED_CHARACTER
+Total lines : 37
+Total errors : 23
