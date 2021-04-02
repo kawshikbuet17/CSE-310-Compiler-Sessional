@@ -1,15 +1,328 @@
 Line no 1: Token <INT>  Lexeme int found
 Line no 1: Token ID Lexeme main found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 --> 
+7 --> 
+8 --> 
+9 --> 
+
 Line no 1: Token LPAREN Lexeme ( found
 Line no 1: Token RPAREN Lexeme ) found
 Line no 1: Token LCURL Lexeme { found
-Line no 2: Token <INT>  Lexeme int found
-Line no 2: Token ID Lexeme a found
-Line no 2: Token COMMA Lexeme , found
-Line no 2: Token ID Lexeme b found
-Line no 2: Token SEMICOLON Lexeme ; found
+Line no 3: Token <INT>  Lexeme int found
 Line no 3: Token ID Lexeme a found
-Line no 3: Token ASSIGNOP Lexeme = found
-Line no 3: Token ID Lexeme a found
-Line no 3: Token ADDOP Lexeme + found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 --> 
+7 -->  < a : ID >  
+8 --> 
+9 --> 
+
 Line no 3: Token SEMICOLON Lexeme ; found
+Line no 4: Token <INT>  Lexeme int found
+Line no 4: Token ID Lexeme b found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 --> 
+7 -->  < a : ID >  
+8 -->  < b : ID >  
+9 --> 
+
+Line no 4: Token ASSIGNOP Lexeme = found
+Line no 4: Token CONST_INT Lexeme 10 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 --> 
+7 -->  < a : ID >   < 10 : CONST_INT >  
+8 -->  < b : ID >  
+9 --> 
+
+Line no 4: Token SEMICOLON Lexeme ; found
+Line no 5: Token ID Lexeme a found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 --> 
+7 -->  < a : ID >   < 10 : CONST_INT >  
+8 -->  < b : ID >  
+9 --> 
+
+Line no 5: Token ASSIGNOP Lexeme = found
+Line no 5: Token CONST_FLOAT Lexeme 12.23 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >  
+8 -->  < b : ID >  
+9 --> 
+
+Line no 5: Token CONST_FLOAT Lexeme .23 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >  
+8 -->  < b : ID >  
+9 --> 
+
+Line no 5: Token SEMICOLON Lexeme ; found
+Line no 5: Token MULOP Lexeme / found
+Line no 5: Token MULOP Lexeme / found
+Line no 5: Token ID Lexeme DEKHI found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >  
+9 --> 
+
+Line no 5: Token ID Lexeme KI found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 --> 
+
+Line no 5: Token ID Lexeme HOY1 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 --> 
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 6: Token ID Lexeme flaot found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 --> 
+3 --> 
+4 -->  < flaot : ID >  
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 6: Token ID Lexeme f found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >  
+3 --> 
+4 -->  < flaot : ID >  
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 6: Token SEMICOLON Lexeme ; found
+Line no 7: Token ID Lexeme f found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >  
+3 --> 
+4 -->  < flaot : ID >  
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 7: Token ASSIGNOP Lexeme = found
+Line no 7: Token CONST_FLOAT Lexeme 1.23 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >  
+3 --> 
+4 -->  < flaot : ID >  
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 7: Token SEMICOLON Lexeme ; found
+Line no 8: Token <CHAR>  Lexeme char found
+Line no 8: Token ID Lexeme str1 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 --> 
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 8: Token LTHIRD Lexeme [ found
+Line no 8: Token CONST_INT Lexeme 100 found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 8: Token RTHIRD Lexeme ] found
+Line no 8: Token ASSIGNOP Lexeme = found
+Line no 8: Token STRING Lexeme "kawshik is a good boy" found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 8: Token SEMICOLON Lexeme ; found
+Line no 8: Token MULOP Lexeme / found
+Line no 8: Token MULOP Lexeme / found
+Line no 8: Token ID Lexeme DEKHI found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 8: Token ID Lexeme KI found
+ScopeTable # 1
+0 --> 
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 8: Token ID Lexeme HOY2 found
+ScopeTable # 1
+0 -->  < HOY2 : ID >  
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >  
+
+Line no 9: Token <CHAR>  Lexeme char found
+Line no 9: Token ID Lexeme c found
+ScopeTable # 1
+0 -->  < HOY2 : ID >  
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >   < c : ID >  
+
+Line no 9: Token ASSIGNOP Lexeme = found
+Line no 9: Token ID Lexeme n found
+ScopeTable # 1
+0 -->  < HOY2 : ID >   < n : ID >  
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >  
+9 -->  < HOY1 : ID >   < c : ID >  
+
+Line no 9: Token SEMICOLON Lexeme ; found
+Line no 12: Token <RETURN>  Lexeme return found
+Line no 12: Token CONST_INT Lexeme 0 found
+ScopeTable # 1
+0 -->  < HOY2 : ID >   < n : ID >  
+1 -->  < main : ID >  
+2 -->  < f : ID >   < "kawshik is a good boy" : STRING >  
+3 --> 
+4 -->  < flaot : ID >   < str1 : ID >  
+5 -->  < 100 : CONST_INT >  
+6 -->  < 12.23 : CONST_FLOAT >   < 1.23 : CONST_FLOAT >  
+7 -->  < a : ID >   < 10 : CONST_INT >   < .23 : CONST_FLOAT >   < DEKHI : ID >  
+8 -->  < b : ID >   < KI : ID >   < 0 : CONST_INT >  
+9 -->  < HOY1 : ID >   < c : ID >  
+
+Line no 12: Token SEMICOLON Lexeme ; found
+Line no 15: Token RCURL Lexeme } found

@@ -182,19 +182,19 @@ public:
         return temp;
     }
 
-    void Print()
+    void Print(ofstream& log_file)
     {
-        cout << "ScopeTable # " << id << endl;
+        log_file << "ScopeTable # " << id << endl;
         for(int i=0; i<totalBuckets; i++)
         {
-            cout << i << " --> ";
+            log_file << i << " --> ";
             for(auto j : hashTable[i])
             {
-                cout<< " < " << j.getSymbolName() << " : " << j.getSymbolType() << " >  ";
+                log_file<< " < " << j.getSymbolName() << " : " << j.getSymbolType() << " >  ";
             }
-            cout<<endl;
+            log_file<<endl;
         }
-        cout<<endl;
+        log_file<<endl;
     }
 };
 
@@ -282,17 +282,17 @@ public:
         }
         return x;
     }
-    void PrintAllTables()
+    void PrintAllTables(ofstream& log_file)
     {
         temp = current;
         while(temp != NIL)
         {
-            PrintCurrentTable(temp);
+            PrintCurrentTable(temp, log_file);
             temp = temp->getParentScope();
         }
     }
-    void PrintCurrentTable(ScopeTable* st)
+    void PrintCurrentTable(ScopeTable* st, ofstream& log_file)
     {
-        st->Print();
+        st->Print(log_file);
     }
 };

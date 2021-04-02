@@ -12,47 +12,58 @@ using namespace std;
 int lineCount = 1;
 int errorCount = 0;
 
-SymbolTable* symboltable = new SymbolTable(100);
+ofstream token_file("1705043_token.txt");
+ofstream log_file("1705043_log.txt");
+SymbolTable* symboltable = new SymbolTable(10);
+
 
 void PrintKeyword(string token, string lexeme, int lineNo){
-    freopen ("1705043_token.txt", "a", stdout);
-    cout << token <<" ";
-    fclose(stdout);
-    
-    freopen ("1705043_log.txt", "a", stdout);
-    cout << "Line no " << lineNo << ": Token "<< token <<" Lexeme " << lexeme << " found" << endl;
-    fclose(stdout);
+    token_file << token <<" ";
+    log_file << "Line no " << lineNo << ": Token "<< token <<" Lexeme " << lexeme << " found" << endl;
+
 }
 
 void PrintOperator(string token, string lexeme,  int lineNo){
-    freopen ("1705043_token.txt", "a", stdout);
-    cout <<"<" << token <<", "<<lexeme<<"> ";
-    fclose(stdout);
-    
-    freopen ("1705043_log.txt", "a", stdout);
-    cout << "Line no " << lineNo << ": Token "<< token <<" Lexeme " << lexeme << " found" << endl;
-    fclose(stdout);
+
+    token_file <<"<" << token <<", "<<lexeme<<"> ";
+    log_file << "Line no " << lineNo << ": Token "<< token <<" Lexeme " << lexeme << " found" << endl;
 }
 
 void PrintIdentifier(string token, string lexeme, int lineNo){
-    freopen ("1705043_token.txt", "a", stdout);
-    cout <<"<" << token <<", "<<lexeme<<"> ";
-    fclose(stdout);
-    
-    freopen ("1705043_log.txt", "a", stdout);
-    cout << "Line no " << lineNo << ": Token "<< token <<" Lexeme " << lexeme << " found" << endl;
-    fclose(stdout);
+    token_file <<"<" << token <<", "<<lexeme<<"> ";
+    log_file << "Line no " << lineNo << ": Token "<< token <<" Lexeme " << lexeme << " found" << endl;
+    SymbolInfo* symbol = new SymbolInfo(lexeme, token);
+    symboltable->Insert(*symbol);
+    symboltable->PrintAllTables(log_file);
+}
+
+void PrintError(string errorName, int lineNo){
+    log_file << "Line no " << lineNo << ": Error "<< errorName << endl;
 }
 %}
+DIGIT [0-9]
 
+SINGLE_LINE_COMMENT \\\\{ALPHANUMERIC}+
 IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
+LETTER [a-zA-Z]
 ALPHANUMERIC [a-zA-Z0-9]
 NEWLINE \r?\n
-DIGIT [0-9]
+
 INTEGER {DIGIT}+
+FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
+SINGLE_LINE_STRING \"([^\\\"]|\\.)*\"
+/* MULTILINE_STRING_START ["][^\"(\\ )]["] */
+CHARCTER_LITERAL \'[\\n\\\\\'\\a\\f\\r\\b\\v\\0]\'
+TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.{DIGIT}+
+ILL_FORMED_NUMBER {DIGIT}+[Ee][+-]?{DIGIT}+\.{DIGIT}*
+INVALID_PREFIX {DIGIT}+{ALPHANUMERIC}+
+CHARACTER_CONSTANT_ERROR \'{ALPHANUMERIC}+{ALPHANUMERIC}+\'
+UNFINISHED_CHARACTER_ERROR \'(\\)*{ALPHANUMERIC}*(\\)*
+UNRECOGNIZED_CHARACTER [^{ALPHANUMERIC}]
 
 
 %%
+{SINGLE_LINE_COMMENT} {}
 "if"        {PrintKeyword("<IF> ", yytext, lineCount);}
 "else"      {PrintKeyword("<ELSE> ", yytext, lineCount);}
 "for"       {PrintKeyword("<FOR> ", yytext, lineCount);}
@@ -84,8 +95,23 @@ INTEGER {DIGIT}+
 "]"         {PrintOperator("RTHIRD", yytext, lineCount);}
 ","         {PrintOperator("COMMA", yytext, lineCount);}
 ";"         {PrintOperator("SEMICOLON", yytext, lineCount);}
+
+
+TOO_MANY_DECIMAL {PrintError("too many decimal points", lineCount); errorCount++;}
+ILL_FORMED_NUMBER {PrintError("ILL_FORMED_NUMBER", lineCount); errorCount++;}
+INVALID_PREFIX {PrintError("INVALID_PREFIX", lineCount); errorCount++;}
+CHARACTER_CONSTANT_ERROR {PrintError("CHARACTER_CONSTANT_ERROR", lineCount); errorCount++;}
+UNFINISHED_CHARACTER_ERROR {PrintError("UNFINISHED_CHARACTER_ERROR", lineCount); errorCount++;}
+UNRECOGNIZED_CHARACTER {PrintError("UNRECOGNIZED_CHARACTER", lineCount); errorCount++;}
+
 {NEWLINE}     {lineCount++;}
 {IDENTIFIER}    {PrintIdentifier("ID", yytext, lineCount);}
+{INTEGER}   {PrintIdentifier("CONST_INT", yytext, lineCount);}
+{FLOAT}     {PrintIdentifier("CONST_FLOAT", yytext, lineCount);}
+{SINGLE_LINE_STRING}    {PrintIdentifier("STRING", yytext, lineCount);} 
+{CHARCTER_LITERAL}  {PrintIdentifier("CONST_CHAR", yytext, lineCount);}
+
+
 .   {}
 %%
 int main(int argc,char *argv[]){
