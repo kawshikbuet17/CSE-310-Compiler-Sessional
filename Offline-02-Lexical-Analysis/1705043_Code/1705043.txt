@@ -30,3 +30,31 @@ for comment \ abc
 testing6
 
 
+str1 = "my name is kkp1";
+
+str2 = "my name is\
+kkp2";
+
+
+str3 = "my name\
+is\
+kkp3";
+
+
+str4 = "my name\ 
+is\
+kkp4";
+
+str5 = "my name is kkp5;
+
+str6 = "my name\ 
+is\
+kkp6;
+
+str7 = "my name is \"kawshik\
+kumar paul kkp7\"";
+
+
+
+
+

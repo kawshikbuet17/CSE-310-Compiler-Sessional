@@ -34,5 +34,140 @@ ScopeTable # 1
 5 --> 
 6 --> 
 
-Total lines : 33
-Total errors : 0
+Line no 33: Token ID Lexeme str1 found
+ScopeTable # 1
+0 --> 
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 --> 
+4 --> 
+5 --> 
+6 --> 
+
+Line no 33: Token ASSIGNOP Lexeme = found
+Line no 33: Token <STRING> Lexeme "my name is kkp1" found
+Line no 33: Token SEMICOLON Lexeme ; found
+Line no 35: Token ID Lexeme str2 found
+ScopeTable # 1
+0 --> 
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >  
+4 --> 
+5 --> 
+6 --> 
+
+Line no 35: Token ASSIGNOP Lexeme = found
+Line no 36: Token <STRING> Lexeme "my name is\
+kkp2" found
+Line no 36: Token SEMICOLON Lexeme ; found
+Line no 39: Token ID Lexeme str3 found
+ScopeTable # 1
+0 --> 
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >  
+4 -->  < str3 : ID >  
+5 --> 
+6 --> 
+
+Line no 39: Token ASSIGNOP Lexeme = found
+Line no 41: Token <STRING> Lexeme "my name\
+is\
+kkp3" found
+Line no 41: Token SEMICOLON Lexeme ; found
+Line no 44: Token ID Lexeme str4 found
+ScopeTable # 1
+0 --> 
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 --> 
+
+Line no 44: Token ASSIGNOP Lexeme = found
+Line no : 44 Invalid string
+Line no 46: Token ID Lexeme is found
+ScopeTable # 1
+0 --> 
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 --> 
+
+Error at ine no 46 Unrecognized character
+Line no 47: Token ID Lexeme kkp4 found
+ScopeTable # 1
+0 -->  < kkp4 : ID >  
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 --> 
+
+Line no : 47 Invalid string
+Line no 49: Token ID Lexeme str5 found
+ScopeTable # 1
+0 -->  < kkp4 : ID >  
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 -->  < str5 : ID >  
+
+Line no 49: Token ASSIGNOP Lexeme = found
+Line no : 49 Invalid string
+Line no 51: Token ID Lexeme str6 found
+ScopeTable # 1
+0 -->  < kkp4 : ID >   < str6 : ID >  
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 -->  < str5 : ID >  
+
+Line no 51: Token ASSIGNOP Lexeme = found
+Line no : 51 Invalid string
+Line no 53: Token ID Lexeme is found
+ScopeTable # 1
+0 -->  < kkp4 : ID >   < str6 : ID >  
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 -->  < str5 : ID >  
+
+Error at ine no 53 Unrecognized character
+Line no 54: Token ID Lexeme kkp6 found
+ScopeTable # 1
+0 -->  < kkp4 : ID >   < str6 : ID >  
+1 -->  < testing6 : ID >  
+2 -->  < str1 : ID >   < kkp6 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 -->  < str5 : ID >  
+
+Line no 54: Token SEMICOLON Lexeme ; found
+Line no 56: Token ID Lexeme str7 found
+ScopeTable # 1
+0 -->  < kkp4 : ID >   < str6 : ID >  
+1 -->  < testing6 : ID >   < str7 : ID >  
+2 -->  < str1 : ID >   < kkp6 : ID >  
+3 -->  < str2 : ID >   < is : ID >  
+4 -->  < str3 : ID >  
+5 -->  < str4 : ID >  
+6 -->  < str5 : ID >  
+
+Line no 56: Token ASSIGNOP Lexeme = found
+Line no 56: Token <STRING> Lexeme "my name is \"kawshik\kumar paul kkp7\"" found
+Line no 56: Token SEMICOLON Lexeme ; found
+Total lines : 62
+Total errors : 2

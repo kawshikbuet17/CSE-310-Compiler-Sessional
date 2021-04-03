@@ -1,9 +1,8 @@
 %option noyywrap
 
 %x str
-
-%x comment
-%x comment2
+%x strSlash
+%x strSlashStr
 
 %x slashStar
 %x slashSlash
@@ -61,6 +60,11 @@ void PrintComment(int lineNo){
     buf[0] = '\0';
 }
 
+void PrintString(int lineNo){
+    log_file << "Line no " << lineNo << ": Token "<< "<STRING>" <<" Lexeme " << buf << " found" << endl;
+    buf[0] = '\0';
+}
+
 %}
 
 DIGIT [0-9]
@@ -87,7 +91,8 @@ UNRECOGNIZED_CHARACTER .
  
 \"      {
             BEGIN (str);
-            s = buf;*s++ = *yytext;
+            s = buf;
+            *s++ = '\"';
 }
 "if"        {PrintKeyword("IF", yytext, lineCount);}
 "else"      {PrintKeyword("ELSE", yytext, lineCount);}
@@ -184,14 +189,49 @@ UNRECOGNIZED_CHARACTER .
 {UNRECOGNIZED_CHARACTER} {PrintError("Unrecognized character", lineCount); ++errorCount;}
 
 
-<str>\\\n    {*s++ = '\n';}
-<str>\\\t    {*s++ = '\t';}
-<str>\\\"    {*s++ = '\"';}
+<str>\\    {*s++ = '\\';
+            BEGIN (strSlash);    
+            
+                }
+<strSlash>\n    {
+                    *s++ = *yytext;
+                    BEGIN (str);
+                    ++lineCount;
+                }
+<str>\\\"     {
+                    *s++ = '\\';
+                    *s++ = '\"';
+                    BEGIN (strSlashStr);
+                }
+<strSlashStr>\\\"   {
+                    *s++ = '\\';
+                    *s++ = '\"';
+                    BEGIN (str);
+                }  
+<strSlashStr>.  {
+                    *s++ = *yytext;
+                }
+<strSlash>\"    {
+                    *s = 0;
+                    BEGIN (INITIAL);
+                    PrintString(lineCount);
+                    
+                }
+
+<strSlash>[^natv]    {
+                    *s = 0;
+                    BEGIN (INITIAL);
+                    log_file<<"Line no : "<<lineCount++<<" Invalid string"<<endl; BEGIN (INITIAL);
+                }
+                
 <str>\"     {
+                *s++ = '\"';
                 *s = 0;
                 BEGIN (INITIAL);
-                log_file<<"String is : "<<buf<<endl;
-}
+                PrintString(lineCount);
+                    
+            }
+            
 <str>\n     {log_file<<"Line no : "<<lineCount++<<" Invalid string"<<endl; BEGIN (INITIAL);}
 
 <str>.      {*s++ = *yytext;}
