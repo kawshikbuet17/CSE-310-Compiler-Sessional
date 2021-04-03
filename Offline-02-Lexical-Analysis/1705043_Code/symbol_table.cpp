@@ -187,6 +187,8 @@ public:
         log_file << "ScopeTable # " << id << endl;
         for(int i=0; i<totalBuckets; i++)
         {
+            if(hashTable[i].size()==0)
+                continue;
             log_file << i << " --> ";
             for(auto j : hashTable[i])
             {
