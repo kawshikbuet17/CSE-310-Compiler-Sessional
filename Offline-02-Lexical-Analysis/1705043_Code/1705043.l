@@ -1,9 +1,13 @@
 %option noyywrap
 
 %x str
+
 %x comment
 %x comment2
 
+%x slashStar
+%x slashSlash
+%x slashSlashSlash
 %{
 #include<bits/stdc++.h>
 using namespace std;
@@ -12,10 +16,13 @@ using namespace std;
 
 int lineCount = 1;
 int errorCount = 0;
+char buf[100];
+char *s;
+
 
 ofstream token_file("1705043_token.txt");
 ofstream log_file("1705043_log.txt");
-SymbolTable* symboltable = new SymbolTable(10);
+SymbolTable* symboltable = new SymbolTable(7);
 
 
 void PrintKeyword(string token, string lexeme, int lineNo){
@@ -46,7 +53,12 @@ void PrintIdentifier(string token, string lexeme, int lineNo){
 }
 
 void PrintError(string errorName, int lineNo){
-    log_file << "Line no " << lineNo << ": Error "<< errorName << endl;
+    log_file << "Error at ine no " << lineNo <<" "<< errorName << endl;
+}
+
+void PrintComment(int lineNo){
+    log_file << "Line no " << lineNo << ": Token "<< "<COMMENT>" <<" Lexeme " << buf << " found" << endl;
+    buf[0] = '\0';
 }
 
 %}
@@ -57,19 +69,26 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 LETTER [a-zA-Z]
 ALPHANUMERIC [a-zA-Z0-9]
 NEWLINE \r?\n
+WHITESPCAE [ \t]
 
 INTEGER {DIGIT}+
 FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 SINGLE_LINE_STRING \"([^\\\"]|\\.)*\"
-CHARCTER_LITERAL \'[\\n\\\\\'\\a\\f\\r\\b\\v\\0]\'
+CHARCTER_LITERAL \'[(\\n)|(\\\\)|(\\\')|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0)]\'
 TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.{DIGIT}+
 ILL_FORMED_NUMBER {DIGIT}+[Ee][+-]?{DIGIT}+\.{DIGIT}*
 INVALID_PREFIX {DIGIT}+{ALPHANUMERIC}+
 CHARACTER_CONSTANT_ERROR \'{ALPHANUMERIC}+{ALPHANUMERIC}+\'
 UNFINISHED_CHARACTER_ERROR \'(\\)*{ALPHANUMERIC}*(\\)*
-UNRECOGNIZED_CHARACTER [^{ALPHANUMERIC}]
+EMPTY_CHARACTER_ERROR \'\'
+UNRECOGNIZED_CHARACTER .
 
 %%
+ 
+\"      {
+            BEGIN (str);
+            s = buf;*s++ = *yytext;
+}
 "if"        {PrintKeyword("IF", yytext, lineCount);}
 "else"      {PrintKeyword("ELSE", yytext, lineCount);}
 "for"       {PrintKeyword("FOR", yytext, lineCount);}
@@ -103,18 +122,49 @@ UNRECOGNIZED_CHARACTER [^{ALPHANUMERIC}]
 "]"         {PrintOperator("RTHIRD", yytext, lineCount);}
 ","         {PrintOperator("COMMA", yytext, lineCount);}
 ";"         {PrintOperator("SEMICOLON", yytext, lineCount);}
-\/\/[^\r\n]*    {/* //comment here */}
-"/*"         {
-             BEGIN(comment);
-             }
-<comment>[^*\n]*        {/* eat anything that's not a '*' */}
-<comment>"*"+[^*/\n]*   {/* eat up '*'s not followed by '/'s */}
-<comment>\n             {++lineCount;}
-<comment>"*"+"/"        {BEGIN(INITIAL);}
+{WHITESPCAE}    {}
 
-\/\/[^\r\n]*\\\n {++lineCount;BEGIN(comment2);}
-<comment2>[^\r\n]*\\\n {++lineCount;}
-<comment2>[^\r\n\\]* {BEGIN(INITIAL);}
+
+\/\*         {
+             BEGIN(slashStar);
+             s= buf;
+             *s++ = '/';
+             *s++ = '*';
+             }
+<slashStar>\n        {
+                        *s++ = *yytext; 
+                        ++lineCount;
+}
+<slashStar>\*\/        {*s++ = '*'; *s++ = '/'; BEGIN(INITIAL); *s=0; PrintComment(lineCount);}
+<slashStar>. {*s++ = *yytext;}
+
+
+\/\/    {
+            BEGIN (slashSlash);
+            s= buf;
+            *s++ = '/';
+            *s++ = '/';
+        }
+<slashSlash>\\ {
+                    BEGIN (slashSlashSlash); 
+                    *s++ = '\\';
+            }
+<slashSlash>\n  {
+                    *s++ = *yytext; 
+                    lineCount++; 
+                    BEGIN(INITIAL); 
+                    *s=0; 
+                    PrintComment(lineCount);}
+<slashSlash>. {*s++ = *yytext; }
+<slashSlashSlash>\n {
+                        *s++ = *yytext; 
+                        lineCount++; 
+                        BEGIN(slashSlash);
+                    }
+<slashSlashSlash>. {
+                    *s++ = *yytext; 
+                    BEGIN(slashSlash);
+                }
 
 
 {NEWLINE}     {++lineCount;}
@@ -124,12 +174,28 @@ UNRECOGNIZED_CHARACTER [^{ALPHANUMERIC}]
 
 {CHARCTER_LITERAL}  {PrintIdentifier("CONST_CHAR", yytext, lineCount);}
 
-{TOO_MANY_DECIMAL} {PrintError("too many decimal points", lineCount); ++errorCount;}
+{TOO_MANY_DECIMAL} {PrintError("Too many decimal points 1.51.40", lineCount); ++errorCount;}
 {ILL_FORMED_NUMBER} {PrintError("ILL_FORMED_NUMBER", lineCount); ++errorCount;}
-{INVALID_PREFIX} {PrintError("INVALID_PREFIX", lineCount); ++errorCount;}
+{INVALID_PREFIX} {PrintError("Invalid prefix on ID or invalid suffix on Number 12abcd", lineCount); ++errorCount;}
 {CHARACTER_CONSTANT_ERROR} {PrintError("CHARACTER_CONSTANT_ERROR", lineCount); ++errorCount;}
 {UNFINISHED_CHARACTER_ERROR} {PrintError("UNFINISHED_CHARACTER_ERROR", lineCount); ++errorCount;}
-{UNRECOGNIZED_CHARACTER} {PrintError("UNRECOGNIZED_CHARACTER", lineCount); ++errorCount;}
+
+{EMPTY_CHARACTER_ERROR} {PrintError("EMPTY_CHARACTER_ERROR", lineCount); ++errorCount;}
+{UNRECOGNIZED_CHARACTER} {PrintError("Unrecognized character", lineCount); ++errorCount;}
+
+
+<str>\\\n    {*s++ = '\n';}
+<str>\\\t    {*s++ = '\t';}
+<str>\\\"    {*s++ = '\"';}
+<str>\"     {
+                *s = 0;
+                BEGIN (INITIAL);
+                log_file<<"String is : "<<buf<<endl;
+}
+<str>\n     {log_file<<"Line no : "<<lineCount++<<" Invalid string"<<endl; BEGIN (INITIAL);}
+
+<str>.      {*s++ = *yytext;}
+              
 <<EOF>> {log_file<<"Total lines : "<<lineCount<<endl;
             log_file<<"Total errors : "<<errorCount<<endl;
             return 0;}

@@ -1,36 +1,32 @@
-1.2.345
-1E10.7
-12abcd //this is comment
-/*this is a
-multiline comment*/
+/*this document is for comment testing1 */
 
-//this is another\
-multiline comment2\
-arek line add korlam\ 
+/*this document is 
+for comment testing2
+*/
+
+/*this document is 
+for 
+comment
+testing3
+*/
+
+/* this 
+document 
+is 
+for 
+comment
+testing4
+*/
+
+//this document is for comment testing7
+
+//this document is\
+for comment\
+testing5\
 
 
-//testing multi\
-line comment\ 
-thikthak ache\
-naki nai
+//this document is\ dummydummy dummy \
+for comment \ abc
+testing6
 
 
-
-
-
-
-
-
-
-'ab'
-'a
-'
-'ab cd'
-'\'
-''
-"abcd
-"abcd\
-efgh
-ijk"
-/**abc
-def
