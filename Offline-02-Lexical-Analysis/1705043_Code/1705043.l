@@ -54,26 +54,25 @@ void PrintIdentifier(string token, string lexeme, int lineNo){
     symboltable->PrintAllTables(log_file);
 }
 
-void PrintError(string errorName, int lineNo){
-    log_file << "Error at line no " << lineNo <<" "<< errorName << endl;
-}
 
 void PrintComment(int lineNo, bool error){
     if(error){
         log_file << "Line no " << lineNo << "Unfinished Comment " << buf << " found" << endl;
-        buf[0] = '\0';
+        memset(buf, 0, sizeof(buf));
+        memset(buf2, 0, sizeof(buf2));
     }
     else{
         log_file << "Line no " << lineNo << ": Token "<< "<COMMENT>" <<" Lexeme " << buf << " found" << endl;
-        buf[0] = '\0';
+        memset(buf, 0, sizeof(buf));
+        memset(buf2, 0, sizeof(buf2));
     }
 }
 
 void PrintString(int lineNo){
     token_file <<"<STRING, "<< buf2 << " > ";
     log_file << "Line no " << lineNo << ": Token "<< "<STRING>" <<" Lexeme " << buf << " found --><STRING, "<<buf2 <<">"<< endl;
-    buf[0] = '\0';
-    buf2[0] = '\0';
+    memset(buf, 0, sizeof(buf));
+    memset(buf2, 0, sizeof(buf2));
 }
 
 void PrintConstChar(string lexeme, char c, int lineNo){
@@ -98,7 +97,7 @@ INTEGER {DIGIT}+
 
 FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 
-CHARCTER_LITERAL \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\\")|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0))\'
+CHARCTER_LITERAL \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\\")|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0)|{ALPHANUMERIC})\'
 
 TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.{DIGIT}+
 
@@ -118,6 +117,8 @@ UNRECOGNIZED_CHARACTER .
  
 \"      {
             BEGIN (str);
+            memset(buf, 0, sizeof(buf));
+            memset(buf2, 0, sizeof(buf2));
             s = buf;
             s2 = buf2;
             *s++ = '\"';
@@ -164,6 +165,8 @@ UNRECOGNIZED_CHARACTER .
 
 \/\*         {
                 BEGIN(slashStar);
+                memset(buf, 0, sizeof(buf));
+                memset(buf2, 0, sizeof(buf2));
                 s= buf;
                 *s++ = '/';
                 *s++ = '*';
@@ -218,13 +221,32 @@ UNRECOGNIZED_CHARACTER .
                 }
 
                 
-\'{ALPHANUMERIC}|(\\\")\'  {PrintIdentifier("CONST_CHAR", yytext, lineCount);}
+
 {NEWLINE}     {++lineCount;}
 {IDENTIFIER}    {PrintIdentifier("ID", yytext, lineCount);}
 {INTEGER}   {PrintIdentifier("CONST_INT", yytext, lineCount);}
 {FLOAT}     {PrintIdentifier("CONST_FLOAT", yytext, lineCount);}
 
-
+{CHARCTER_LITERAL}  {
+                        char temp = yytext[2];
+                        char c;
+                        if(yytext[1]=='\\'){
+                            if(temp=='n'){c='\n';}
+                            else if(temp=='t'){c='\t';}
+                            else if(temp=='a'){c='\a';}
+                            else if(temp=='f'){c='\f';}
+                            else if(temp=='b'){c='\b';}
+                            else if(temp=='v'){c='\v';}
+                            else if(temp=='r'){c='\r';}
+                            else if(temp=='0'){c='\0';}
+                            else if(temp=='\\'){c='\\';}
+                            else if(temp=='\''){c='\'';}
+                            else if(temp=='\"'){c='\"';}
+                        }
+                        else {c=yytext[1];}
+                        
+                        PrintConstChar(yytext, c, lineCount);
+                    }
 
 {TOO_MANY_DECIMAL}  {
                         log_file<<"Error at line no "<<lineCount<<" : Too many decimal points  "<<yytext<<endl; 
@@ -232,7 +254,7 @@ UNRECOGNIZED_CHARACTER .
                     }
 
 {ILL_FORMED_NUMBER} {
-                        PrintError("Ill formed number", lineCount); 
+                        log_file<<"Error at line no "<<lineCount<<" : Ill formed number  "<<yytext<<endl; 
                         ++errorCount;
                     }
 
@@ -242,17 +264,17 @@ UNRECOGNIZED_CHARACTER .
                     }
 
 {CHARACTER_CONSTANT_ERROR}  {
-                                PrintError("Multi character constant error", lineCount); 
+                                log_file<<"Error at line no "<<lineCount<<" : Multi character constant error "<<yytext<<endl; 
                                 ++errorCount;
                             }
 
 {UNFINISHED_CHARACTER_ERROR}    {
-                                    PrintError("Unfinished character", lineCount); 
+                                    log_file<<"Error at line no "<<lineCount<<" : Unterminated character "<<yytext<<endl; 
                                     ++errorCount;
                                 }
 
 {EMPTY_CHARACTER_ERROR}     {
-                                PrintError("Empty character constant", lineCount); 
+                                log_file<<"Error at line no "<<lineCount<<" : Empty character constant error"<<yytext<<endl; 
                                 ++errorCount;
                             }
                             
@@ -278,6 +300,7 @@ UNRECOGNIZED_CHARACTER .
                                     BEGIN (str);
                             }
 <strSlash>\n    {
+                    ++lineCount;
                     *s++ = *yytext; 
                     BEGIN(str);
                 }
@@ -285,25 +308,32 @@ UNRECOGNIZED_CHARACTER .
 <strSlash>.     {
                     *s++ = *yytext;
                     *s2++ = *yytext;
+                    BEGIN (str);
                 }
 <str>\"     {
                 *s++ = '\"';
                 *s2++ = '\"';
                 *s = 0;
                 *s2 = 0;
-                cout<<buf2<<endl;
+
                 BEGIN (INITIAL);
                 PrintString(lineStart);
-                finished = true;    
+                finished = true;   
+                memset(buf, 0, sizeof(buf));
+                memset(buf2, 0, sizeof(buf2));
             }
             
 <str>\n     {
                 *s = 0;
                 *s2 = 0;
-                log_file<<"Line no : "<<lineCount++<<" Invalid string <str>\\n "<<endl; 
+                lineCount++;
                 BEGIN (INITIAL);
-                ++errorCount; 
+                 
                 finished = true;
+                log_file<<"Error at line no "<<lineStart<<" : Unterminated String "<<buf<<endl; 
+                ++errorCount;
+                memset(buf, 0, sizeof(buf));
+                memset(buf2, 0, sizeof(buf2));
             }
 
 <str>.      {
@@ -311,35 +341,24 @@ UNRECOGNIZED_CHARACTER .
                 *s2++ = *yytext;
             }
  
-{CHARCTER_LITERAL}  {
-                        char temp = yytext[2];
-                        cout<<"this is temp : "<<temp<<endl;
-                        char c;
-                        if(temp=='n'){*s2++='\n';}
-                        else if(temp=='t'){c='\t';}
-                        else if(temp=='a'){c='\a';}
-                        else if(temp=='f'){c='\f';}
-                        else if(temp=='b'){c='\b';}
-                        else if(temp=='v'){c='\v';}
-                        else if(temp=='r'){c='\r';}
-                        else if(temp=='0'){c='\0';}
-                        else if(temp=='\\'){c='\\';}
-                        else if(temp=='\''){c='\'';}
-                        else if(temp=='\"'){c='\"';}
-                        PrintConstChar(yytext, c, lineCount);
-                    }
+
  
 <<EOF>> {
-            if(finished==false)
-                PrintComment(lineStart, true);
-            
+            if(finished==false){
+                log_file<<"Error at line no "<<lineStart<<" : Unterminated Comment "<<buf<<endl; 
+                ++errorCount;
+                memset(buf, 0, sizeof(buf));
+                memset(buf2, 0, sizeof(buf2));
+            }
+
+            symboltable->PrintAllTables(log_file);
             log_file<<"Total lines : "<<lineCount<<endl;
             log_file<<"Total errors : "<<errorCount<<endl;
             return 0;
         }
         
 {UNRECOGNIZED_CHARACTER}    {
-                                PrintError("Unrecognized character", lineCount); 
+                                log_file<<"Error at line no "<<lineStart<<" : Unrecognized character "<<buf<<endl; 
                                 ++errorCount;
                             }
 
