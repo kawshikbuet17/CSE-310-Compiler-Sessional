@@ -2,7 +2,6 @@
 
 %x str
 %x strSlash
-%x strSlashStr
 
 %x slashStar
 %x slashSlash
@@ -16,8 +15,12 @@ using namespace std;
 int lineCount = 1;
 int errorCount = 0;
 char buf[100];
+char buf2[100];
 char *s;
+char *s2;
 
+int lineStart = 0;
+bool finished = true;
 
 ofstream token_file("1705043_token.txt");
 ofstream log_file("1705043_log.txt");
@@ -25,8 +28,8 @@ SymbolTable* symboltable = new SymbolTable(7);
 
 
 void PrintKeyword(string token, string lexeme, int lineNo){
-     token_file <<"<" << token<< "> ";
-    log_file << "Line no " << lineNo <<  ": Token "<<"<" << token << ">  Lexeme " << lexeme << " found" << endl;
+        token_file <<"<" << token<< "> ";
+        log_file << "Line no " << lineNo <<  ": Token "<<"<" << token << ">  Lexeme " << lexeme << " found" << endl;
     
 }
 
@@ -55,14 +58,30 @@ void PrintError(string errorName, int lineNo){
     log_file << "Error at line no " << lineNo <<" "<< errorName << endl;
 }
 
-void PrintComment(int lineNo){
-    log_file << "Line no " << lineNo << ": Token "<< "<COMMENT>" <<" Lexeme " << buf << " found" << endl;
-    buf[0] = '\0';
+void PrintComment(int lineNo, bool error){
+    if(error){
+        log_file << "Line no " << lineNo << "Unfinished Comment " << buf << " found" << endl;
+        buf[0] = '\0';
+    }
+    else{
+        log_file << "Line no " << lineNo << ": Token "<< "<COMMENT>" <<" Lexeme " << buf << " found" << endl;
+        buf[0] = '\0';
+    }
 }
 
 void PrintString(int lineNo){
-    log_file << "Line no " << lineNo << ": Token "<< "<STRING>" <<" Lexeme " << buf << " found" << endl;
+    token_file <<"<STRING, "<< buf2 << " > ";
+    log_file << "Line no " << lineNo << ": Token "<< "<STRING>" <<" Lexeme " << buf << " found --><STRING, "<<buf2 <<">"<< endl;
     buf[0] = '\0';
+    buf2[0] = '\0';
+}
+
+void PrintConstChar(string lexeme, char c, int lineNo){
+    token_file << "<CONST_CHAR,"<<c <<">";
+    log_file << "Line no " << lineNo << ": Token "<< "<CONST_CHAR>" <<" Lexeme " << lexeme << " found --><CHAR_CONST, "<< c <<">"<< endl;
+    SymbolInfo* symbol = new SymbolInfo(lexeme, "CONST_CHAR");
+    symboltable->Insert(*symbol);
+    symboltable->PrintAllTables(log_file);
 }
 
 %}
@@ -72,14 +91,14 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 LETTER [a-zA-Z]
 ALPHANUMERIC [a-zA-Z0-9]
 NEWLINE \r?\n
-WHITESPCAE [ \t]
+WHITESPACE [ \t]
 
 
 INTEGER {DIGIT}+
 
 FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 
-CHARCTER_LITERAL \'[^(\\n)(\\\\)(\\\')(\\a)(\\f)(\\r)(\\b)(\\v)(\\0)]\'
+CHARCTER_LITERAL \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\\")|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0))\'
 
 TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.{DIGIT}+
 
@@ -87,9 +106,9 @@ ILL_FORMED_NUMBER {DIGIT}+[Ee][+-]?{DIGIT}+\.{DIGIT}*
 
 INVALID_PREFIX {DIGIT}+{ALPHANUMERIC}+
 
-CHARACTER_CONSTANT_ERROR \'{ALPHANUMERIC}+{ALPHANUMERIC}+\'
+CHARACTER_CONSTANT_ERROR \'({WHITESPACE}|{ALPHANUMERIC})+\'
 
-UNFINISHED_CHARACTER_ERROR \'(\\)*{ALPHANUMERIC}*(\\)*
+UNFINISHED_CHARACTER_ERROR \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0)|{ALPHANUMERIC})*
 
 EMPTY_CHARACTER_ERROR \'\'
 
@@ -100,8 +119,13 @@ UNRECOGNIZED_CHARACTER .
 \"      {
             BEGIN (str);
             s = buf;
+            s2 = buf2;
             *s++ = '\"';
-}
+            *s2++ = '\"';
+            lineStart = lineCount;
+            finished = false;
+        }
+        
 "if"        {PrintKeyword("IF", yytext, lineCount);}
 "else"      {PrintKeyword("ELSE", yytext, lineCount);}
 "for"       {PrintKeyword("FOR", yytext, lineCount);}
@@ -135,20 +159,30 @@ UNRECOGNIZED_CHARACTER .
 "]"         {PrintOperator("RTHIRD", yytext, lineCount);}
 ","         {PrintOperator("COMMA", yytext, lineCount);}
 ";"         {PrintOperator("SEMICOLON", yytext, lineCount);}
-{WHITESPCAE}    {}
+{WHITESPACE}    {}
 
 
 \/\*         {
-             BEGIN(slashStar);
-             s= buf;
-             *s++ = '/';
-             *s++ = '*';
+                BEGIN(slashStar);
+                s= buf;
+                *s++ = '/';
+                *s++ = '*';
+                lineStart = lineCount;
+                finished = false;
              }
+             
 <slashStar>\n        {
                         *s++ = *yytext; 
                         ++lineCount;
-}
-<slashStar>\*\/        {*s++ = '*'; *s++ = '/'; BEGIN(INITIAL); *s=0; PrintComment(lineCount);}
+                    }
+<slashStar>\*\/        {
+                            *s++ = '*'; 
+                            *s++ = '/'; 
+                            BEGIN(INITIAL); 
+                            *s=0; 
+                            PrintComment(lineStart, false); 
+                            finished = true;
+                        }
 <slashStar>. {*s++ = *yytext;}
 
 
@@ -157,17 +191,21 @@ UNRECOGNIZED_CHARACTER .
             s= buf;
             *s++ = '/';
             *s++ = '/';
+            lineStart = lineCount;
         }
-<slashSlash>\\ {
+<slashSlash>\\  {
                     BEGIN (slashSlashSlash); 
                     *s++ = '\\';
-            }
+                }
 <slashSlash>\n  {
                     *s++ = *yytext; 
                     lineCount++; 
                     BEGIN(INITIAL); 
                     *s=0; 
-                    PrintComment(lineCount);}
+                    PrintComment(lineStart, false);
+                    finished = true;
+                }
+                    
 <slashSlash>. {*s++ = *yytext; }
 <slashSlashSlash>\n {
                         *s++ = *yytext; 
@@ -179,7 +217,8 @@ UNRECOGNIZED_CHARACTER .
                     BEGIN(slashSlash);
                 }
 
-\'{ALPHANUMERIC}\'  {PrintIdentifier("CONST_CHAR", yytext, lineCount);}
+                
+\'{ALPHANUMERIC}|(\\\")\'  {PrintIdentifier("CONST_CHAR", yytext, lineCount);}
 {NEWLINE}     {++lineCount;}
 {IDENTIFIER}    {PrintIdentifier("ID", yytext, lineCount);}
 {INTEGER}   {PrintIdentifier("CONST_INT", yytext, lineCount);}
@@ -187,73 +226,123 @@ UNRECOGNIZED_CHARACTER .
 
 
 
-{TOO_MANY_DECIMAL} {PrintError("Too many decimal points 1.51.40", lineCount); ++errorCount;}
+{TOO_MANY_DECIMAL}  {
+                        log_file<<"Error at line no "<<lineCount<<" : Too many decimal points  "<<yytext<<endl; 
+                        ++errorCount;
+                    }
 
-{ILL_FORMED_NUMBER} {PrintError("Ill formed number", lineCount); ++errorCount;}
+{ILL_FORMED_NUMBER} {
+                        PrintError("Ill formed number", lineCount); 
+                        ++errorCount;
+                    }
 
-{INVALID_PREFIX} {log_file<<"Error at line no "<<lineCount<<" : Invalid prefix on ID or invalid suffix on Number "<<yytext<<endl; ++errorCount;}
+{INVALID_PREFIX}    {
+                        log_file<<"Error at line no "<<lineCount<<" : Invalid prefix on ID or invalid suffix on Number "<<yytext<<endl; 
+                        ++errorCount;
+                    }
 
-{CHARACTER_CONSTANT_ERROR} {PrintError("Multi character constant erro", lineCount); ++errorCount;}
+{CHARACTER_CONSTANT_ERROR}  {
+                                PrintError("Multi character constant error", lineCount); 
+                                ++errorCount;
+                            }
 
-{UNFINISHED_CHARACTER_ERROR} {PrintError("Unfinished character", lineCount); ++errorCount;}
+{UNFINISHED_CHARACTER_ERROR}    {
+                                    PrintError("Unfinished character", lineCount); 
+                                    ++errorCount;
+                                }
 
-{EMPTY_CHARACTER_ERROR} {PrintError("Empty character constant", lineCount); ++errorCount;}
+{EMPTY_CHARACTER_ERROR}     {
+                                PrintError("Empty character constant", lineCount); 
+                                ++errorCount;
+                            }
+                            
+<str>\\    {
+                *s++ = '\\';
+                BEGIN (strSlash);    
+            }
 
-
-
-
-<str>\\    {*s++ = '\\';
-            BEGIN (strSlash);    
-            
-                }
+<strSlash>[ntafbvr0\\\'\"]    {
+                                    *s++ = *yytext;
+                                    char temp = yytext[0];
+                                    if(temp=='n'){*s2++='\n';}
+                                    else if(temp=='t'){*s2++='\t';}
+                                    else if(temp=='a'){*s2++='\a';}
+                                    else if(temp=='f'){*s2++='\f';}
+                                    else if(temp=='b'){*s2++='\b';}
+                                    else if(temp=='v'){*s2++='\v';}
+                                    else if(temp=='r'){*s2++='\r';}
+                                    else if(temp=='0'){*s2++='\n';}
+                                    else if(temp=='\\'){*s2++='\\';}
+                                    else if(temp=='\''){*s2++='\'';}
+                                    else if(temp=='\"'){*s2++='\"';}
+                                    BEGIN (str);
+                            }
 <strSlash>\n    {
-                    *s++ = *yytext;
-                    BEGIN (str);
-                    ++lineCount;
-                }
-<str>\\t     { *s++ = '\t'; }
-<str>\\\"     {
-                    *s++ = '\\';
-                    *s++ = '\"';
-                    BEGIN (strSlashStr);
-                }
-<strSlashStr>\\\"   {
-                    *s++ = '\\';
-                    *s++ = '\"';
-                    BEGIN (str);
-                }  
-<strSlashStr>.  {
-                    *s++ = *yytext;
-                }
-<strSlash>\"    {
-                    *s = 0;
-                    BEGIN (INITIAL);
-                    PrintString(lineCount);
-                    
-                }
-
-<strSlash>[^natv]    {
-                    *s = 0;
-                    BEGIN (INITIAL);
-                    log_file<<"Line no : "<<lineCount++<<" Invalid string <strSlash>[^natv] "<<endl; BEGIN (INITIAL);
+                    *s++ = *yytext; 
+                    BEGIN(str);
                 }
                 
+<strSlash>.     {
+                    *s++ = *yytext;
+                    *s2++ = *yytext;
+                }
 <str>\"     {
                 *s++ = '\"';
+                *s2++ = '\"';
                 *s = 0;
+                *s2 = 0;
+                cout<<buf2<<endl;
                 BEGIN (INITIAL);
-                PrintString(lineCount);
-                    
+                PrintString(lineStart);
+                finished = true;    
             }
             
-<str>\n     {log_file<<"Line no : "<<lineCount++<<" Invalid string <str>\\n "<<endl; BEGIN (INITIAL);}
+<str>\n     {
+                *s = 0;
+                *s2 = 0;
+                log_file<<"Line no : "<<lineCount++<<" Invalid string <str>\\n "<<endl; 
+                BEGIN (INITIAL);
+                ++errorCount; 
+                finished = true;
+            }
 
-<str>.      {*s++ = *yytext;}
-              
-<<EOF>> {log_file<<"Total lines : "<<lineCount<<endl;
+<str>.      {
+                *s++ = *yytext;
+                *s2++ = *yytext;
+            }
+ 
+{CHARCTER_LITERAL}  {
+                        char temp = yytext[2];
+                        cout<<"this is temp : "<<temp<<endl;
+                        char c;
+                        if(temp=='n'){*s2++='\n';}
+                        else if(temp=='t'){c='\t';}
+                        else if(temp=='a'){c='\a';}
+                        else if(temp=='f'){c='\f';}
+                        else if(temp=='b'){c='\b';}
+                        else if(temp=='v'){c='\v';}
+                        else if(temp=='r'){c='\r';}
+                        else if(temp=='0'){c='\0';}
+                        else if(temp=='\\'){c='\\';}
+                        else if(temp=='\''){c='\'';}
+                        else if(temp=='\"'){c='\"';}
+                        PrintConstChar(yytext, c, lineCount);
+                    }
+ 
+<<EOF>> {
+            if(finished==false)
+                PrintComment(lineStart, true);
+            
+            log_file<<"Total lines : "<<lineCount<<endl;
             log_file<<"Total errors : "<<errorCount<<endl;
-            return 0;}
-{UNRECOGNIZED_CHARACTER} {PrintError("Unrecognized character", lineCount); ++errorCount;}
+            return 0;
+        }
+        
+{UNRECOGNIZED_CHARACTER}    {
+                                PrintError("Unrecognized character", lineCount); 
+                                ++errorCount;
+                            }
+
 %%
 int main(int argc,char *argv[]){
 	
