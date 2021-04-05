@@ -1,1 +1,0 @@
-<ID, testing6> <ID, str1> <ASSIGNOP, => <SEMICOLON, ;> <ID, str2> <ASSIGNOP, => <SEMICOLON, ;> <ID, str3> <ASSIGNOP, => <SEMICOLON, ;> <ID, str4> <ASSIGNOP, => <ID, is> <ID, kkp4> <ID, str5> <ASSIGNOP, => <ID, str6> <ASSIGNOP, => <ID, is> <ID, kkp6> <SEMICOLON, ;> <ID, str7> <ASSIGNOP, => <SEMICOLON, ;> 

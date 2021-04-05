@@ -114,12 +114,12 @@ public:
         {
             int hashVal = hashFunction(symbol.getSymbolName());
             hashTable[hashVal].push_back(symbol);
-            cout<<"Inserted in ScopeTable# "<< id <<" at position "<< hashVal <<", " << hashTable[hashVal].size()-1 << endl;
+            //cout<<"Inserted in ScopeTable# "<< id <<" at position "<< hashVal <<", " << hashTable[hashVal].size()-1 << endl;
             return true;
         }
         else
         {
-            cout << "<" << symbol.getSymbolName()<< "," << symbol.getSymbolType() << "> already exists in current ScopeTable"<<endl;
+            //cout << "<" << symbol.getSymbolName()<< "," << symbol.getSymbolType() << "> already exists in current ScopeTable"<<endl;
             return false;
         }
     }
@@ -239,12 +239,12 @@ public:
         temp = new ScopeTable(totalBucket, newId);
         temp->makeParentScope(current);
         current = temp;
-        cout << "New ScopeTable with id " << current->getId() << " created" << endl;
+        //cout << "New ScopeTable with id " << current->getId() << " created" << endl;
     }
 
     void ExitScope()
     {
-        cout<<"ScopeTable with id "<<current->getId()<<" removed"<<endl;
+        //cout<<"ScopeTable with id "<<current->getId()<<" removed"<<endl;
         temp = current->getParentScope();
         delete current;
         current = temp;

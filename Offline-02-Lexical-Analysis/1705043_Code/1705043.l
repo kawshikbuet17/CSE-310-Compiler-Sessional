@@ -14,8 +14,8 @@ using namespace std;
 
 int lineCount = 1;
 int errorCount = 0;
-char buf[5000];
-char buf2[5000];
+char buf[100000];
+char buf2[100000];
 char *s;
 char *s2;
 
@@ -79,8 +79,8 @@ void PrintString(int lineNo){
 }
 
 void PrintConstChar(string lexeme, char c, int lineNo){
-    token_file << "<CHAR_CONST, "<<c <<"> ";
-    log_file << "Line no " << lineNo << ": Token "<< "<CHAR_CONST>" <<" Lexeme " << lexeme << " found --><CHAR_CONST, "<< c <<"> "<< endl;
+    token_file << "<CHAR_CONST, "<< c <<" > ";
+    log_file << "Line no " << lineNo << ": Token "<< "<CHAR_CONST>" <<" Lexeme " << lexeme << " found --> <CHAR_CONST, "<< c <<"> "<< endl;
     SymbolInfo* symbol = new SymbolInfo(lexeme, "CHAR_CONST");
     bool inserted = symboltable->Insert(*symbol);
     if(inserted != false)
@@ -107,7 +107,7 @@ CHARCTER_LITERAL \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\\")|(\\a)|(\\f)|(\\r)|(\\b)|(\\
 
 TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.({DIGIT}|\.)*
 
-ILL_FORMED_NUMBER ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)[Ee][+-]?{DIGIT}+\.({DIGIT}+)?
+ILL_FORMED_NUMBER ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)[Ee][+-]?{DIGIT}*\.({DIGIT}+)?
 
 INVALID_PREFIX {DIGIT}+{ALPHANUMERIC}+
 
@@ -180,7 +180,7 @@ UNRECOGNIZED_CHARACTER .
                 finished = false;
              }
              
-<slashStar>\n        {
+<slashStar>\r?\n        {
                         *s++ = *yytext; 
                         ++lineCount;
                     }
@@ -206,8 +206,8 @@ UNRECOGNIZED_CHARACTER .
                     BEGIN (slashSlashSlash); 
                     *s++ = '\\';
                 }
-<slashSlash>\n  {
-                    *s++ = *yytext; 
+<slashSlash>\r?\n  {
+/*                     *s++ = *yytext;  */
                     lineCount++; 
                     BEGIN(INITIAL); 
                     *s=0; 
@@ -216,7 +216,7 @@ UNRECOGNIZED_CHARACTER .
                 }
                     
 <slashSlash>. {*s++ = *yytext; }
-<slashSlashSlash>\n {
+<slashSlashSlash>\r?\n {
                         *s++ = *yytext; 
                         lineCount++; 
                         BEGIN(slashSlash);
@@ -305,7 +305,7 @@ UNRECOGNIZED_CHARACTER .
                                     else if(temp=='\"'){*s2++='\"';}
                                     BEGIN (str);
                             }
-<strSlash>\n    {
+<strSlash>\r?\n    {
                     ++lineCount;
                     *s++ = *yytext; 
                     BEGIN(str);
@@ -329,7 +329,7 @@ UNRECOGNIZED_CHARACTER .
                 memset(buf2, 0, sizeof(buf2));
             }
             
-<str>\n     {
+<str>\r?\n     {
                 *s = 0;
                 *s2 = 0;
                 lineCount++;
