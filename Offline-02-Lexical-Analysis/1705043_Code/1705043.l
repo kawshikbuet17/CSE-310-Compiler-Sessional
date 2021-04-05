@@ -14,8 +14,8 @@ using namespace std;
 
 int lineCount = 1;
 int errorCount = 0;
-char buf[100];
-char buf2[100];
+char buf[5000];
+char buf2[5000];
 char *s;
 char *s2;
 
@@ -50,8 +50,11 @@ void PrintIdentifier(string token, string lexeme, int lineNo){
     log_file << "Line no " << lineNo <<  ": Token "<<"<" << token << ">  Lexeme " << lexeme << " found" << endl;
     
     SymbolInfo* symbol = new SymbolInfo(lexeme, token);
-    symboltable->Insert(*symbol);
-    symboltable->PrintAllTables(log_file);
+    bool inserted = symboltable->Insert(*symbol);
+    if(inserted != false)
+        symboltable->PrintAllTables(log_file);
+    else
+        log_file<<lexeme<<" already exists in current ScopeTable"<<endl;
 }
 
 
@@ -70,17 +73,20 @@ void PrintComment(int lineNo, bool error){
 
 void PrintString(int lineNo){
     token_file <<"<STRING, "<< buf2 << " > ";
-    log_file << "Line no " << lineNo << ": Token "<< "<STRING>" <<" Lexeme " << buf << " found --><STRING, "<<buf2 <<">"<< endl;
+    log_file << "Line no " << lineNo << ": Token "<< "<STRING>" <<" Lexeme " << buf << " found --><STRING, "<<buf2 <<"> "<< endl;
     memset(buf, 0, sizeof(buf));
     memset(buf2, 0, sizeof(buf2));
 }
 
 void PrintConstChar(string lexeme, char c, int lineNo){
-    token_file << "<CONST_CHAR,"<<c <<">";
-    log_file << "Line no " << lineNo << ": Token "<< "<CONST_CHAR>" <<" Lexeme " << lexeme << " found --><CHAR_CONST, "<< c <<">"<< endl;
-    SymbolInfo* symbol = new SymbolInfo(lexeme, "CONST_CHAR");
-    symboltable->Insert(*symbol);
-    symboltable->PrintAllTables(log_file);
+    token_file << "<CHAR_CONST, "<<c <<"> ";
+    log_file << "Line no " << lineNo << ": Token "<< "<CHAR_CONST>" <<" Lexeme " << lexeme << " found --><CHAR_CONST, "<< c <<"> "<< endl;
+    SymbolInfo* symbol = new SymbolInfo(lexeme, "CHAR_CONST");
+    bool inserted = symboltable->Insert(*symbol);
+    if(inserted != false)
+        symboltable->PrintAllTables(log_file);
+    else
+        log_file<<lexeme<<" already exists in current ScopeTable"<<endl;
 }
 
 %}
@@ -99,13 +105,13 @@ FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 
 CHARCTER_LITERAL \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\\")|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0)|{ALPHANUMERIC})\'
 
-TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.{DIGIT}+
+TOO_MANY_DECIMAL {DIGIT}+\.{DIGIT}+\.({DIGIT}|\.)*
 
-ILL_FORMED_NUMBER {DIGIT}+[Ee][+-]?{DIGIT}+\.{DIGIT}*
+ILL_FORMED_NUMBER ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)[Ee][+-]?{DIGIT}+\.({DIGIT}+)?
 
 INVALID_PREFIX {DIGIT}+{ALPHANUMERIC}+
 
-CHARACTER_CONSTANT_ERROR \'({WHITESPACE}|{ALPHANUMERIC})+\'
+CHARACTER_CONSTANT_ERROR \'({WHITESPACE}|{ALPHANUMERIC}|(\\))+\'
 
 UNFINISHED_CHARACTER_ERROR \'((\\n)|(\\t)|(\\\\)|(\\\')|(\\a)|(\\f)|(\\r)|(\\b)|(\\v)|(\\0)|{ALPHANUMERIC})*
 
@@ -358,7 +364,7 @@ UNRECOGNIZED_CHARACTER .
         }
         
 {UNRECOGNIZED_CHARACTER}    {
-                                log_file<<"Error at line no "<<lineStart<<" : Unrecognized character "<<buf<<endl; 
+                                log_file<<"Error at line no "<<lineCount<<" : Unrecognized character "<<yytext<<endl; 
                                 ++errorCount;
                             }
 
