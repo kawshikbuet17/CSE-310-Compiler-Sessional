@@ -39,7 +39,7 @@ void PrintSymbolName(string symbolName){
 
 %token IF ELSE FOR WHILE DO BREAK INT CHAR FLOAT DOUBLE VOID RETURN CONTINUE PRINTLN ASSIGNOP LOGICOP NOT LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON DECOP
 
-%union	{SymbolInfo* si; double dval; int ival;}
+%union	{SymbolInfo* si; double dval; int ival; string str;}
 %token <si> ADDOP MULOP INCOP RELOP ID CONST_INT CONST_FLOAT
 
 // %left 
