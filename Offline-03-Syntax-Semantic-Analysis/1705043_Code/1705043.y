@@ -13,11 +13,10 @@ int yyparse(void);
 int yylex(void);
 extern FILE *yyin;
 
-SymbolTable* symbolTable;
+SymbolTable* symbolTable = new SymbolTable(7);
 
 int lineCount = 1;
 int errorCount = 0;
-
 
 void yyerror(char *s)
 {
@@ -38,7 +37,10 @@ void PrintSymbolName(string symbolName){
 
 %}
 
-%token IF ELSE FOR WHILE DO BREAK INT CHAR FLOAT DOUBLE VOID RETURN CONTINUE PRINTLN ADDOP MULOP INCOP RELOP ASSIGNOP LOGICOP NOT LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON ID CONST_INT CONST_FLOAT DECOP
+%token IF ELSE FOR WHILE DO BREAK INT CHAR FLOAT DOUBLE VOID RETURN CONTINUE PRINTLN ASSIGNOP LOGICOP NOT LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON DECOP
+
+%union	{SymbolInfo* si; double dval; int ival;}
+%token <si> ADDOP MULOP INCOP RELOP ID CONST_INT CONST_FLOAT
 
 // %left 
 // %right

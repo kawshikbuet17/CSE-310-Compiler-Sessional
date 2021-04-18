@@ -44,23 +44,23 @@ FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 "println"   {return PRINTLN;}
 
 "+"|"-"     {
-                //symbolInfo = new SymbolInfo(yytext, "ADDOP");
-                //yylval = (YYSTYPE) symbolInfo*;
+                symbolInfo = new SymbolInfo(yytext, "ADDOP");
+                yylval.si = symbolInfo;
                 return ADDOP;
             }
 "*"|"/"|"%" {
-                //symbolInfo = new SymbolInfo(yytext, "MULOP");
-                //yylval = (YYSTYPE) symbolInfo*;
+                symbolInfo = new SymbolInfo(yytext, "MULOP");
+                yylval.si = symbolInfo;
                 return MULOP;
             }
 "++"|"--"   {
-                //symbolInfo = new SymbolInfo(yytext, "INCOP");
-                //yylval = (YYSTYPE) symbolInfo*;
+                symbolInfo = new SymbolInfo(yytext, "INCOP");
+                yylval.si = symbolInfo;
                 return INCOP;
             }
 "<"|"<="|">"|">="|"=="|"!=" {
-                                //symbolInfo = new SymbolInfo(yytext, "RELOP");
-                                //yylval = (YYSTYPE) symbolInfo*;
+                                symbolInfo = new SymbolInfo(yytext, "RELOP");
+                                yylval.si = symbolInfo;
                                 return RELOP;
                             }
 "="         {return ASSIGNOP;}
@@ -78,18 +78,18 @@ FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 {WHITESPACE}    {}
 {NEWLINE}     {++lineCount;}
 {IDENTIFIER}    {
-                    //symbolInfo = new SymbolInfo(yytext, "ID");
-                    //yylval = (YYSTYPE) symbolInfo*;
+                    symbolInfo = new SymbolInfo(yytext, "ID");
+                    yylval.si = symbolInfo;
                     return ID;
                 }
 {INTEGER}   {
-                //symbolInfo = new SymbolInfo(yytext, "CONST_INT");
-                //yylval = (YYSTYPE) symbolInfo*;
+                symbolInfo = new SymbolInfo(yytext, "CONST_INT");
+                yylval.si = symbolInfo;
                 return CONST_INT;
             }
 {FLOAT}     {
-                //symbolInfo = new SymbolInfo(yytext, "CONST_FLOAT");
-                //yylval = (YYSTYPE) symbolInfo*;
+                symbolInfo = new SymbolInfo(yytext, "CONST_FLOAT");
+                yylval.si = symbolInfo;
                 return CONST_FLOAT;
             }
 
