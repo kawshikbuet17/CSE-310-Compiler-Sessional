@@ -5,7 +5,7 @@
 #include<cstring>
 #include<cmath>
 #include "symbol_table.cpp"
-#define YYSTYPE SymbolInfo*
+// #define YYSTYPE SymbolInfo*
 
 using namespace std;
 
@@ -27,20 +27,19 @@ ofstream log_file("1705043_log.txt");
 ofstream error_file("1705043_error.txt");
 
 void PrintGrammar(int lineNo, string grammarName){
-	log_file << "At line no: " << lineNo << " "<<grammarName  << endl;
+	log_file << "At line no: " << lineNo << " "<<grammarName << "\n"  << endl;
 }
 
-void PrintSymbolName(string symbolName){
-	log_file << symbolName << endl;
+void PrintToken(string tokenName){
+	log_file << tokenName<< "\n" << endl;
 }
 
 
 %}
 
-%token IF ELSE FOR WHILE DO BREAK INT CHAR FLOAT DOUBLE VOID RETURN CONTINUE PRINTLN ASSIGNOP LOGICOP NOT LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON DECOP
 
-%union	{SymbolInfo* si; double dval; int ival; string str;}
-%token <si> ADDOP MULOP INCOP RELOP ID CONST_INT CONST_FLOAT
+%union	{SymbolInfo* si;}
+%token <si> ADDOP MULOP INCOP RELOP ID CONST_INT CONST_FLOAT IF ELSE FOR WHILE DO BREAK CHAR FLOAT DOUBLE VOID RETURN CONTINUE PRINTLN ASSIGNOP LOGICOP NOT LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON DECOP INT
 
 // %left 
 // %right
@@ -118,28 +117,34 @@ compound_statement: LCURL statements RCURL	{
  		    
 var_declaration: type_specifier declaration_list SEMICOLON	{
 							PrintGrammar(lineCount, "var_declaration : type_specifier declaration_list SEMICOLON");
+							PrintToken(";");
 						}
  		 ;
  		 
 type_specifier: INT	{
 							PrintGrammar(lineCount, "type_specifier	: INT");
+							PrintToken("int");
 						}
  		| FLOAT	{
 							PrintGrammar(lineCount, "type_specifier	: FLOAT");
+							PrintToken("float");
 						}
  		| VOID	{
 							PrintGrammar(lineCount, "type_specifier	: VOID");
+							PrintToken("void");
 						}
  		;
  		
 declaration_list: declaration_list COMMA ID	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID");
+
 						}
  		  | declaration_list COMMA ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
 						}
  		  | ID	{
 							PrintGrammar(lineCount, "declaration_list : ID");
+							PrintToken($1->getSymbolName());
 						}
  		  | ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : ID LTHIRD CONST_INT RTHIRD");

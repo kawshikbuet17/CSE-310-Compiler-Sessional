@@ -28,20 +28,62 @@ FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
 
 %%
       
-"if"        {return IF;}
-"else"      {return ELSE;}
-"for"       {return FOR;}
-"while"     {return WHILE;}
-"do"        {return DO;}
-"break"     {return BREAK;}
-"int"       {return INT;}
-"char"      {return CHAR;}
-"float"     {return FLOAT;}
-"double"    {return DOUBLE;}
-"void"      {return VOID;}
-"return"    {return RETURN;}
-"continue"  {return CONTINUE;}
-"println"   {return PRINTLN;}
+"if"        {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return IF;
+            }
+"else"      {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return ELSE;
+            }
+"for"       {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return FOR;
+            }
+"while"     {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return WHILE;
+            }
+"do"        {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return DO;
+            }
+"break"     {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return BREAK;
+            }
+"int"       {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return INT;
+            }
+"char"      {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return CHAR;
+            }
+"float"     {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return FLOAT;
+            }
+"double"    {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return DOUBLE;
+            }
+"void"      {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return VOID;
+            }
+"return"    {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return RETURN;
+            }
+"continue"  {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return CONTINUE;
+            }
+"println"   {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return PRINTLN;
+            }
 
 "+"|"-"     {
                 symbolInfo = new SymbolInfo(yytext, "ADDOP");
@@ -63,17 +105,50 @@ FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
                                 yylval.si = symbolInfo;
                                 return RELOP;
                             }
-"="         {return ASSIGNOP;}
-"&&"|"||"   {return LOGICOP;}
-"!"         {return NOT;}
-"("         {return LPAREN;}
-")"         {return RPAREN;}
-"{"         {return LCURL;}
-"}"         {return RCURL;}
-"["         {return LTHIRD;}
-"]"         {return RTHIRD;}
-","         {return COMMA;}
-";"         {return SEMICOLON;}
+"="         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return ASSIGNOP;
+            }
+"&&"|"||"   {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return LOGICOP;
+            }
+"!"         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return NOT;
+            }
+"("         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return LPAREN;
+            }
+")"         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return RPAREN;
+            }
+"{"         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return LCURL;
+            }
+"}"         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return RCURL;
+            }
+"["         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return LTHIRD;
+            }
+"]"         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return RTHIRD;
+            }
+","         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return COMMA;
+            }
+";"         {
+                symbolInfo = new SymbolInfo(yytext, "token");
+                yylval.si = symbolInfo;return SEMICOLON;
+            }
 
 {WHITESPACE}    {}
 {NEWLINE}     {++lineCount;}
