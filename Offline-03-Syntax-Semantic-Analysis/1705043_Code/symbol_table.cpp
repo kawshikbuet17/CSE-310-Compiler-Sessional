@@ -192,7 +192,7 @@ public:
             log_file << i << " --> ";
             for(auto j : hashTable[i])
             {
-                log_file<< " < " << j.getSymbolName() << " : " << j.getSymbolType() << " >  ";
+                log_file<< " < " << j.getSymbolName() << " , " << j.getSymbolType() << " >  ";
             }
             log_file<<endl;
         }

@@ -13,7 +13,7 @@ int yyparse(void);
 int yylex(void);
 extern FILE *yyin;
 
-SymbolTable* symbolTable = new SymbolTable(7);
+SymbolTable* symbolTable = new SymbolTable(31);
 
 int lineCount = 1;
 int errorCount = 0;
@@ -105,17 +105,23 @@ unit: var_declaration	{
      
 func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
 							PrintGrammar(lineCount, "func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType()+" "+$6->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType()+" "+$6->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+
+							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 		| type_specifier ID LPAREN RPAREN SEMICOLON	{
 							PrintGrammar(lineCount, "func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+
+							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 		;
 		 
@@ -125,6 +131,9 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN compound_stateme
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType()+" "+$6->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+
+							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 		| type_specifier ID LPAREN RPAREN compound_statement	{
 							PrintGrammar(lineCount, "func_definition : type_specifier ID LPAREN RPAREN compound_statement");
@@ -132,6 +141,9 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN compound_stateme
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+
+							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
  		;				
 
@@ -142,6 +154,9 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo($4->getSymbolName(), $4->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 		| parameter_list COMMA type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : parameter_list COMMA type_specifier");
@@ -156,6 +171,9 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 		| type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : type_specifier");
@@ -167,26 +185,34 @@ parameter_list: parameter_list COMMA type_specifier ID	{
  		;
 
  		
-compound_statement: LCURL statements RCURL	{
+compound_statement: LCURL dummy_enterScope statements RCURL	{
 							PrintGrammar(lineCount, "compound_statement : LCURL statements RCURL");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
+							symbolName = $1->getSymbolName()+"\n"+$3->getSymbolName()+"\n"+$4->getSymbolName();
+							symbolType = $1->getSymbolType()+"\n"+$3->getSymbolType()+"\n"+$4->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+							symbolTable->PrintAllTables(log_file);
+							symbolTable->ExitScope();
 						}
- 		    | LCURL RCURL	{
+ 		    | LCURL dummy_enterScope RCURL	{
 							PrintGrammar(lineCount, "compound_statement : LCURL RCURL");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$3->getSymbolName();
+							symbolType = $1->getSymbolType()+" "+$3->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+							symbolTable->PrintAllTables(log_file);
+							symbolTable->ExitScope();
 						}
  		    ;
- 		    
+
+dummy_enterScope:	{
+						symbolTable->EnterScope();
+					}
+
 var_declaration: type_specifier declaration_list SEMICOLON	{
 							PrintGrammar(lineCount, "var_declaration : type_specifier declaration_list SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
 						}
@@ -194,22 +220,22 @@ var_declaration: type_specifier declaration_list SEMICOLON	{
  		 
 type_specifier: INT	{
 							PrintGrammar(lineCount, "type_specifier	: INT");
-							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
+							symbolName = $1->getSymbolName()+" ";
+							symbolType = $1->getSymbolType()+" ";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
 						}
  		| FLOAT	{
 							PrintGrammar(lineCount, "type_specifier	: FLOAT");
-							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
+							symbolName = $1->getSymbolName()+" ";
+							symbolType = $1->getSymbolType()+" ";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
 						}
  		| VOID	{
 							PrintGrammar(lineCount, "type_specifier	: VOID");
-							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
+							symbolName = $1->getSymbolName()+" ";
+							symbolType = $1->getSymbolType()+" ";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
 						}
@@ -222,6 +248,9 @@ declaration_list: declaration_list COMMA ID	{
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
 
+							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
+							symbolTable->Insert(*temp);
+
 						}
  		  | declaration_list COMMA ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
@@ -229,6 +258,9 @@ declaration_list: declaration_list COMMA ID	{
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType()+" "+$6->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
  		  | ID	{
 							PrintGrammar(lineCount, "declaration_list : ID");
@@ -236,6 +268,9 @@ declaration_list: declaration_list COMMA ID	{
 							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo(symbolName, symbolType);
+							symbolTable->Insert(*temp);
 						}
  		  | ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : ID LTHIRD CONST_INT RTHIRD");
@@ -243,6 +278,9 @@ declaration_list: declaration_list COMMA ID	{
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
  		  ;
  		  
@@ -314,15 +352,18 @@ statement: var_declaration	{
 						}
 	  | PRINTLN LPAREN ID RPAREN SEMICOLON	{
 							PrintGrammar(lineCount, "statement : PRINTLN LPAREN ID RPAREN SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType()+" "+$5->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
+
+							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 	  | RETURN expression SEMICOLON	{
 							PrintGrammar(lineCount, "statement : RETURN expression SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
 						}
@@ -330,15 +371,15 @@ statement: var_declaration	{
 	  
 expression_statement: SEMICOLON	{
 							PrintGrammar(lineCount, "expression_statement 	: SEMICOLON");
-							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
+							symbolName = $1->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "terminal");
 						}			
 			| expression SEMICOLON	{
 							PrintGrammar(lineCount, "expression_statement 	: expression SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+"\n";
+							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
 						} 
@@ -346,7 +387,6 @@ expression_statement: SEMICOLON	{
 	  
 variable: ID	{
 							PrintGrammar(lineCount, "variable : ID");
-
 							symbolName = $1->getSymbolName();
 							symbolType = $1->getSymbolType();
 
@@ -365,6 +405,9 @@ variable: ID	{
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
+							symbolTable->Insert(*temp);
 						} 
 	 ;
 	 
@@ -489,6 +532,9 @@ factor: variable	{
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "non_terminal");
+
+							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
+							symbolTable->Insert(*temp);
 						}
 	| LPAREN expression RPAREN	{
 							PrintGrammar(lineCount, "factor	: LPAREN expression RPAREN");
