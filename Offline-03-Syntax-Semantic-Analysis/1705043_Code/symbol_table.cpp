@@ -44,6 +44,10 @@ public:
     string getParams(int index){
         return params[index];
     }
+    
+    int getParamsSize(){
+        return params.size();
+    }
 };
 
 
