@@ -1,3 +1,8 @@
 *.exe
 *.o
 *.out
+Offline-03-Syntax-Semantic-Analysis/1705043_Code/lex.yy.c
+Offline-03-Syntax-Semantic-Analysis/1705043_Code/y.tab.h
+Offline-03-Syntax-Semantic-Analysis/1705043_Code/y.tab.c
+Offline-03-Syntax-Semantic-Analysis/1705043_Code/1705043_log.txt
+Offline-03-Syntax-Semantic-Analysis/1705043_Code/1705043_error.txt
