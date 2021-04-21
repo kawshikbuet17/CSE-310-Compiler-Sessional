@@ -8,6 +8,7 @@ class SymbolInfo
 {
     string symbolName;
     string symbolType;
+    vector<string> params;
 
 public:
     SymbolInfo(string symbolName, string symbolType)
@@ -34,6 +35,14 @@ public:
     string getSymbolType()
     {
         return symbolType;
+    }
+
+    void addParams(string p){
+        params.push_back(p);
+    }
+
+    string getParams(int index){
+        return params[index];
     }
 };
 
