@@ -5,6 +5,7 @@
 #include<cstring>
 #include<cmath>
 #include "symbol_table.cpp"
+#define NIL NULL
 // #define YYSTYPE SymbolInfo*
 
 using namespace std;
@@ -21,7 +22,11 @@ int errorCount = 0;
 
 string symbolName;
 string symbolType;
-string currentType = "float";
+string currentType = "void";
+string currentTypeValue = "void";
+
+string op1 = "void";
+string op2 = "void";
 
 
 void yyerror(char *s)
@@ -42,6 +47,10 @@ void PrintToken(string tokenName){
 
 void PrintError(int lineNo, string errorName){
 	log_file << "Error at line no: " << lineNo << " "<<errorName << "\n"  << endl;
+}
+
+void DebugPrint(int lineNo, string debug){
+	cout << "Debug line no: " << lineNo << debug <<endl;
 }
 
 
@@ -281,7 +290,6 @@ type_specifier: INT	{
 declaration_list: declaration_list COMMA ID	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 
@@ -295,7 +303,6 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
-							var_list.push_back(*temp);
 						}
  		  | declaration_list COMMA ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
@@ -306,7 +313,7 @@ declaration_list: declaration_list COMMA ID	{
 
 							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
 							temp->addParams(currentType);
-							temp->addParams($3->getSymbolName());
+							temp->addParams($5->getSymbolName());
 
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
@@ -315,7 +322,6 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
-							var_list.push_back(*temp);
 						}
  		  | ID	{
 							PrintGrammar(lineCount, "declaration_list : ID");
@@ -334,9 +340,6 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
-							var_list.push_back(*temp);
-							
-
 						}
  		  | ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : ID LTHIRD CONST_INT RTHIRD");
@@ -357,8 +360,6 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
-
-							var_list.push_back(*temp);
 						}
  		  ;
  		  
@@ -466,53 +467,66 @@ expression_statement: SEMICOLON	{
 variable: ID	{
 							PrintGrammar(lineCount, "variable : ID");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
-
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, symbolType);
-
-							SymbolInfo *temp = new SymbolInfo(symbolName, symbolType);
-							symbolTable->Insert(*temp);
+							SymbolInfo* t = symbolTable->Lookup(symbolName);
+							if(t == NIL){
+								PrintError(lineCount, "Variable not declared");
+								++errorCount;
+							}else{
+								$$ = t;
+							}
+							
 						} 		
 	 | ID LTHIRD expression RTHIRD	{
 							PrintGrammar(lineCount, "variable : ID LTHIRD expression RTHIRD");
-
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
 
-							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
-							symbolTable->Insert(*temp);
+							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
+							if(t == NIL){
+								PrintError(lineCount, "Variable not declared ");
+								++errorCount;
+							}else{
+								if($3->getParams(0) != t->getParams(0)){
+									PrintError(lineCount, "Array Index Error");
+									++errorCount;
+								}
+								else{
+									;
+								}
+							}
 						} 
 	 ;
 	 
  expression: logic_expression	{
 							PrintGrammar(lineCount, "expression : logic_expression");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
-
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						}	
 	   | variable ASSIGNOP logic_expression	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
 
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 
-							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							if($1 != NIL){
+								symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
+
+								PrintToken(symbolName);
+								$$ = new SymbolInfo(symbolName, "dummyType");
+							}
+							else{
+									;
+							}	
 						} 	
 	   ;
 			
 logic_expression: rel_expression	{
 							PrintGrammar(lineCount, "logic_expression : rel_expression");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						} 	
 		 | rel_expression LOGICOP rel_expression	{
 							PrintGrammar(lineCount, "logic_expression : rel_expression LOGICOP rel_expression");
@@ -526,9 +540,8 @@ logic_expression: rel_expression	{
 rel_expression: simple_expression	{
 							PrintGrammar(lineCount, "rel_expression	: simple_expression");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						} 
 		| simple_expression RELOP simple_expression	{
 							PrintGrammar(lineCount, "rel_expression	: simple_expression RELOP simple_expression");
@@ -542,9 +555,8 @@ rel_expression: simple_expression	{
 simple_expression: term	{
 							PrintGrammar(lineCount, "simple_expression : term");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						} 
 		  | simple_expression ADDOP term	{
 							PrintGrammar(lineCount, "simple_expression : simple_expression ADDOP term");
@@ -558,9 +570,8 @@ simple_expression: term	{
 term:	unary_expression	{
 							PrintGrammar(lineCount, "term :	unary_expression");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						}
      |  term MULOP unary_expression	{
 							PrintGrammar(lineCount, "term :	term MULOP unary_expression");
@@ -574,7 +585,6 @@ term:	unary_expression	{
 unary_expression: ADDOP unary_expression	{
 							PrintGrammar(lineCount, "unary_expression : ADDOP unary_expression");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						}  
@@ -588,9 +598,8 @@ unary_expression: ADDOP unary_expression	{
 		 | factor	{
 							PrintGrammar(lineCount, "unary_expression : factor");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						} 
 		 ;
 	
@@ -598,13 +607,27 @@ factor: variable	{
 							PrintGrammar(lineCount, "factor	: variable");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+
+							SymbolInfo* t = symbolTable->Lookup(symbolName);
+							if(t == NIL){
+								PrintError(lineCount, "Variable not declared");
+								++errorCount;
+							}else{
+								$$ = t;	
+								currentTypeValue = t->getParams(0);
+							}
 						} 
+
 	| ID LPAREN argument_list RPAREN	{
 							PrintGrammar(lineCount, "factor	: ID LPAREN argument_list RPAREN");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+" "+$4->getSymbolType();
-							PrintToken(symbolName);
+
+							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
+							if(t == NIL){
+								PrintError(lineCount, "Variable not declared");
+								++errorCount;
+							}
+
 							$$ = new SymbolInfo(symbolName, "dummyType");
 
 							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
@@ -621,27 +644,29 @@ factor: variable	{
 							PrintGrammar(lineCount, "factor	: CONST_INT");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "CONST_INT");
 							$$->addParams("int");
+
+							currentTypeValue = "int";
 						} 
 	| CONST_FLOAT	{
 							PrintGrammar(lineCount, "factor	: CONST_FLOAT");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "CONST_FLOAT");
 							$$->addParams("float");
+
+							currentTypeValue = "float";
 						}
 	| variable INCOP	{
 							PrintGrammar(lineCount, "factor	: variable INCOP");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						} 
 	| variable DECOP	{
 							PrintGrammar(lineCount, "factor	: variable DECOP");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						}
