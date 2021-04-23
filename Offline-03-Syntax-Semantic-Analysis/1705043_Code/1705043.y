@@ -488,6 +488,7 @@ variable: ID	{
 							if(t == NIL){
 								PrintError(lineCount, "Variable not declared ");
 								++errorCount;
+								$$ = new SymbolInfo(symbolName, "array");
 							}else{
 								if($3->getParams(0) != t->getParams(0)){
 									PrintError(lineCount, "Array Index Error");
@@ -499,6 +500,7 @@ variable: ID	{
 
 								$$ = t;
 								$$->addParams($3->getSymbolName());
+								$$->setSymbolName(symbolName);
 							}
 						} 
 	 ;
