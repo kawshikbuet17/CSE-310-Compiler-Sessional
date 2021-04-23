@@ -55,8 +55,7 @@ void DebugPrint(int lineNo, string debug){
 }
 
 
-vector<SymbolInfo> var_list;
-vector<SymbolInfo> func_list; 
+vector<SymbolInfo> params_list;
 
 
 
@@ -118,14 +117,14 @@ unit: var_declaration	{
 							symbolName = $1->getSymbolName();
 							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "func_declaration");
 						}
      | func_definition	{
 							PrintGrammar(lineCount, "unit : func_definition");
 							symbolName = $1->getSymbolName();
 							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "func_definition");
 						}
      ;
      
@@ -514,31 +513,18 @@ variable: ID	{
 						}	
 	   | variable ASSIGNOP logic_expression	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
-
-							if($1 != NIL){
-								if($1->getParamsSize() > 1){
-									symbolName = $1->getSymbolName()+"["+$1->getParams(2)+"] "+$2->getSymbolName()+" "+$3->getSymbolName();
-								}
-								else{
-									symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-								}
-								
-								PrintToken(symbolName);
-								$$ = new SymbolInfo(symbolName, "dummyType");
-								if($3 != NIL){
-									if($1->getParamsSize()==0 || $3->getParamsSize()==0){
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
+							PrintToken(symbolName);
+							$$ = new SymbolInfo(symbolName, "dummyType");
+							
+							if($1->getParamsSize()==0 || $3->getParamsSize()==0){
 										PrintError(lineCount, "ASSIGNOP Error");
 										++errorCount;
 									}
-									else if(($1->getParams(0) != $3->getParams(0)) && $1->getParams(0)!="float"){
+							else if(($1->getParams(0) != $3->getParams(0)) && $1->getParams(0)!="float"){
 										PrintError(lineCount, "Type Mismatch");
 										++errorCount;
 									}
-								}
-							}
-							else{
-									PrintError(lineCount, "ASSIGNOP Error");;
-							}	
 						} 	
 	   ;
 			
@@ -592,6 +578,7 @@ simple_expression: term	{
 							else{
 								PrintError(lineCount, "Invalid ADDOP");
 							}
+							$$ = new SymbolInfo(symbolName, "dummyType");
 						} 
 		  ;
 					

@@ -3,7 +3,6 @@ int y;
 void foo();
 
 void foo(){
-	int m[10];
 	x = 5.5;
 	x=2;
 	y=x-5;
