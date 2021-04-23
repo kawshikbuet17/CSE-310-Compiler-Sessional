@@ -47,6 +47,7 @@ void PrintToken(string tokenName){
 
 void PrintError(int lineNo, string errorName){
 	log_file << "Error at line no: " << lineNo << " "<<errorName << "\n"  << endl;
+	error_file << "Error at line no: " << lineNo << " "<<errorName << "\n"  << endl;
 }
 
 void DebugPrint(int lineNo, string debug){
@@ -495,6 +496,9 @@ variable: ID	{
 								else{
 									;
 								}
+
+								$$ = t;
+								$$->addParams($3->getSymbolName());
 							}
 						} 
 	 ;
@@ -509,15 +513,29 @@ variable: ID	{
 	   | variable ASSIGNOP logic_expression	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
 
-
 							if($1 != NIL){
-								symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-
+								if($1->getParamsSize() > 1){
+									symbolName = $1->getSymbolName()+"["+$1->getParams(2)+"] "+$2->getSymbolName()+" "+$3->getSymbolName();
+								}
+								else{
+									symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
+								}
+								
 								PrintToken(symbolName);
 								$$ = new SymbolInfo(symbolName, "dummyType");
+								if($3 != NIL){
+									if($1->getParamsSize()==0 || $3->getParamsSize()==0){
+										PrintError(lineCount, "ASSIGNOP Error");
+										++errorCount;
+									}
+									else if(($1->getParams(0) != $3->getParams(0)) && $1->getParams(0)!="float"){
+										PrintError(lineCount, "Type Mismatch");
+										++errorCount;
+									}
+								}
 							}
 							else{
-									;
+									PrintError(lineCount, "ASSIGNOP Error");;
 							}	
 						} 	
 	   ;
@@ -545,8 +563,7 @@ rel_expression: simple_expression	{
 						} 
 		| simple_expression RELOP simple_expression	{
 							PrintGrammar(lineCount, "rel_expression	: simple_expression RELOP simple_expression");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();;
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						}	
@@ -561,9 +578,18 @@ simple_expression: term	{
 		  | simple_expression ADDOP term	{
 							PrintGrammar(lineCount, "simple_expression : simple_expression ADDOP term");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+
+							if($1 != NIL && $3 != NIL){
+								if($1->getParams(0) == "float"){
+									$$ = $1;
+								}else if($3->getParams(0)=="float"){
+									$$ = $3;
+								}
+							}
+							else{
+								PrintError(lineCount, "Invalid ADDOP");
+							}
 						} 
 		  ;
 					
@@ -612,6 +638,7 @@ factor: variable	{
 							if(t == NIL){
 								PrintError(lineCount, "Variable not declared");
 								++errorCount;
+								$$ = t;	
 							}else{
 								$$ = t;	
 								currentTypeValue = t->getParams(0);
@@ -626,6 +653,10 @@ factor: variable	{
 							if(t == NIL){
 								PrintError(lineCount, "Variable not declared");
 								++errorCount;
+							}
+							else{
+								$$ = $1;
+								$$->addParams($3->getSymbolName());
 							}
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
@@ -675,9 +706,8 @@ factor: variable	{
 argument_list: arguments	{
 							PrintGrammar(lineCount, "argument_list : arguments");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						}
 			  
 			  ;
@@ -685,16 +715,15 @@ argument_list: arguments	{
 arguments: arguments COMMA logic_expression	{
 							PrintGrammar(lineCount, "arguments : arguments COMMA logic_expression");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType();
+
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						}
 	      | logic_expression	{
 							PrintGrammar(lineCount, "arguments : logic_expression");
 							symbolName = $1->getSymbolName();
-							symbolType = $1->getSymbolType();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;
 						}
 	      ;
  
