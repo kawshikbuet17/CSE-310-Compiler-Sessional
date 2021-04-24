@@ -8,6 +8,8 @@ class SymbolInfo
 {
     string symbolName;
     string symbolType;
+    string structType;
+    string dataType;
     vector<string> params;
 
 public:
@@ -15,6 +17,8 @@ public:
     {
         this->symbolName = symbolName;
         this->symbolType = symbolType;
+        structType = "none";
+        dataType = "none";
     }
 
     void setSymbolName(string symbolName)
@@ -35,6 +39,14 @@ public:
     string getSymbolType()
     {
         return symbolType;
+    }
+
+    string getStructType(){
+        return structType;
+    }
+
+    string getDataType(){
+        return dataType;
     }
 
     void addParams(string p){
