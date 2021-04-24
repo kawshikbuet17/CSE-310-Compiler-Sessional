@@ -25,10 +25,6 @@ string symbolType;
 string currentType = "void";
 string currentTypeValue = "void";
 
-string op1 = "void";
-string op2 = "void";
-
-
 void yyerror(char *s)
 {
 	//write your code
@@ -316,7 +312,7 @@ declaration_list: declaration_list COMMA ID	{
 							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
 							temp->setStructType("var");
 							temp->setDataType(currentType);
-							temp->addParams(currentType);
+							// temp->addParams(currentType);
 
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
@@ -337,11 +333,9 @@ declaration_list: declaration_list COMMA ID	{
 							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
 							temp->setStructType("array");
 							temp->setDataType(currentType);
-
-							//change krte hbe
-							temp->addParams(currentType);
-							temp->addParams(currentType);
 							temp->addParams($5->getSymbolName());
+
+							
 
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
@@ -363,8 +357,6 @@ declaration_list: declaration_list COMMA ID	{
 							temp->setStructType("var");
 							temp->setDataType(currentType);
 
-							//change krte hbe
-							temp->addParams(currentType);
 
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
@@ -383,9 +375,6 @@ declaration_list: declaration_list COMMA ID	{
 							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
 							temp->setStructType("array");
 							temp->setDataType(currentType);
-
-							//change krte hbe
-							temp->addParams(currentType);
 							temp->addParams($3->getSymbolName());
 							
 
@@ -523,18 +512,19 @@ variable: ID	{
 							if(t == NIL){
 								PrintError(lineCount, symbolName + " Variable not declared");
 								++errorCount;
-								$$ = new SymbolInfo(symbolName, "array");
+								$$ = new SymbolInfo($1->getSymbolName(), "array");
+								$$->setStructType("array");
+								$$->addParams("-1");
 							}else{
-								;
+								
 								if($3->getParams(0) != t->getParams(0)){
 									PrintError(lineCount, "Array Index Error");
 									++errorCount;
 								}
-								else{
-									;
-								}
+								
 
 								$$ = t;
+								$$->setStructType("array");
 								$$->addParams($3->getSymbolName());
 							}
 						} 
@@ -549,18 +539,20 @@ variable: ID	{
 						}	
 	   | variable ASSIGNOP logic_expression	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
+
+							if($1->getStructType()=="array"){
+								symbolName = $1->getSymbolName()+"[" + $1->getParams(1) +"]"+$2->getSymbolName()+" "+$3->getSymbolName();
+
+								if($1->getParams(0)<$1->getParams(1)){
+									PrintError(lineCount, "Array index error");
+								}
+							}
+							else{
+								symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
+							}
+
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
-							
-							if($1->getParamsSize()==0 || $3->getParamsSize()==0){
-										PrintError(lineCount, "ASSIGNOP Error");
-										++errorCount;
-									}
-							else if(($1->getParams(0) != $3->getParams(0)) && $1->getParams(0)!="float"){
-										PrintError(lineCount, "Type Mismatch");
-										++errorCount;
-									}
 						} 	
 	   ;
 			
@@ -604,7 +596,31 @@ simple_expression: term	{
 						} 
 		  | simple_expression ADDOP term	{
 							PrintGrammar(lineCount, "simple_expression : simple_expression ADDOP term");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
+							symbolName = $1->getSymbolName();
+
+							if($1->getStructType()=="array"){
+								symbolName +="[";
+								symbolName += $1->getParams(1);
+								symbolName += "]";
+
+								if($1->getParams(0)<$1->getParams(1)){
+									PrintError(lineCount, "Array index error");
+								}
+							}
+
+							symbolName += $2->getSymbolName();
+							symbolName += $3->getSymbolName();
+
+							if($3->getStructType()=="array"){
+								symbolName +="[";
+								symbolName += $3->getParams(1);
+								symbolName += "]";
+
+								if($1->getParams(0)<$3->getParams(1)){
+									PrintError(lineCount, "Array index error");
+								}
+							}
+
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
@@ -659,9 +675,6 @@ factor: variable	{
 							if(t == NIL){
 								PrintError(lineCount, symbolName + " Variable not declared");
 								++errorCount;
-							}else{
-
-								currentTypeValue = t->getParams(0);
 							}
 							$$ = t;	
 						} 
@@ -698,6 +711,8 @@ factor: variable	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "CONST_INT");
+							$$->setStructType("val");
+							$$->setDataType("int");
 							$$->addParams("int");
 
 							currentTypeValue = "int";
@@ -708,6 +723,8 @@ factor: variable	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "CONST_FLOAT");
+							$$->setStructType("val");
+							$$->setDataType("float");
 							$$->addParams("float");
 
 							currentTypeValue = "float";
@@ -749,7 +766,7 @@ arguments: arguments COMMA logic_expression	{
 							PrintGrammar(lineCount, "arguments : logic_expression");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							
+
 							$$ = $1;
 						}
 	      ;
