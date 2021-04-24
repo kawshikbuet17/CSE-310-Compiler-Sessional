@@ -41,8 +41,16 @@ public:
         return symbolType;
     }
 
+    void setStructType(string p){
+        structType = p;
+    }
+
     string getStructType(){
         return structType;
+    }
+
+    void setDataType(string p){
+        dataType = p;
     }
 
     string getDataType(){
