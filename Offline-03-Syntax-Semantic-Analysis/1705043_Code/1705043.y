@@ -196,7 +196,8 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							$$ = new SymbolInfo(symbolName, "dummyType");
 
 							SymbolInfo* temp = new SymbolInfo($4->getSymbolName(), $4->getSymbolType());
-							//symbolTable->Insert(*temp);
+							temp->addParams($3->getSymbolName());
+							params_list.push_back(*temp);
 						}
 		| parameter_list COMMA type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : parameter_list COMMA type_specifier");
@@ -213,7 +214,8 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							$$ = new SymbolInfo(symbolName, "dummyType");
 
 							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
-							//symbolTable->Insert(*temp);
+							temp->addParams($1->getSymbolName());
+							params_list.push_back(*temp);
 						}
 		| type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : type_specifier");
@@ -231,7 +233,7 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 							symbolType = $1->getSymbolType()+"\n"+$3->getSymbolType()+"\n"+$4->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
-							symbolTable->PrintAllTables(log_file);
+							// symbolTable->PrintAllTables(log_file);
 							symbolTable->ExitScope();
 						}
  		    | LCURL dummy_enterScope RCURL	{
@@ -240,13 +242,18 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 							symbolType = $1->getSymbolType()+" "+$3->getSymbolType();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
-							symbolTable->PrintAllTables(log_file);
+							// symbolTable->PrintAllTables(log_file);
 							symbolTable->ExitScope();
 						}
  		    ;
 
 dummy_enterScope:	{
 						symbolTable->EnterScope();
+						for(auto i : params_list){
+							symbolTable->Insert(i);
+							// symbolTable->PrintAllTables(log_file);
+						}
+						params_list.clear();
 					}
 
 var_declaration: type_specifier declaration_list SEMICOLON	{
@@ -303,6 +310,7 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
+
 						}
  		  | declaration_list COMMA ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
@@ -322,6 +330,7 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
+
 						}
  		  | ID	{
 							PrintGrammar(lineCount, "declaration_list : ID");
@@ -340,26 +349,28 @@ declaration_list: declaration_list COMMA ID	{
 							}
 
 							symbolTable->Insert(*temp);
+							// symbolTable->PrintAllTables(log_file);
 						}
  		  | ID LTHIRD CONST_INT RTHIRD	{
 							PrintGrammar(lineCount, "declaration_list : ID LTHIRD CONST_INT RTHIRD");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName();
 	
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							//$$ = new SymbolInfo(symbolName, "dummyType");
 
 							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
 							temp->addParams(currentType);
 							temp->addParams($3->getSymbolName());
-							
+							$$ = temp;
 
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
 								PrintError(lineCount, "Multiple Declaration");
 							}
-
+						
 							symbolTable->Insert(*temp);
+							// symbolTable->PrintAllTables(log_file);
 						}
  		  ;
  		  
@@ -473,6 +484,7 @@ variable: ID	{
 							if(t == NIL){
 								PrintError(lineCount, "Variable not declared");
 								++errorCount;
+								$$ = t;
 							}else{
 								$$ = t;
 							}
@@ -484,11 +496,16 @@ variable: ID	{
 							PrintToken(symbolName);
 
 							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
+
+							log_file<<"asce..."<<endl;
+							// symbolTable->PrintAllTables(log_file);
 							if(t == NIL){
+								log_file<<"ha NIL"<<endl;
 								PrintError(lineCount, "Variable not declared ");
 								++errorCount;
 								$$ = new SymbolInfo(symbolName, "array");
 							}else{
+								;
 								if($3->getParams(0) != t->getParams(0)){
 									PrintError(lineCount, "Array Index Error");
 									++errorCount;
@@ -499,7 +516,6 @@ variable: ID	{
 
 								$$ = t;
 								$$->addParams($3->getSymbolName());
-								$$->setSymbolName(symbolName);
 							}
 						} 
 	 ;
@@ -568,16 +584,20 @@ simple_expression: term	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							PrintToken(symbolName);
 
-							if($1 != NIL && $3 != NIL){
-								if($1->getParams(0) == "float"){
-									$$ = $1;
-								}else if($3->getParams(0)=="float"){
-									$$ = $3;
-								}
-							}
-							else{
-								PrintError(lineCount, "Invalid ADDOP");
-							}
+							// if($1 != NIL && $3 != NIL){
+							// 	log_file<<lineCount<<" "<<"asce kina1"<<endl;
+							// 	if($1->getParams(0) == "float"){
+							// 		log_file<<lineCount<<" "<<"asce kina2"<<endl;
+							// 		$$ = $1;
+							// 	}else if($3->getParams(0)=="float"){
+							// 		log_file<<lineCount<<" "<<"asce kina3"<<endl;
+							// 		$$ = $3;
+							// 	}
+							// }
+							
+							// else{
+							// 	PrintError(lineCount, "Invalid ADDOP");
+							// }
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						} 
 		  ;
@@ -612,9 +632,12 @@ unary_expression: ADDOP unary_expression	{
 						} 
 		 | factor	{
 							PrintGrammar(lineCount, "unary_expression : factor");
+							log_file<<"here1"<<endl;
 							symbolName = $1->getSymbolName();
+							log_file<<"here2"<<endl;
 							PrintToken(symbolName);
 							$$ = $1;
+
 						} 
 		 ;
 	
@@ -625,6 +648,7 @@ factor: variable	{
 
 							SymbolInfo* t = symbolTable->Lookup(symbolName);
 							if(t == NIL){
+								log_file<<"fv nil"<<endl;
 								PrintError(lineCount, "Variable not declared");
 								++errorCount;
 								$$ = t;	
