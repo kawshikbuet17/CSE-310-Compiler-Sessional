@@ -484,11 +484,7 @@ expression_statement: SEMICOLON	{
 			| expression SEMICOLON	{
 							PrintGrammar(lineCount, "expression_statement 	: expression SEMICOLON");
 							symbolName = $1->getSymbolName();
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
+							
 							
 							symbolName += $2->getSymbolName();
 							symbolName += "\n";
@@ -516,6 +512,7 @@ variable: ID	{
 							PrintToken(symbolName);
 
 							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
+							
 							if(t == NIL){
 								PrintError(lineCount, symbolName + " Variable not declared");
 								++errorCount;
@@ -526,15 +523,7 @@ variable: ID	{
 								
 								$$ = t;
 								$$->setStructType("array");
-								$$->addParams($3->getSymbolName());
-
-								if($$->getParams(0) < $3->getSymbolName()){
-									PrintError(lineCount, "Array index error");
-								}
-
-								if($3->getDataType() != "int"){
-									PrintError(lineCount, "Array index error");
-								}
+								$$ = new SymbolInfo(symbolName, "dummyType");
 							}
 						} 
 	 ;
@@ -542,29 +531,14 @@ variable: ID	{
  expression: logic_expression	{
 							PrintGrammar(lineCount, "expression : logic_expression");
 							symbolName = $1->getSymbolName();
-							
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						}	
 	   | variable ASSIGNOP logic_expression	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
-
-							if($1->getStructType()=="array"){
-								symbolName = $1->getSymbolName()+"[" + $1->getParams($1->getParamsSize()-1) +"]"+$2->getSymbolName()+" "+$3->getSymbolName();
-
-								if($1->getParams(0)<$1->getParams($1->getParamsSize()-1)){
-									PrintError(lineCount, "Array index error");
-								}
-							}
-							else{
-								symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
-							}
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 
 							if($1->getDataType()!="float" && ($1->getDataType() != $3->getDataType())){
 								PrintError(lineCount, "Assignment type error");
@@ -578,13 +552,8 @@ variable: ID	{
 logic_expression: rel_expression	{
 							PrintGrammar(lineCount, "logic_expression : rel_expression");
 							symbolName = $1->getSymbolName();
-							
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						} 	
 		 | rel_expression LOGICOP rel_expression	{
@@ -603,14 +572,9 @@ logic_expression: rel_expression	{
 rel_expression: simple_expression	{
 							PrintGrammar(lineCount, "rel_expression	: simple_expression");
 							symbolName = $1->getSymbolName();
-							
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						} 
 		| simple_expression RELOP simple_expression	{
@@ -629,43 +593,17 @@ rel_expression: simple_expression	{
 simple_expression: term	{
 							PrintGrammar(lineCount, "simple_expression : term");
 							symbolName = $1->getSymbolName();
-							
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
-							//$$->setSymbolName(symbolName);
 						} 
 		  | simple_expression ADDOP term	{
 							PrintGrammar(lineCount, "simple_expression : simple_expression ADDOP term");
 							symbolName = $1->getSymbolName();
 
-							if($1->getStructType()=="array"){
-								symbolName +="[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-
-								if($1->getParams(0)<$1->getParams($1->getParamsSize()-1)){
-									PrintError(lineCount, "Array index error");
-								}
-							}
-
 							symbolName += $2->getSymbolName();
 							symbolName += $3->getSymbolName();
-
-							if($3->getStructType()=="array"){
-								symbolName +="[";
-								symbolName += $3->getParams($3->getParamsSize()-1);
-								symbolName += "]";
-
-								if($1->getParams(0)<$3->getParams($3->getParamsSize()-1)){
-									PrintError(lineCount, "Array index error");
-								}
-							}
 
 							PrintToken(symbolName);
 
@@ -677,15 +615,11 @@ term:	unary_expression	{
 							PrintGrammar(lineCount, "term :	unary_expression");
 							symbolName = $1->getSymbolName();
 							
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
-							
+
 						}
      |  term MULOP unary_expression	{
 							PrintGrammar(lineCount, "term :	term MULOP unary_expression");
@@ -713,15 +647,10 @@ unary_expression: ADDOP unary_expression	{
 		 | factor	{
 							PrintGrammar(lineCount, "unary_expression : factor");
 							symbolName = $1->getSymbolName();
-
-							if($1->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += $1->getParams($1->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
 
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						} 
 		 ;
@@ -729,21 +658,9 @@ unary_expression: ADDOP unary_expression	{
 factor: variable	{
 							PrintGrammar(lineCount, "factor	: variable");
 							symbolName = $1->getSymbolName();
-							
-
-							SymbolInfo* t = symbolTable->Lookup(symbolName);
-							if(t == NIL){
-								PrintError(lineCount, symbolName + " Variable not declared");
-								++errorCount;
-							}
-
-							if(t->getStructType()=="array"){
-								symbolName += "[";
-								symbolName += t->getParams(t->getParamsSize()-1);
-								symbolName += "]";
-							}
 							PrintToken(symbolName);
-							$$ = t;	
+							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = $1;	
 						} 
 
 	| ID LPAREN argument_list RPAREN	{
@@ -756,6 +673,7 @@ factor: variable	{
 								++errorCount;
 							}
 							else{
+								$$ = new SymbolInfo(symbolName, "dummyType");
 								$$ = $1;
 								$$->addParams($3->getSymbolName());
 							}
@@ -817,6 +735,7 @@ argument_list: arguments	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						}
 			  
@@ -834,6 +753,7 @@ arguments: arguments COMMA logic_expression	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
+							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						}
 	      ;
