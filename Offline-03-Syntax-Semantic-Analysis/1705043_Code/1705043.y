@@ -521,9 +521,12 @@ variable: ID	{
 								$$->addParams("-1");
 							}else{
 								
-								$$ = t;
-								$$->setStructType("array");
 								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$->setStructType("array");
+								$$->setDataType(t->getDataType());
+								if($3->getDataType()=="float"){
+									PrintError(lineCount, "Index can't be float");
+								}
 							}
 						} 
 	 ;
@@ -566,6 +569,7 @@ logic_expression: rel_expression	{
 							}
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$->setDataType("int");
 						} 	
 		 ;
 			
@@ -587,6 +591,7 @@ rel_expression: simple_expression	{
 							}
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$->setDataType("int");
 						}	
 		;
 				
@@ -601,13 +606,18 @@ simple_expression: term	{
 		  | simple_expression ADDOP term	{
 							PrintGrammar(lineCount, "simple_expression : simple_expression ADDOP term");
 							symbolName = $1->getSymbolName();
-
 							symbolName += $2->getSymbolName();
 							symbolName += $3->getSymbolName();
 
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
+							if($1->getDataType()=="float" || $1->getDataType()=="float"){
+								$$->setDataType("float");
+							}
+							else if($1->getDataType()=="int" || $1->getDataType()=="int"){
+								$$->setDataType("int");
+							}
 						} 
 		  ;
 					
@@ -627,6 +637,12 @@ term:	unary_expression	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
+							if($1->getDataType()=="float" || $3->getDataType()=="float"){
+								$$->setDataType("float");
+							}
+							else{
+								$$->setDataType("int");
+							}
 						}
      ;
 
