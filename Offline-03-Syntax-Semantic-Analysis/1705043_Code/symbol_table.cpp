@@ -11,6 +11,7 @@ class SymbolInfo
     string structType;
     string dataType;
     vector<string> params;
+    vector<SymbolInfo> funcParams;
 
 public:
     SymbolInfo(string symbolName, string symbolType)
@@ -67,6 +68,14 @@ public:
     
     int getParamsSize(){
         return params.size();
+    }
+
+    void addFuncParams(SymbolInfo si){
+        funcParams.push_back(si);
+    }
+
+    vector<SymbolInfo> getFuncParams(){
+        return funcParams;
     }
 };
 
