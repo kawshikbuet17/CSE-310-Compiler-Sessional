@@ -24,6 +24,7 @@ string symbolName;
 string symbolType;
 string currentType = "void";
 string currentTypeValue = "void";
+string currentFunction = "global";
 
 void yyerror(char *s)
 {
@@ -123,7 +124,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
 							PrintGrammar(lineCount, "func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName()+"\n";
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "func");
 
 							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
 							temp->setStructType("func");
@@ -136,9 +137,11 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
 							}
 							else{
 								symbolTable->Insert(*temp);
+								for(auto i : params_list){
+									temp->addFuncParams(i);
+								}
+								params_list.clear();
 							}
-
-							params_list.push_back(*$2);
 							
 						}
 		| type_specifier ID LPAREN RPAREN SEMICOLON	{
@@ -163,32 +166,31 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
 						}
 		;
 		 
-func_definition: type_specifier ID LPAREN parameter_list RPAREN compound_statement	{
+func_definition: type_specifier ID LPAREN parameter_list RPAREN {
+	currentFunction=$2->getSymbolName();
+	SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+	for(auto i : params_list){
+		temp->addFuncParams(i);
+	}
+	params_list.clear();
+	symbolTable->Insert(*temp);
+} compound_statement	{
 							PrintGrammar(lineCount, "func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$7->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
-
-							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
-							temp->setStructType("func");
-							temp->setDataType($1->getSymbolName());
-
-							symbolTable->Insert(*temp);
-							params_list.push_back(*$2);
+							$$ = new SymbolInfo(symbolName, "func");							
 						}
-		| type_specifier ID LPAREN RPAREN compound_statement	{
+		| type_specifier ID LPAREN RPAREN {
+			currentFunction=$2->getSymbolName();
+			SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+			symbolTable->Insert(*temp);
+	} compound_statement	{
 							PrintGrammar(lineCount, "func_definition : type_specifier ID LPAREN RPAREN compound_statement");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$6->getSymbolName();
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
-
-							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
-							temp->setStructType("func");
-							temp->setDataType($1->getSymbolName());
-							
-							symbolTable->Insert(*temp);
 						}
  		;				
 
@@ -242,8 +244,8 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
 
-							symbolTable->ExitScope();
 							symbolTable->PrintAllTables(log_file);
+							symbolTable->ExitScope();
 						}
  		    | LCURL dummy_enterScope RCURL	{
 							PrintGrammar(lineCount, "compound_statement : LCURL RCURL");
@@ -259,10 +261,11 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 
 dummy_enterScope:	{
 						symbolTable->EnterScope();
-						for(auto i : params_list){
+						SymbolInfo* temp = symbolTable->Lookup(currentFunction);
+						vector<SymbolInfo> v = temp->getFuncParams();
+						for(auto i : v){
 							symbolTable->Insert(i);
 						}
-						params_list.clear();
 					}
 	;
 var_declaration: type_specifier declaration_list SEMICOLON	{
