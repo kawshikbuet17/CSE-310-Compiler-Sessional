@@ -132,7 +132,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
-								PrintError(lineCount, $2->getSymbolName()+" Multiple Declaration");
+								PrintError(lineCount, "Multiple Declaration of "+$2->getSymbolName());
 							}
 							else{
 								symbolTable->Insert(*temp);
@@ -155,7 +155,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
-								PrintError(lineCount, temp->getSymbolName()+" Multiple Declaration");
+								PrintError(lineCount, "Multiple Declaration of "+temp->getSymbolName());
 							}
 							else{
 								symbolTable->Insert(*temp);
@@ -316,7 +316,7 @@ declaration_list: declaration_list COMMA ID	{
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
-								PrintError(lineCount, temp->getSymbolName() + " Multiple Declaration");
+								PrintError(lineCount,  "Multiple declaration of "+temp->getSymbolName());
 							}
 
 							symbolTable->Insert(*temp);
@@ -339,7 +339,7 @@ declaration_list: declaration_list COMMA ID	{
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
-								PrintError(lineCount, "Multiple Declaration");
+								PrintError(lineCount, "Multiple declaration of "+temp->getSymbolName());
 							}
 
 							symbolTable->Insert(*temp);
@@ -360,7 +360,7 @@ declaration_list: declaration_list COMMA ID	{
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
-								PrintError(lineCount, "Multiple Declaration");
+								PrintError(lineCount, "Multiple declaration of "+temp->getSymbolName());
 							}
 
 							symbolTable->Insert(*temp);
@@ -380,7 +380,7 @@ declaration_list: declaration_list COMMA ID	{
 							ScopeTable* sc = symbolTable->getCurrentScope();
 							if(sc->LookupBoolean(temp->getSymbolName())){
 								++errorCount;
-								PrintError(lineCount, "Multiple Declaration");
+								PrintError(lineCount, "Multiple declaration of "+temp->getSymbolName());
 							}
 						
 							symbolTable->Insert(*temp);
@@ -501,10 +501,17 @@ variable: ID	{
 
 							SymbolInfo* t = symbolTable->Lookup(symbolName);
 							if(t == NIL){
-								PrintError(lineCount, symbolName + " Variable not declared");
+								PrintError(lineCount, "Undeclared variable "+symbolName);
 								++errorCount;
+								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$->setStructType("var");
+								$$->setStructType("float");
 							}
-							$$ = t;
+							else{
+								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$ = t;
+							}
+							
 						} 		
 	 | ID LTHIRD expression RTHIRD	{
 							PrintGrammar(lineCount, "variable : ID LTHIRD expression RTHIRD");
@@ -514,7 +521,7 @@ variable: ID	{
 							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
 							
 							if(t == NIL){
-								PrintError(lineCount, symbolName + " Variable not declared");
+								PrintError(lineCount, "Undeclared variable "+symbolName);
 								++errorCount;
 								$$ = new SymbolInfo($1->getSymbolName(), "array");
 								$$->setStructType("array");
@@ -525,7 +532,8 @@ variable: ID	{
 								$$->setStructType("array");
 								$$->setDataType(t->getDataType());
 								if($3->getDataType()=="float"){
-									PrintError(lineCount, "Index can't be float");
+									PrintError(lineCount, "Expression inside third brackets not an integer");
+									++errorCount;
 								}
 							}
 						} 
@@ -543,8 +551,11 @@ variable: ID	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 
+
 							if($1->getDataType()!="float" && ($1->getDataType() != $3->getDataType())){
-								PrintError(lineCount, "Assignment type error");
+								//log_file<<$1->getDataType()<<" "<<$3->getDataType()<<endl;
+								PrintError(lineCount, "Type Mismatch");
+								++errorCount;
 							}
 
 							PrintToken(symbolName);
@@ -566,6 +577,7 @@ logic_expression: rel_expression	{
 
 							if($1->getDataType() != "int" || $3->getDataType() != "int"){
 								PrintError(lineCount, "LOGIOP type error");
+								++errorCount;
 							}
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
@@ -588,6 +600,7 @@ rel_expression: simple_expression	{
 
 							if($1->getDataType() != "int" || $3->getDataType() != "int"){
 								PrintError(lineCount, "RELOP type error");
+								++errorCount;
 							}
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
@@ -637,11 +650,21 @@ term:	unary_expression	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
-							if($1->getDataType()=="float" || $3->getDataType()=="float"){
-								$$->setDataType("float");
+
+							if($2->getSymbolName()=="%"){
+								if($1->getDataType()!="int" || $3->getDataType()!="int"){
+									PrintError(lineCount, "Non-integer operand on modulus operator");
+									++errorCount;
+									$$->setDataType("float");
+								}
 							}
 							else{
-								$$->setDataType("int");
+								if($1->getDataType()=="float" || $3->getDataType()=="float"){
+									$$->setDataType("float");
+								}
+								else{
+									$$->setDataType("int");
+								}
 							}
 						}
      ;
