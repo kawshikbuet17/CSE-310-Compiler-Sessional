@@ -14,7 +14,7 @@ int yyparse(void);
 int yylex(void);
 extern FILE *yyin;
 
-SymbolTable* symbolTable = new SymbolTable(31);
+SymbolTable* symbolTable = new SymbolTable(30);
 
 
 int lineCount = 1;
@@ -120,60 +120,80 @@ unit: var_declaration	{
 						}
      ;
      
-func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON	{
+func_declaration: type_specifier ID LPAREN parameter_list RPAREN {
+		currentFunction = $2->getSymbolName();
+		if(symbolTable->Lookup(currentFunction) == NIL){
+			SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+			for(auto i : params_list){
+				temp->addFuncParams(i);
+			}
+			temp->setStructType("func");
+			temp->setDataType($1->getSymbolName());
+			params_list.clear();
+			symbolTable->Insert(*temp);
+		}
+		else{
+			PrintError(lineCount, "Multiple declaration of "+currentFunction);
+			++errorCount;
+		}
+	} SEMICOLON	{
 							PrintGrammar(lineCount, "func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName()+"\n";
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$7->getSymbolName()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "func");
-
-							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
-							temp->setStructType("func");
-							temp->setDataType($1->getSymbolName());
-
-							ScopeTable* sc = symbolTable->getCurrentScope();
-							if(sc->LookupBoolean(temp->getSymbolName())){
-								++errorCount;
-								PrintError(lineCount, "Multiple Declaration of "+$2->getSymbolName());
-							}
-							else{
-								symbolTable->Insert(*temp);
-								for(auto i : params_list){
-									temp->addFuncParams(i);
-								}
-								params_list.clear();
-							}
-							
 						}
-		| type_specifier ID LPAREN RPAREN SEMICOLON	{
+		| type_specifier ID LPAREN RPAREN {
+			currentFunction=$2->getSymbolName();
+			if(symbolTable->Lookup(currentFunction) == NIL){
+				SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+				symbolTable->Insert(*temp);
+			}
+			else{
+				PrintError(lineCount, "Multiple declaration of "+currentFunction);
+				++errorCount;
+			}
+		} SEMICOLON	{
 							PrintGrammar(lineCount, "func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+"\n";
+							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$6->getSymbolName()+"\n";
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "dummyType");
-
-							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
-							temp->setStructType("func");
-							temp->setDataType($1->getSymbolName());
-
-							
-							ScopeTable* sc = symbolTable->getCurrentScope();
-							if(sc->LookupBoolean(temp->getSymbolName())){
-								++errorCount;
-								PrintError(lineCount, "Multiple Declaration of "+temp->getSymbolName());
-							}
-							else{
-								symbolTable->Insert(*temp);
-							}
 						}
 		;
 		 
 func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 	currentFunction=$2->getSymbolName();
-	SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
-	for(auto i : params_list){
-		temp->addFuncParams(i);
+	if(symbolTable->Lookup(currentFunction) == NIL){
+		SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+		for(auto i : params_list){
+			temp->addFuncParams(i);
+		}
+		temp->setStructType("func");
+		temp->setDataType($1->getSymbolName());
+		params_list.clear();
+		symbolTable->Insert(*temp);
 	}
-	params_list.clear();
-	symbolTable->Insert(*temp);
+	else{
+		SymbolInfo* temp = symbolTable->Lookup(currentFunction);
+		vector<SymbolInfo> v = temp->getFuncParams();
+		if(v.size() != params_list.size()){
+			PrintError(lineCount, currentFunction+" parameter list error");
+			++errorCount;
+		}
+		else{
+			for(int i; i<v.size(); i++){
+				if(params_list[i].getDataType() != v[i].getDataType()){
+					PrintError(lineCount, currentFunction+"parameter type error");
+					++errorCount;
+				}
+			}
+			temp->clearFuncParams();
+			for(auto i : params_list){
+				temp->addFuncParams(i);
+			}
+			params_list.clear();
+		}
+	}
+	
 } compound_statement	{
 							PrintGrammar(lineCount, "func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$7->getSymbolName();
@@ -183,8 +203,13 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 						}
 		| type_specifier ID LPAREN RPAREN {
 			currentFunction=$2->getSymbolName();
-			SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
-			symbolTable->Insert(*temp);
+			if(symbolTable->Lookup(currentFunction) == NIL){
+				SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+				temp->setStructType("func");
+				temp->setDataType($1->getSymbolName());
+				symbolTable->Insert(*temp);
+			}
+			
 	} compound_statement	{
 							PrintGrammar(lineCount, "func_definition : type_specifier ID LPAREN RPAREN compound_statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$6->getSymbolName();
@@ -214,6 +239,12 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
+
+							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
+							temp->setStructType("var");
+							temp->setDataType($3->getSymbolName());
+							temp->addParams($3->getSymbolName());
+							params_list.push_back(*temp);
 						}
  		| type_specifier ID	{
 							PrintGrammar(lineCount, "parameter_list  : type_specifier ID");
@@ -234,6 +265,12 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "dummyType");
+
+							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
+							temp->setStructType("var");
+							temp->setDataType($1->getSymbolName());
+							temp->addParams($1->getSymbolName());
+							params_list.push_back(*temp);
 						}
  		;
 
