@@ -80,7 +80,7 @@ FLOAT ({DIGIT}+\.?{DIGIT}*|\.{DIGIT}+)([Ee][+-]?{DIGIT}+)?
                 symbolInfo = new SymbolInfo(yytext, "token");
                 yylval.si = symbolInfo;return CONTINUE;
             }
-"println"   {
+"println"|"printf"   {
                 symbolInfo = new SymbolInfo(yytext, "token");
                 yylval.si = symbolInfo;return PRINTLN;
             }
