@@ -77,6 +77,10 @@ public:
     vector<SymbolInfo> getFuncParams(){
         return funcParams;
     }
+
+    void clearFuncParams(){
+        funcParams.clear();
+    }
 };
 
 
