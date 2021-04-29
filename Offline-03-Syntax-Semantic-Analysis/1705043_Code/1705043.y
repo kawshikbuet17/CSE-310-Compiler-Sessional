@@ -25,6 +25,7 @@ string symbolType;
 string currentType = "void";
 string currentTypeValue = "void";
 string currentFunction = "global";
+string currentCalled = "global";
 
 void yyerror(char *s)
 {
@@ -748,19 +749,18 @@ factor: variable	{
 
 							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
 							if(t == NIL){
-								PrintError(lineCount, symbolName + "Variable not declared");
+								PrintError(lineCount, symbolName + " Function not declared");
 								++errorCount;
+								$$ = new SymbolInfo(symbolName, "dummyType");
 							}
 							else{
+								currentCalled = $1->getSymbolName();
 								$$ = new SymbolInfo(symbolName, "dummyType");
 								$$ = $1;
 								$$->addParams($3->getSymbolName());
 							}
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
-
-							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
-							symbolTable->Insert(*temp);
+							
 						}
 	| LPAREN expression RPAREN	{
 							PrintGrammar(lineCount, "factor	: LPAREN expression RPAREN");
