@@ -12,5 +12,5 @@ g++ -w -c -o l.o lex.yy.c
 echo 'Generated the scanner object file'
 g++ y.o l.o -lfl 
 echo 'All ready, running'
-./a.out input4.txt
-kompare 1705043_log.txt log4.txt
+./a.out inputkkp.txt
+#kompare 1705043_log.txt log4.txt

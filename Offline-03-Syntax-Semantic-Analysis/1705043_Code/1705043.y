@@ -205,21 +205,26 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 				for(auto i : params_list){
 					temp->addFuncParams(i);
 				}
-				params_list.clear();
+				// params_list.clear();
 			}
-			else{
-				for(int i; i<v.size(); i++){
-					if(params_list[i].getDataType() != v[i].getDataType()){
-						PrintError(lineCount, currentFunction+" parameter type error");
-						
-					}
-				}
-				temp->clearFuncParams();
-				for(auto i : params_list){
-					temp->addFuncParams(i);
-				}
-				params_list.clear();
+
+			int minsize = v.size();
+			if(params_list.size() < minsize){
+				minsize = params_list.size();
 			}
+
+			for(int i=0; i<minsize; i++){
+				if(params_list[i].getDataType() != v[i].getDataType()){
+					PrintError(lineCount, currentFunction+" parameter type error");
+					
+				}
+			}
+			
+			temp->clearFuncParams();
+			for(auto i : params_list){
+				temp->addFuncParams(i);
+			}
+			params_list.clear();
 		}
 		
 	}
@@ -833,7 +838,12 @@ factor: variable	{
 		currentCalled = $1->getSymbolName();
 	} argument_list RPAREN	{
 							PrintGrammar(lineCount, "factor	: ID LPAREN argument_list RPAREN");
-							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
+							if($4->getSymbolName() != "("){
+								symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
+							}
+							else{
+								symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$5->getSymbolName();
+							}
 
 							SymbolInfo* t = symbolTable->Lookup($1->getSymbolName());
 							if(t == NIL){
@@ -918,8 +928,8 @@ argument_list: arguments	{
 							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						}
-			  
-			  ;
+			|
+			;
 	
 arguments: arguments COMMA logic_expression	{
 							PrintGrammar(lineCount, "arguments : arguments COMMA logic_expression");

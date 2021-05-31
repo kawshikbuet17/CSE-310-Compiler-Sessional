@@ -1,0 +1,151 @@
+int a;
+int b, c;
+
+float d;
+float e, f;
+
+int d;
+float c, f;
+
+int func1();
+float func2();
+void func3();
+
+int func4(int a, int b);
+float func5(int a, float b, int c);
+void func6(int a, float b);
+
+int func7(int a, int b){
+	return a+b;
+}
+
+float func8(int a, float b){
+	return a;
+}
+
+void func9(int a, int b){
+	return a + b;
+}
+
+int func10(int a, float b, int c, float d);
+int func11(int a, float b, int c, float d);
+int func12(int a, float b, int c, float d);
+
+int func1(){
+	 int a, b;
+	 a = 10;
+	 b = 20;
+	 a++;
+	 b--;
+
+	 float c, d;
+	 c = 10.5;
+	 d = 20.5;
+	 c++;
+	 d--;
+
+	 return a+b;
+}
+
+float func2(){
+	int a, b;
+	a = 10;
+	b = 20;
+	a = a*b;
+	b = a/b;
+	a = a%b;
+
+	float c, d;
+	c = 10.5;
+	d = 20.5;
+	c = c*d;
+	d = c/d;
+	c = c%d;
+
+	return c+d;
+}
+
+void func3(){
+	int relop;
+	
+	a = 10;
+	b = 20;
+	c = 10;
+
+	relop = a < b;
+	relop = a > b;
+	relop = a <= b;
+	relop = a >= b;
+	relop = a == b;
+	relop = a != b;
+
+	relop = ( ( ( (a*b) * a * 2 ) % 10) * 100 ) / 3;
+	relop = ( ( ( func4(2,3) * 2) % 10) * 100 ) / 3;
+	
+
+}
+
+int func4(int a, int b){
+	int arr[40];
+	arr[10] = b;
+	arr[1] = arr[0]+b;
+	arr[2] = arr[0] + arr[1];
+	return arr[2];
+}
+
+float func5(int a, float b, int c){
+	int a, b;
+	float b;
+
+	int m;
+	m = 100;
+
+	b = b+m;
+	return b;
+}
+
+void func6(int a, float b){
+	for(a=0; a<100; a++){
+		printf(a);
+	}
+
+	while(a < 100){
+		printf(a);
+		a++;
+	}
+
+	if(a == 10){
+		printf(a);
+	}
+	else{
+		printf(b);
+	}
+}
+
+int func10(int m, float n, int o){
+	return 1;
+}
+
+int func11(int m, float n, int o, int p){
+	return m+p;
+}
+
+int func12(int m, float n, int o, float p){
+	return m+p;
+}
+
+void func13(int a, int b, float b, float a){
+	a = a + b + m;
+
+	b = b + func6(3, 4);
+
+	b = func3();
+}
+
+int main(){
+
+	return 0;
+}
+
+
+
