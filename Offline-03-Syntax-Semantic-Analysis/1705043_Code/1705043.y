@@ -151,6 +151,8 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN {
 			currentFunction=$2->getSymbolName();
 			if(symbolTable->Lookup(currentFunction) == NIL){
 				SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
+				temp->setStructType("func");
+				temp->setDataType($1->getSymbolName());
 				symbolTable->Insert(*temp);
 			}
 			else{
@@ -244,6 +246,12 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 				temp->setDataType($1->getSymbolName());
 				symbolTable->Insert(*temp);
 			}
+			else{
+				SymbolInfo* temp = symbolTable->Lookup(currentFunction);
+				if(temp->getStructType() != "func"){
+					PrintError(lineCount, "Multiple declaration of "+currentFunction);
+				}
+			}
 			
 	} compound_statement	{
 							PrintGrammar(lineCount, "func_definition : type_specifier ID LPAREN RPAREN compound_statement");
@@ -270,7 +278,6 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							for(auto i:params_list){
 								if(i.getSymbolName() == temp->getSymbolName()){
 									PrintError(lineCount, "Multiple declaration of "+i.getSymbolName()+" in parameter");
-									
 									found = true;
 									break;
 								}
@@ -571,7 +578,14 @@ statement: var_declaration	{
 							PrintGrammar(lineCount, "statement : RETURN expression SEMICOLON");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+"\n";
 							PrintToken(symbolName);
+							SymbolInfo* temp = symbolTable->Lookup(currentFunction);
+							if(temp->getDataType()=="void"){
+								PrintError(lineCount, "Void function can't return values");
+							}
 
+							else if(temp->getDataType() != "float" && ($2->getDataType()!= temp->getDataType())){
+								PrintError(lineCount, "Function return type error");
+							}
 							$$ = new SymbolInfo(symbolName, "dummyType");
 						}
 	  ;
@@ -605,7 +619,7 @@ variable: ID	{
 								
 								$$ = new SymbolInfo(symbolName, "dummyType");
 								$$->setStructType("var");
-								$$->setDataType("float");
+								$$->setDataType("none");
 							}
 							else{
 								if(t->getStructType() == "array"){
@@ -630,7 +644,7 @@ variable: ID	{
 								
 								$$ = new SymbolInfo($1->getSymbolName(), "array");
 								$$->setStructType("array");
-								$$->setDataType("float");
+								$$->setDataType("none");
 								$$->addParams("-1");
 							}else{
 								if(t->getStructType() != "array"){
@@ -661,10 +675,12 @@ variable: ID	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 
-							if($3->getDataType() != "none"){
-									if($1->getDataType()=="void" || $3->getDataType()=="void" ){
-									PrintError(lineCount, "Void function used in expression");
-									
+							log_file<<$1->getDataType()<<" + "<<$3->getDataType()<<endl;
+
+							if($3->getDataType() != "none" && $1->getDataType() != "none") {
+								if($1->getDataType()=="void" || $3->getDataType()=="void" ){
+								PrintError(lineCount, "Void function used in expression");
+								
 								}
 								else if($1->getDataType()!="float" && ($1->getDataType() != $3->getDataType())){
 									// log_file<<$1->getDataType()<<" = "<<$3->getDataType()<<endl;
@@ -769,8 +785,12 @@ term:	unary_expression	{
 							PrintGrammar(lineCount, "term :	term MULOP unary_expression");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							
-
+							log_file<<lineCount<<":"<<$1->getDataType()<<"="<<$3->getDataType()<<endl;
 							$$ = new SymbolInfo(symbolName, "dummyType");
+
+							if($1->getDataType()=="void" || $3->getDataType()=="void"){
+								PrintError(lineCount, "Void function used in expression");
+							}
 
 							if($2->getSymbolName()=="%"){
 								if($1->getDataType()!="int" || $3->getDataType()!="int"){
@@ -791,10 +811,6 @@ term:	unary_expression	{
 								else{
 									$$->setDataType("int");
 								}
-							}
-							if($1->getDataType()=="void" || $3->getDataType()=="void" ){
-								PrintError(lineCount, "Void function used in expression");
-								
 							}
 							PrintToken(symbolName);
 						}
@@ -856,20 +872,24 @@ factor: variable	{
 								if(v.size() != params_list.size()){
 									PrintError(lineCount, "Total number of arguments mismatch in function "+ currentCalled);
 									
-								}else{
-									for(int i=0; i<v.size(); i++){
-										if(v[i].getDataType() != params_list[i].getDataType()){
-											if(v[i].getDataType()=="float" && params_list[i].getDataType()=="int"){
-												;
-											}
-											else{
-												PrintError(lineCount, to_string(i+1) + "th argument mismatch in function "+currentCalled);
-												
-												break;
-											}
+								}
+								int size = v.size();
+								if(params_list.size()<size){
+									size = params_list.size();
+								}
+								for(int i=0; i<size; i++){
+									
+									if(v[i].getDataType() != params_list[i].getDataType()){
+										if(v[i].getDataType()=="float" && params_list[i].getDataType()=="int"){
+											;
+										}
+										else{
+											PrintError(lineCount, to_string(i+1) + "th argument mismatch in function "+currentCalled);
+											
+											break;
 										}
 									}
-								}
+								}							
 								params_list.clear();
 								$$ = new SymbolInfo(symbolName, "dummyType");
 								$$->setDataType(t->getDataType());
@@ -928,7 +948,13 @@ argument_list: arguments	{
 							$$ = new SymbolInfo(symbolName, "dummyType");
 							$$ = $1;
 						}
-			|
+			| {
+							PrintGrammar(lineCount, "argument_list : |");
+							symbolName = " ";
+							PrintToken(symbolName);
+
+							$$ = new SymbolInfo(symbolName, "dummyType");
+			}
 			;
 	
 arguments: arguments COMMA logic_expression	{
