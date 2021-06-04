@@ -30,8 +30,8 @@ void yyerror(char *s)
 	//write your code
 }
 
-ofstream log_file("1705043_log.txt");
-ofstream error_file("1705043_error.txt");
+ofstream log_file("log.txt");
+ofstream error_file("error.txt");
 
 void PrintGrammar(int lineNo, string grammarName){
 	log_file << "Line " << lineNo << ": "<<grammarName << "\n"  << endl;

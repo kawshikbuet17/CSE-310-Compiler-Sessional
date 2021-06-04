@@ -498,6 +498,12 @@ void array_index_int(){
     arr14[b] = a;
     arr15[b] = a;
     arr16[b] = a;
+
+    arr1 = 10;
+    arr1 = 10.5;
+
+    a[5] = 5;
+    a[5] = 5.5;
 }
 
 void array_index_float(){
@@ -615,6 +621,12 @@ void array_index_float(){
     arr14[b] = a;
     arr15[b] = a;
     arr16[b] = a;
+
+    arr1 = 10;
+    arr1 = 10.5;
+
+    a[5] = 5;
+    a[5] = 5.5;
 }
 
 void function_calling(){
