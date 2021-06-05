@@ -16,6 +16,9 @@ float func5(int a, float b, int c);
 void func6(int a, float b);
 
 int func7(int a, int b){
+    func8(a, b);
+    func8(a, b, b);
+    func8(a, m, m);
 	return a+b;
 }
 
@@ -168,6 +171,10 @@ int func14(int a){
 
 float func14(int a){
     return a;
+}
+
+int func14(int a, float b, int b){
+    return a + b;
 }
 
 void func13(int a, int b){
@@ -659,12 +666,22 @@ void function_calling(){
     func4(a, b);
     func4(b, a);
     func4(b, b);
+    func4(10/2, 20/5);
+    func4(10/2, 21/5);
+    func4(10/2, 21.5/5);
+    func4(10%2, 10%3);
+    func4(10 && 2, 10 && 3);
     
     func4(a);
     func4(a, a, a);
     func4(a, b, a);
     func4(b);
     func4(b, b, b);
+    func4(a/2, a/5);
+    func4(a/2, b/5);
+    func4(b/2, b/a);
+    func4(b%a, a%a);
+    func4(a && 2, a && b);
     
     func5(1, 2, 3);
     func5(1, 2.5, 3);
@@ -679,6 +696,20 @@ void function_calling(){
     b = func5(a, b, a);
     a = func6(a, b);
     b = func6(a, b);
+
+    a = func14(a);
+    a = func14(b);
+    a = func14(a, b);
+    a = func14(a, b, a);
+    a = func14(b, b, a);
+    a = func14(b, a, b);
+    
+    b = func14(a);
+    b = func14(b);
+    b = func14(a, b);
+    b = func14(a, b, a);
+    b = func14(b, b, a);
+    b = func14(b, a, b);
 }
 
 void mixed_case(){
@@ -692,6 +723,7 @@ void mixed_case(){
 	relop = ( ( ( func4(a,b) * (a+b-func6(a,b))) % 10) * b ) / a;
 	relop = ( ( ( func4(a,b) * (a-b+arr[2])) % 10) * b ) / func3();
 	relop = ( ( ( func4(a,b) * (a+b-arr[2])) % 10) * b ) / func6(a,b);
+    relop = ( ( ( func4(a,b,c) * (a+b-arr[2])) % 10) * b ) / func6(a,b,c);
 	relop = ( ( ( func4(a,b) * (a+b+arr[2])&&(func4(a,b))) % 10) * b ) / a;
 }
 

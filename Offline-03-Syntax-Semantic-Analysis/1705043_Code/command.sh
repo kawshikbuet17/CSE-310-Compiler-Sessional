@@ -12,5 +12,5 @@ echo 'Generated the scanner object file'
 g++ y.o l.o -lfl 
 echo 'All ready, running'
 ./a.out inputkkp.txt
-# kompare 1705043_log.txt log1.txt &
-# kompare 1705043_error.txt error1.txt
+# kompare log.txt log4.txt &
+# kompare error.txt error4.txt

@@ -57,10 +57,16 @@ void PrintParams(int lineNo, vector<SymbolInfo> v){
 		log_file<<i.getSymbolName()<<" ";
 	}
 	log_file<<endl;
+
+	error_file<<"params_list : "<<v.size()<<" : ";
+	for(auto i : v){
+		error_file<<i.getSymbolName()<<" ";
+	}
+	error_file<<endl;
 }
 
 vector<SymbolInfo> params_list;
-
+set<string> func_done;
 %}
 
 
@@ -85,7 +91,7 @@ start: program
 		symbolName = $1->getSymbolName();
 		symbolType = $1->getSymbolType();
 		//PrintToken(symbolName);
-		$$ = new SymbolInfo(symbolName, "dummyType");
+		$$ = new SymbolInfo(symbolName, "nonterminal");
 		symbolTable->PrintAllTables(log_file);
 
 		log_file<<"Total lines: "<<lineCount<<endl;
@@ -97,13 +103,13 @@ program: program unit	{
 							PrintGrammar(lineCount, "program : program unit");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	| unit	{
 				PrintGrammar(lineCount, "program : unit");
 				symbolName = $1->getSymbolName();
 				PrintToken(symbolName);
-				$$ = new SymbolInfo(symbolName, "dummyType");
+				$$ = new SymbolInfo(symbolName, "nonterminal");
 			}
 	;
 	
@@ -111,7 +117,7 @@ unit: var_declaration	{
 							PrintGrammar(lineCount, "unit : var_declaration");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
      | func_declaration	{
 							PrintGrammar(lineCount, "unit : func_declaration");
@@ -165,7 +171,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN {
 							PrintGrammar(lineCount, "func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$6->getSymbolName()+"\n";
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 		;
 		 
@@ -178,22 +184,17 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		}
 		temp->setStructType("func");
 		temp->setDataType($1->getSymbolName());
-		params_list.clear();
 		symbolTable->Insert(*temp);
 	}
 	else{
 		SymbolInfo* temp = symbolTable->Lookup(currentFunction);
+		for(auto i : func_done){
+			if(i == currentFunction){
+				PrintError(lineCount, "Multiple declaration of "+currentFunction);
+			}
+		}
 		if(temp->getStructType() != "func"){
 			PrintError(lineCount, "Multiple declaration of "+currentFunction);
-			
-
-			SymbolInfo* temp = new SymbolInfo(currentFunction, "ID");
-			for(auto i : params_list){
-				temp->addFuncParams(i);
-			}
-			temp->setStructType("func");
-			temp->setDataType($1->getSymbolName());
-			//params_list.clear();
 		}
 		else{
 			vector<SymbolInfo> v = temp->getFuncParams();
@@ -203,13 +204,6 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			}
 			if(v.size() != params_list.size()){
 				PrintError(lineCount, "Total number of arguments mismatch with declaration in function "+currentFunction);
-				
-
-				temp->clearFuncParams();
-				for(auto i : params_list){
-					temp->addFuncParams(i);
-				}
-				// params_list.clear();
 			}
 
 			int minsize = v.size();
@@ -223,12 +217,6 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 					
 				}
 			}
-			
-			temp->clearFuncParams();
-			for(auto i : params_list){
-				temp->addFuncParams(i);
-			}
-			params_list.clear();
 		}
 	}
 	
@@ -237,7 +225,8 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$7->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "func");							
+							$$ = new SymbolInfo(symbolName, "func");	
+							func_done.insert(currentFunction);						
 						}
 		| type_specifier ID LPAREN RPAREN {
 			currentFunction=$2->getSymbolName();
@@ -259,7 +248,8 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$6->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
+							func_done.insert(currentFunction);	
 						}
  		;				
 
@@ -268,7 +258,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							PrintGrammar(lineCount, "parameter_list  : parameter_list COMMA type_specifier ID");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName();
 							
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($4->getSymbolName(), $4->getSymbolType());
 							temp->setStructType("var");
@@ -291,7 +281,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
 							temp->setStructType("var");
@@ -303,7 +293,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($2->getSymbolName(), $2->getSymbolType());
 							temp->setStructType("var");
@@ -315,7 +305,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
 							temp->setStructType("var");
@@ -329,7 +319,7 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 							PrintGrammar(lineCount, "compound_statement : LCURL statements RCURL");
 							symbolName = $1->getSymbolName()+"\n"+$3->getSymbolName()+$4->getSymbolName()+"\n";
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							symbolTable->PrintAllTables(log_file);
 							symbolTable->ExitScope();
@@ -339,7 +329,7 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 							symbolName = $1->getSymbolName()+" "+$3->getSymbolName()+"\n";
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
  
 							symbolTable->ExitScope();
 							symbolTable->PrintAllTables(log_file);
@@ -350,9 +340,6 @@ dummy_enterScope:	{
 						symbolTable->EnterScope();
 						SymbolInfo* temp = symbolTable->Lookup(currentFunction);
 						vector<SymbolInfo> v = temp->getFuncParams();
-						for(auto i : v){
-							symbolTable->Insert(i);
-						}
 						// PrintParams(lineCount, params_list);
 						if(params_list.size() != 0){
 							for(auto i : params_list){
@@ -367,7 +354,7 @@ var_declaration: type_specifier declaration_list SEMICOLON	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+"\n";
 							symbolType = $1->getSymbolType()+" "+$2->getSymbolType()+" "+$3->getSymbolType()+"\n";
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							if($1->getSymbolName() == "void"){
 								PrintError(lineCount, "Variable type cannot be void");
@@ -380,7 +367,7 @@ type_specifier: INT	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							currentType = "int";
 						}
@@ -389,7 +376,7 @@ type_specifier: INT	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							currentType = "float";
 						}
@@ -398,7 +385,7 @@ type_specifier: INT	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							currentType = "void";
 						}
@@ -408,7 +395,7 @@ declaration_list: declaration_list COMMA ID	{
 							PrintGrammar(lineCount, "declaration_list : declaration_list COMMA ID");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
 							temp->setStructType("var");
@@ -430,7 +417,7 @@ declaration_list: declaration_list COMMA ID	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName();
 							
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($3->getSymbolName(), $3->getSymbolType());
 							temp->setStructType("array");
@@ -451,7 +438,7 @@ declaration_list: declaration_list COMMA ID	{
 							symbolName = $1->getSymbolName();
 							
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo(symbolName, $1->getSymbolType());
 							temp->setStructType("var");
@@ -471,7 +458,7 @@ declaration_list: declaration_list COMMA ID	{
 							PrintGrammar(lineCount, "declaration_list : ID LTHIRD CONST_INT RTHIRD");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName();
 							
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* temp = new SymbolInfo($1->getSymbolName(), $1->getSymbolType());
 							temp->setStructType("array");
@@ -494,14 +481,14 @@ statements: statement	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	   | statements statement	{
 							PrintGrammar(lineCount, "statements : statements statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	   ;
 	   
@@ -510,56 +497,56 @@ statement: var_declaration	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | expression_statement	{
 							PrintGrammar(lineCount, "statement : expression_statement");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | compound_statement	{
 							PrintGrammar(lineCount, "statement : compound_statement");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | FOR LPAREN expression_statement expression_statement expression RPAREN statement	{
 							PrintGrammar(lineCount, "statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName()+" "+$7->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | IF LPAREN expression RPAREN statement %prec LOWER_THAN_ELSE	{
 							PrintGrammar(lineCount, "statement : IF LPAREN expression RPAREN statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | IF LPAREN expression RPAREN statement ELSE statement	{
 							PrintGrammar(lineCount, "statement : IF LPAREN expression RPAREN statement ELSE statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName()+" "+$7->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | WHILE LPAREN expression RPAREN statement	{
 							PrintGrammar(lineCount, "statement : WHILE LPAREN expression RPAREN statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  | PRINTLN LPAREN ID RPAREN SEMICOLON	{
 							PrintGrammar(lineCount, "statement : PRINTLN LPAREN ID RPAREN SEMICOLON");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+"\n";
 							
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							SymbolInfo* t = symbolTable->Lookup($3->getSymbolName());
 							if(t==NIL){
@@ -579,7 +566,7 @@ statement: var_declaration	{
 							else if(temp->getDataType() != "float" && ($2->getDataType()!= temp->getDataType())){
 								PrintError(lineCount, "Function return type error");
 							}
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	  ;
 	  
@@ -588,7 +575,7 @@ expression_statement: SEMICOLON	{
 							symbolName = $1->getSymbolName()+"\n";
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}			
 			| expression SEMICOLON	{
 							PrintGrammar(lineCount, "expression_statement 	: expression SEMICOLON");
@@ -597,7 +584,7 @@ expression_statement: SEMICOLON	{
 							symbolName += "\n";
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						} 
 			;
 	  
@@ -610,7 +597,7 @@ variable: ID	{
 							if(t == NIL){
 								PrintError(lineCount, "Undeclared variable "+symbolName);
 								
-								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$ = new SymbolInfo(symbolName, "nonterminal");
 								$$->setStructType("var");
 								$$->setDataType("none");
 							}
@@ -619,7 +606,7 @@ variable: ID	{
 									PrintError(lineCount, "Type mismatch, "+t->getSymbolName()+ " is an array");
 									
 								}
-								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$ = new SymbolInfo(symbolName, "nonterminal");
 								$$ = t;
 							}
 							PrintToken(symbolName);
@@ -643,7 +630,7 @@ variable: ID	{
 									PrintError(lineCount, t->getSymbolName()+" not an array");
 									
 								}
-								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$ = new SymbolInfo(symbolName, "nonterminal");
 								$$->setStructType("array");
 								$$->setDataType(t->getDataType());
 								if($3->getDataType()=="float"){
@@ -660,7 +647,7 @@ variable: ID	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						}	
 	   | variable ASSIGNOP logic_expression	{
@@ -683,7 +670,7 @@ variable: ID	{
 							
 							
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 
 						} 	
@@ -693,7 +680,7 @@ logic_expression: rel_expression	{
 							PrintGrammar(lineCount, "logic_expression : rel_expression");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						} 	
 		 | rel_expression LOGICOP rel_expression	{
@@ -701,7 +688,7 @@ logic_expression: rel_expression	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType("int");
 
 							if($1->getDataType()=="void" || $3->getDataType()=="void" ){
@@ -716,7 +703,7 @@ rel_expression: simple_expression	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						} 
 		| simple_expression RELOP simple_expression	{
@@ -724,7 +711,7 @@ rel_expression: simple_expression	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();;
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType("int");
 
 							if($1->getDataType()=="void" || $3->getDataType()=="void" ){
@@ -739,7 +726,7 @@ simple_expression: term	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						} 
 		  | simple_expression ADDOP term	{
@@ -750,7 +737,7 @@ simple_expression: term	{
 
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							if($1->getDataType()=="float" || $3->getDataType()=="float"){
 								$$->setDataType("float");
 							}
@@ -770,7 +757,7 @@ term:	unary_expression	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						}
      |  term MULOP unary_expression	{
@@ -778,7 +765,7 @@ term:	unary_expression	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							
 							//log_file<<lineCount<<":"<<$1->getDataType()<<"="<<$3->getDataType()<<endl;
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							if($1->getDataType()=="void" || $3->getDataType()=="void"){
 								PrintError(lineCount, "Void function used in expression");
@@ -813,7 +800,7 @@ unary_expression: ADDOP unary_expression	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType($2->getDataType());
 						}  
 		 | NOT unary_expression	{
@@ -821,7 +808,7 @@ unary_expression: ADDOP unary_expression	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType($2->getDataType());
 						} 
 		 | factor	{
@@ -829,7 +816,7 @@ unary_expression: ADDOP unary_expression	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						} 
 		 ;
@@ -838,7 +825,7 @@ factor: variable	{
 							PrintGrammar(lineCount, "factor	: variable");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;	
 						} 
 
@@ -857,7 +844,8 @@ factor: variable	{
 							if(t == NIL){
 								PrintError(lineCount, "Undeclared function "+$1->getSymbolName());
 								
-								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$ = new SymbolInfo(symbolName, "nonterminal");
+								params_list.clear();
 							}
 							else{
 								vector<SymbolInfo> v = t->getFuncParams();
@@ -883,7 +871,7 @@ factor: variable	{
 									}
 								}							
 								params_list.clear();
-								$$ = new SymbolInfo(symbolName, "dummyType");
+								$$ = new SymbolInfo(symbolName, "nonterminal");
 								$$->setDataType(t->getDataType());
 							}
 							PrintToken(symbolName);
@@ -893,7 +881,7 @@ factor: variable	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType($2->getDataType());
 						}
 	| CONST_INT	{
@@ -919,14 +907,14 @@ factor: variable	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						} 
 	| variable DECOP	{
 							PrintGrammar(lineCount, "factor	: variable DECOP");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 						}
 	;
 	
@@ -935,7 +923,7 @@ argument_list: arguments	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 						}
 			| {
@@ -943,7 +931,7 @@ argument_list: arguments	{
 							symbolName = " ";
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 			}
 			;
 	
@@ -952,7 +940,7 @@ arguments: arguments COMMA logic_expression	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 
 							PrintToken(symbolName);
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							params_list.push_back(*$3);
 						}
 	      | logic_expression	{
@@ -960,7 +948,7 @@ arguments: arguments COMMA logic_expression	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 
-							$$ = new SymbolInfo(symbolName, "dummyType");
+							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
 							params_list.push_back(*$1);
 						}
