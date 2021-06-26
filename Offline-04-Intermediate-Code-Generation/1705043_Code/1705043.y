@@ -27,6 +27,7 @@ string currentType = "void";
 string currentFunction = "global";
 string currentCalled = "global";
 string codeString;
+string dataString="";
 
 void yyerror(char *s)
 {
@@ -35,7 +36,7 @@ void yyerror(char *s)
 
 ofstream log_file("log.txt");
 ofstream error_file("error.txt");
-ofstream code_file("code.txt");
+ofstream code_file("code.asm");
 ofstream track("track.asm");
 
 void PrintGrammar(int lineNo, string grammarName){
@@ -88,6 +89,20 @@ string newTemp(){
 	return t;
 }
 
+string assemblyTemplate(string dataString, string codeString){
+	string finalCode = 
+".MODEL SMALL\n\
+.STACK 100H\n\n\
+.DATA\n\
+"
++dataString+
+"\n\n.CODE\n\
+"
++codeString+
+"END MAIN";
+	return finalCode;
+}
+
 vector<SymbolInfo> params_list;
 set<string> func_done;
 %}
@@ -119,6 +134,9 @@ start: program
 
 		log_file<<"Total lines: "<<lineCount<<endl;
 		log_file<<"Total errors: "<<errorCount<<endl;
+
+		$$->code += $1->code;
+		code_file<<assemblyTemplate(dataString, $$->code)<<endl;
 	}
 	;
 
@@ -127,12 +145,16 @@ program: program unit	{
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code+$2->code;
+							log_file<<$$->code<<endl;
 						}
 	| unit	{
 				PrintGrammar(lineCount, "program : unit");
 				symbolName = $1->getSymbolName();
 				PrintToken(symbolName);
 				$$ = new SymbolInfo(symbolName, "nonterminal");
+				$$->code += $1->code;
+				log_file<<$$->code<<endl;
 			}
 	;
 	
@@ -141,18 +163,22 @@ unit: var_declaration	{
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code;
+							log_file<<$$->code<<endl;
 						}
      | func_declaration	{
 							PrintGrammar(lineCount, "unit : func_declaration");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "func_declaration");
+							$$->code += $1->code;
 						}
      | func_definition	{
 							PrintGrammar(lineCount, "unit : func_definition");
 							symbolName = $1->getSymbolName();
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "func_definition");
+							$$->code += $1->code;
 						}
      ;
      
@@ -249,7 +275,27 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "func");	
-							func_done.insert(currentFunction);						
+							func_done.insert(currentFunction);	
+
+							$$->code += currentFunction + " PROC\n";
+							if(currentFunction=="main"){
+								$$->code += "MOV AX, @DATA \nMOV DS, AX\n";
+							}	
+							else{
+								$$->code += "PUSH AX\n";
+								$$->code += "PUSH BX\n";
+								$$->code += "PUSH CX\n";
+								$$->code += "PUSH DX\n";
+							}
+							
+							$$->code += $1->code+$2->code+$3->code+$4->code+$5->code+$7->code;	
+							$$->code += currentFunction + " ENDP\n"	;
+							if(currentFunction!="main"){
+								$$->code += "POP DX\n";
+								$$->code += "POP CX\n";
+								$$->code += "POP BX\n";
+								$$->code += "POP AX\n";
+							}	
 						}
 		| type_specifier ID LPAREN RPAREN {
 			currentFunction=$2->getSymbolName();
@@ -272,7 +318,28 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
-							func_done.insert(currentFunction);	
+							func_done.insert(currentFunction);
+
+							$$->code += currentFunction + " PROC\n";
+							if(currentFunction=="main"){
+								$$->code += "MOV AX, @DATA \nMOV DS, AX\n";
+							}	
+							else{
+								$$->code += "PUSH AX\n";
+								$$->code += "PUSH BX\n";
+								$$->code += "PUSH CX\n";
+								$$->code += "PUSH DX\n";
+							}
+
+							$$->code += $1->code+$2->code+$3->code+$4->code+$6->code;
+							$$->code += currentFunction + " ENDP\n";
+
+							if(currentFunction!="main"){
+								$$->code += "POP DX\n";
+								$$->code += "POP CX\n";
+								$$->code += "POP BX\n";
+								$$->code += "POP AX\n";
+							}	
 						}
  		;				
 
@@ -298,6 +365,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 								params_list.push_back(*temp);
 							}
 							PrintToken(symbolName);
+							$$->code += $1->code+$2->code+$3->code+$4->code;
 						}
 		| parameter_list COMMA type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : parameter_list COMMA type_specifier");
@@ -310,6 +378,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							temp->setStructType("var");
 							temp->setDataType($3->getSymbolName());
 							params_list.push_back(*temp);
+							$$->code += $1->code+$2->code+$3->code;
 						}
  		| type_specifier ID	{
 							PrintGrammar(lineCount, "parameter_list  : type_specifier ID");
@@ -322,6 +391,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							temp->setStructType("var");
 							temp->setDataType($1->getSymbolName());
 							params_list.push_back(*temp);
+							$$->code += $1->code+$2->code;
 						}
 		| type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : type_specifier");
@@ -334,6 +404,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							temp->setStructType("var");
 							temp->setDataType($1->getSymbolName());
 							params_list.push_back(*temp);
+							$$->code += $1->code;
 						}
  		;
 
@@ -346,6 +417,7 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
 
 							symbolTable->PrintAllTables(log_file);
 							symbolTable->ExitScope();
+							$$->code += $1->code+$3->code+$4->code;
 						}
  		    | LCURL dummy_enterScope RCURL	{
 							PrintGrammar(lineCount, "compound_statement : LCURL RCURL");
@@ -356,6 +428,7 @@ compound_statement: LCURL dummy_enterScope statements RCURL	{
  
 							symbolTable->ExitScope();
 							symbolTable->PrintAllTables(log_file);
+							$$->code += $1->code+$3->code;
 						}
  		    ;
 
@@ -382,6 +455,8 @@ var_declaration: type_specifier declaration_list SEMICOLON	{
 							if($1->getSymbolName() == "void"){
 								PrintError(lineCount, "Variable type cannot be void");
 							}
+							$$->code += $1->code+$2->code+$3->code;
+							log_file<<$$->code<<endl;
 						}
  		 ;
  		 
@@ -393,6 +468,8 @@ type_specifier: INT	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							currentType = "int";
+							$$->code += $1->code;
+							log_file<<$$->code<<endl;
 						}
  		| FLOAT	{
 							PrintGrammar(lineCount, "type_specifier	: FLOAT");
@@ -402,6 +479,7 @@ type_specifier: INT	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							currentType = "float";
+							$$->code += $1->code;
 						}
  		| VOID	{
 							PrintGrammar(lineCount, "type_specifier	: VOID");
@@ -411,6 +489,7 @@ type_specifier: INT	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							currentType = "void";
+							$$->code += $1->code;
 						}
  		;
  		
@@ -481,9 +560,9 @@ declaration_list: declaration_list COMMA ID	{
 								symbolTable->Insert(*temp);
 							}
 							
-							codeString = $1->getSymbolName()+" DB '?'\n";
-							CodePrint(lineCount, codeString);
-							$$->code+= codeString;
+							dataString += $1->getSymbolName()+" DW '?'\n";
+							CodePrint(lineCount, dataString);
+							log_file<<$$->code<<endl;
 							
 						}
  		  | ID LTHIRD CONST_INT RTHIRD	{
@@ -514,6 +593,7 @@ statements: statement	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code;
 						}
 	   | statements statement	{
 							PrintGrammar(lineCount, "statements : statements statement");
@@ -523,6 +603,7 @@ statements: statement	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->code += $2->code;
 							CodePrint(lineCount, $$->code);
+							$$->code += $1->code+$2->code;
 							
 						}
 	   ;
@@ -533,6 +614,7 @@ statement: var_declaration	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code;
 						}
 	  | expression_statement	{
 							PrintGrammar(lineCount, "statement : expression_statement");
@@ -540,6 +622,7 @@ statement: var_declaration	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code;
 						}
 	  | compound_statement	{
 							PrintGrammar(lineCount, "statement : compound_statement");
@@ -547,6 +630,7 @@ statement: var_declaration	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code;
 						}
 	  | FOR LPAREN expression_statement expression_statement expression RPAREN statement	{
 							PrintGrammar(lineCount, "statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement");
@@ -619,7 +703,7 @@ expression_statement: SEMICOLON	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
-							$$->code = "";
+							$$->code += "";
 							CodePrint(lineCount, $$->code);
 						}			
 			| expression SEMICOLON	{
@@ -630,6 +714,7 @@ expression_statement: SEMICOLON	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code += $1->code+$2->code;
 						} 
 			;
 	  
@@ -655,7 +740,7 @@ variable: ID	{
 								$$ = t;
 							}
 							PrintToken(symbolName);
-							$$->code = "";
+							$$->code += "";
 							CodePrint(lineCount, $$->code);
 							
 						} 		
@@ -687,7 +772,7 @@ variable: ID	{
 							}
 							PrintToken(symbolName);
 
-							$$->code = $3->code + "mov bx, "+$3->getSymbolName()+"\nadd bx, bx\n";
+							$$->code += $3->code + "mov bx, "+$3->getSymbolName()+"\nadd bx, bx\n";
 							CodePrint(lineCount, $$->code);
 						} 
 	 ;
@@ -721,6 +806,7 @@ variable: ID	{
 							
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							$$->code +=$1->code+$2->code+$3->code;
 
 							$$->code += "MOV "+$1->getSymbolName()+", AX\n";
 							CodePrint(lineCount, $$->code);
@@ -746,7 +832,7 @@ logic_expression: rel_expression	{
 								PrintError(lineCount, "Void function used in expression");
 								
 							}
-							$$->code += $3->code;
+							$$->code += $1->code+$2->code+$3->code;
 							CodePrint(lineCount, $$->code);
 						} 	
 		 ;
@@ -901,6 +987,7 @@ unary_expression: ADDOP unary_expression	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType($2->getDataType());
+							$$->code += $1->code+$2->code;
 						}  
 		 | NOT unary_expression	{
 							PrintGrammar(lineCount, "unary_expression : NOT unary expression");
@@ -911,7 +998,7 @@ unary_expression: ADDOP unary_expression	{
 							$$->setDataType($2->getDataType());
 
 							string temp = newTemp();
-							$$->code = "MOV AX, "+$2->getSymbolName()+"\n";
+							$$->code += "MOV AX, "+$2->getSymbolName()+"\n";
 							$$->code += "NOT AX\n";
 							$$->code += "MOV "+temp + ", AX";
 							CodePrint(lineCount, $$->code);
@@ -1064,6 +1151,7 @@ arguments: arguments COMMA logic_expression	{
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							params_list.push_back(*$3);
+							$$->code += $1->code+$2->code+$3->code;
 						}
 	      | logic_expression	{
 							PrintGrammar(lineCount, "arguments : logic_expression");

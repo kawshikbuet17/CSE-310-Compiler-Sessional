@@ -1,0 +1,15 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+a DW '?'
+
+
+.CODE
+main PROC
+MOV AX, @DATA 
+MOV DS, AX
+MOV AX, 10
+MOV a, AX
+main ENDP
+END MAIN

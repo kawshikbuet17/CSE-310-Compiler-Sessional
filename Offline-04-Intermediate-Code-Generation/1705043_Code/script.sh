@@ -13,4 +13,4 @@ g++ y.o l.o -lfl
 echo 'All ready, running'
 ./a.out input.c
 rm lex.yy.c l.o y.tab.c y.tab.h y.o a.out
-echo 'Deleted compiled files'
+echo 'Deleted lex yacc files'
