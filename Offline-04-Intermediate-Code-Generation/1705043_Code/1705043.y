@@ -98,8 +98,49 @@ string assemblyTemplate(string dataString, string codeString){
 +dataString+
 "\n\n.CODE\n\
 "
-+codeString+
-"END MAIN";
++codeString;
+
+	string outdec = 
+	"OUTDEC PROC\n\
+\n\
+PUSH AX\n\
+PUSH BX\n\
+PUSH CX\n\
+PUSH DX\n\
+OR AX, AX\n\
+JGE @END_IF1\n\
+\n\
+PUSH AX\n\
+MOV DL, '-'\n\
+MOV AH, 2\n\
+INT 21H\n\
+POP AX\n\
+NEG AX\n\
+@END_IF1:\n\
+XOR CX, CX\n\
+MOV BX, 10D\n\
+@REPEAT1:\n\
+XOR DX, DX\n\
+DIV BX\n\
+PUSH DX\n\
+INC CX\n\
+OR AX, AX\n\
+JNE @REPEAT1\n\
+\n\
+MOV AH, 2\n\
+@PRINT_LOOP:\n\
+POP DX\n\
+OR DL, 30H\n\
+INT 21H\n\
+LOOP @PRINT_LOOP\n\
+POP DX\n\
+POP CX\n\
+POP BX\n\
+POP AX\n\
+RET\n\
+OUTDEC ENDP";
+	finalCode+= outdec;
+	finalCode+="\nEND MAIN";
 	return finalCode;
 }
 
@@ -289,13 +330,17 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							}
 							
 							$$->code += $1->code+$2->code+$3->code+$4->code+$5->code+$7->code;	
-							$$->code += currentFunction + " ENDP\n"	;
+							
 							if(currentFunction!="main"){
 								$$->code += "POP DX\n";
 								$$->code += "POP CX\n";
 								$$->code += "POP BX\n";
 								$$->code += "POP AX\n";
+								$$->code += "RET\n";
+							}else{
+								$$->code += "\nMOV AH, 4CH\nINT 21H\n";
 							}	
+							$$->code += currentFunction + " ENDP\n"	;
 						}
 		| type_specifier ID LPAREN RPAREN {
 			currentFunction=$2->getSymbolName();
@@ -332,14 +377,17 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							}
 
 							$$->code += $1->code+$2->code+$3->code+$4->code+$6->code;
-							$$->code += currentFunction + " ENDP\n";
 
 							if(currentFunction!="main"){
 								$$->code += "POP DX\n";
 								$$->code += "POP CX\n";
 								$$->code += "POP BX\n";
 								$$->code += "POP AX\n";
+								$$->code += "RET\n";
+							}else{
+								$$->code += "\nMOV AH, 4CH\nINT 21H\n";
 							}	
+							$$->code += currentFunction + " ENDP\n";
 						}
  		;				
 
@@ -601,8 +649,6 @@ statements: statement	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
-							$$->code += $2->code;
-							CodePrint(lineCount, $$->code);
 							$$->code += $1->code+$2->code;
 							
 						}
@@ -679,7 +725,8 @@ statement: var_declaration	{
 								PrintError(lineCount, "Undeclared variable "+$3->getSymbolName());
 							}
 							PrintToken(symbolName);
-							$$->code += "MOV AH, 9\n INT 21H\n";
+							codeString = "MOV AX, "+$3->getSymbolName()+"\nCALL OUTDEC\n";
+							$$->code += codeString;
 						}
 	  | RETURN expression SEMICOLON	{
 							PrintGrammar(lineCount, "statement : RETURN expression SEMICOLON");
@@ -1067,6 +1114,8 @@ factor: variable	{
 								$$->setDataType(t->getDataType());
 							}
 							PrintToken(symbolName);
+
+							$$->code += "CALL "+currentCalled+"\n";
 						}
 	| LPAREN expression RPAREN	{
 							PrintGrammar(lineCount, "factor	: LPAREN expression RPAREN");
