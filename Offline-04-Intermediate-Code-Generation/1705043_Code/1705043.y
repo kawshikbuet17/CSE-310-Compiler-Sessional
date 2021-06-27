@@ -27,7 +27,7 @@ string currentType = "void";
 string currentFunction = "global";
 string currentCalled = "global";
 string codeString;
-string dataString="";
+set<string> dataString;
 
 void yyerror(char *s)
 {
@@ -89,13 +89,16 @@ string newTemp(){
 	return t;
 }
 
-string assemblyTemplate(string dataString, string codeString){
+string assemblyTemplate(set<string> dataString, string codeString){
 	string finalCode = 
 ".MODEL SMALL\n\
 .STACK 100H\n\n\
 .DATA\n\
-"
-+dataString+
+";
+	for(auto i : dataString){
+		finalCode+=i+" DW '?'\n";
+	}
+	finalCode+=
 "\n\n.CODE\n\
 "
 +codeString;
@@ -608,8 +611,7 @@ declaration_list: declaration_list COMMA ID	{
 								symbolTable->Insert(*temp);
 							}
 							
-							dataString += $1->getSymbolName()+" DW '?'\n";
-							CodePrint(lineCount, dataString);
+							dataString.insert($1->getSymbolName());
 							log_file<<$$->code<<endl;
 							
 						}
@@ -708,12 +710,15 @@ statement: var_declaration	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							string label = newLabel();
+							string label2 = newLabel();
 							codeString = "MOV AX, "+$3->getSymbolName()+"\n";
 							codeString += "CMP AX, 0\n";
 							codeString += "JE "+label+"\n";
 							codeString += $5->code;
+							codeString += "JMP "+label2+"\n";
 							codeString += label + ":\n";
 							codeString += $7->code;
+							codeString += label2 + ":\n";
 							$$->code += codeString;
 							CodePrint(lineCount, codeString);
 						}

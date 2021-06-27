@@ -77,88 +77,22 @@ Line 4: statements : statement
 a = 10;
 
 
-Line 5: factor	: CONST_INT
-
-5
-
-Line 5: unary_expression : factor
-
-5
-
-Line 5: term :	unary_expression
-
-5
-
-Line 5: simple_expression : term
-
-5
-
-Line 5: rel_expression	: simple_expression
-
-5
-
-Line 5: logic_expression : rel_expression
-
-5
-
-Line 5: expression : logic expression
-
-5
-
-Line 6: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 5: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
 println ( a ) ;
 
 
-Line 6: statements : statement
-
-println ( a ) ;
-
-
-Line 7: compound_statement : LCURL statements RCURL
-
-{
-println ( a ) ;
-}
-
-
-ScopeTable # 1.1.1
-
-ScopeTable # 1.1
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-
-Line 7: statement : compound_statement
-
-{
-println ( a ) ;
-}
-
-
-Line 8: statement : IF LPAREN expression RPAREN statement
-
-if ( 5 ) {
-println ( a ) ;
-}
-
-
-Line 8: statements : statements statement
+Line 5: statements : statements statement
 
 a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
+ println ( a ) ;
 
 
-Line 8: compound_statement : LCURL statements RCURL
+Line 6: compound_statement : LCURL statements RCURL
 
 {
 a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
+ println ( a ) ;
 }
 
 
@@ -166,264 +100,34 @@ ScopeTable # 1.1
 
 ScopeTable # 1
 7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
+22 -->  < assignop_1 , ID >  
 
-Line 8: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 6: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-void if_1 ( ) {
+void assignop_1 ( ) {
 a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
+ println ( a ) ;
 }
 
 
-Line 8: unit : func_definition
+Line 6: unit : func_definition
 
-void if_1 ( ) {
+void assignop_1 ( ) {
 a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
+ println ( a ) ;
 }
 
 
-Line 8: program : program unit
+Line 6: program : program unit
 
 int a ;
- void if_1 ( ) {
+ void assignop_1 ( ) {
 a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
+ println ( a ) ;
 }
 
 
-if_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 5
-CMP AX, 0
-JE L1
-MOV AX, a
-CALL OUTDEC
-L1:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_1 ENDP
-
-Line 10: type_specifier	: VOID
-
-void
-
-Line 11: variable : ID
-
-a
-
-Line 11: factor	: CONST_INT
-
-10
-
-Line 11: unary_expression : factor
-
-10
-
-Line 11: term :	unary_expression
-
-10
-
-Line 11: simple_expression : term
-
-10
-
-Line 11: rel_expression	: simple_expression
-
-10
-
-Line 11: logic_expression : rel_expression
-
-10
-
-Line 11: expression : variable ASSIGNOP logic_expression
-
-a = 10
-
-Line 11: expression_statement 	: expression SEMICOLON
-
-a = 10;
-
-
-Line 11: statement : expression_statement
-
-a = 10;
-
-
-Line 11: statements : statement
-
-a = 10;
-
-
-Line 12: variable : ID
-
-a
-
-Line 12: factor	: variable
-
-a
-
-Line 12: unary_expression : factor
-
-a
-
-Line 12: term :	unary_expression
-
-a
-
-Line 12: simple_expression : term
-
-a
-
-Line 12: rel_expression	: simple_expression
-
-a
-
-Line 12: logic_expression : rel_expression
-
-a
-
-Line 12: expression : logic expression
-
-a
-
-Line 13: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 13: statements : statement
-
-println ( a ) ;
-
-
-Line 14: compound_statement : LCURL statements RCURL
-
-{
-println ( a ) ;
-}
-
-
-ScopeTable # 1.2.1
-
-ScopeTable # 1.2
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-
-Line 14: statement : compound_statement
-
-{
-println ( a ) ;
-}
-
-
-Line 15: statement : IF LPAREN expression RPAREN statement
-
-if ( a ) {
-println ( a ) ;
-}
-
-
-Line 15: statements : statements statement
-
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-
-
-Line 15: compound_statement : LCURL statements RCURL
-
-{
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-ScopeTable # 1.2
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-
-Line 15: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void if_2 ( ) {
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-Line 15: unit : func_definition
-
-void if_2 ( ) {
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-Line 15: program : program unit
-
-int a ;
- void if_1 ( ) {
-a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
-}
- void if_2 ( ) {
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-if_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 5
-CMP AX, 0
-JE L1
-MOV AX, a
-CALL OUTDEC
-L1:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_1 ENDP
-if_2 PROC
+assignop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
@@ -431,837 +135,107 @@ PUSH DX
 MOV AX, 10
 MOV a, AX
 MOV AX, a
-CMP AX, 0
-JE L2
-MOV AX, a
 CALL OUTDEC
-L2:
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-if_2 ENDP
+assignop_1 ENDP
 
-Line 17: type_specifier	: VOID
-
-void
-
-Line 18: variable : ID
-
-a
-
-Line 18: factor	: CONST_INT
-
-10
-
-Line 18: unary_expression : factor
-
-10
-
-Line 18: term :	unary_expression
-
-10
-
-Line 18: simple_expression : term
-
-10
-
-Line 18: rel_expression	: simple_expression
-
-10
-
-Line 18: logic_expression : rel_expression
-
-10
-
-Line 18: expression : variable ASSIGNOP logic_expression
-
-a = 10
-
-Line 18: expression_statement 	: expression SEMICOLON
-
-a = 10;
-
-
-Line 18: statement : expression_statement
-
-a = 10;
-
-
-Line 18: statements : statement
-
-a = 10;
-
-
-Line 19: factor	: CONST_INT
-
-0
-
-Line 19: unary_expression : factor
-
-0
-
-Line 19: term :	unary_expression
-
-0
-
-Line 19: simple_expression : term
-
-0
-
-Line 19: rel_expression	: simple_expression
-
-0
-
-Line 19: logic_expression : rel_expression
-
-0
-
-Line 19: expression : logic expression
-
-0
-
-Line 20: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 20: statements : statement
-
-println ( a ) ;
-
-
-Line 21: compound_statement : LCURL statements RCURL
-
-{
-println ( a ) ;
-}
-
-
-ScopeTable # 1.3.1
-
-ScopeTable # 1.3
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-23 -->  < if_3 , ID >  
-
-Line 21: statement : compound_statement
-
-{
-println ( a ) ;
-}
-
-
-Line 22: statement : IF LPAREN expression RPAREN statement
-
-if ( 0 ) {
-println ( a ) ;
-}
-
-
-Line 22: statements : statements statement
-
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-
-
-Line 22: compound_statement : LCURL statements RCURL
-
-{
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-}
-
-
-ScopeTable # 1.3
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-23 -->  < if_3 , ID >  
-
-Line 22: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void if_3 ( ) {
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-}
-
-
-Line 22: unit : func_definition
-
-void if_3 ( ) {
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-}
-
-
-Line 22: program : program unit
-
-int a ;
- void if_1 ( ) {
-a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
-}
- void if_2 ( ) {
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
- void if_3 ( ) {
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-}
-
-
-if_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 5
-CMP AX, 0
-JE L1
-MOV AX, a
-CALL OUTDEC
-L1:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_1 ENDP
-if_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, a
-CMP AX, 0
-JE L2
-MOV AX, a
-CALL OUTDEC
-L2:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_2 ENDP
-if_3 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 0
-CMP AX, 0
-JE L3
-MOV AX, a
-CALL OUTDEC
-L3:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_3 ENDP
-
-Line 24: type_specifier	: VOID
-
-void
-
-Line 25: variable : ID
-
-a
-
-Line 25: factor	: CONST_INT
-
-0
-
-Line 25: unary_expression : factor
-
-0
-
-Line 25: term :	unary_expression
-
-0
-
-Line 25: simple_expression : term
-
-0
-
-Line 25: rel_expression	: simple_expression
-
-0
-
-Line 25: logic_expression : rel_expression
-
-0
-
-Line 25: expression : variable ASSIGNOP logic_expression
-
-a = 0
-
-Line 25: expression_statement 	: expression SEMICOLON
-
-a = 0;
-
-
-Line 25: statement : expression_statement
-
-a = 0;
-
-
-Line 25: statements : statement
-
-a = 0;
-
-
-Line 26: variable : ID
-
-a
-
-Line 26: factor	: variable
-
-a
-
-Line 26: unary_expression : factor
-
-a
-
-Line 26: term :	unary_expression
-
-a
-
-Line 26: simple_expression : term
-
-a
-
-Line 26: rel_expression	: simple_expression
-
-a
-
-Line 26: logic_expression : rel_expression
-
-a
-
-Line 26: expression : logic expression
-
-a
-
-Line 27: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 27: statements : statement
-
-println ( a ) ;
-
-
-Line 28: compound_statement : LCURL statements RCURL
-
-{
-println ( a ) ;
-}
-
-
-ScopeTable # 1.4.1
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-23 -->  < if_3 , ID >  
-24 -->  < if_4 , ID >  
-
-Line 28: statement : compound_statement
-
-{
-println ( a ) ;
-}
-
-
-Line 29: statement : IF LPAREN expression RPAREN statement
-
-if ( a ) {
-println ( a ) ;
-}
-
-
-Line 29: statements : statements statement
-
-a = 0;
- if ( a ) {
-println ( a ) ;
-}
-
-
-Line 29: compound_statement : LCURL statements RCURL
-
-{
-a = 0;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-23 -->  < if_3 , ID >  
-24 -->  < if_4 , ID >  
-
-Line 29: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void if_4 ( ) {
-a = 0;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-Line 29: unit : func_definition
-
-void if_4 ( ) {
-a = 0;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-Line 29: program : program unit
-
-int a ;
- void if_1 ( ) {
-a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
-}
- void if_2 ( ) {
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
- void if_3 ( ) {
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-}
- void if_4 ( ) {
-a = 0;
- if ( a ) {
-println ( a ) ;
-}
-}
-
-
-if_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 5
-CMP AX, 0
-JE L1
-MOV AX, a
-CALL OUTDEC
-L1:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_1 ENDP
-if_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, a
-CMP AX, 0
-JE L2
-MOV AX, a
-CALL OUTDEC
-L2:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_2 ENDP
-if_3 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 0
-CMP AX, 0
-JE L3
-MOV AX, a
-CALL OUTDEC
-L3:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_3 ENDP
-if_4 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 0
-MOV a, AX
-MOV AX, a
-CMP AX, 0
-JE L4
-MOV AX, a
-CALL OUTDEC
-L4:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_4 ENDP
-
-Line 31: type_specifier	: INT
+Line 8: type_specifier	: INT
 
 int
 
 
-Line 32: argument_list : |
+Line 9: argument_list : |
 
  
 
-Line 32: factor	: ID LPAREN argument_list RPAREN
+Line 9: factor	: ID LPAREN argument_list RPAREN
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: unary_expression : factor
+Line 9: unary_expression : factor
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: term :	unary_expression
+Line 9: term :	unary_expression
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: simple_expression : term
+Line 9: simple_expression : term
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: rel_expression	: simple_expression
+Line 9: rel_expression	: simple_expression
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: logic_expression : rel_expression
+Line 9: logic_expression : rel_expression
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: expression : logic expression
+Line 9: expression : logic expression
 
-if_1 (   )
+assignop_1 (   )
 
-Line 32: expression_statement 	: expression SEMICOLON
+Line 9: expression_statement 	: expression SEMICOLON
 
-if_1 (   );
+assignop_1 (   );
 
 
-Line 32: statement : expression_statement
+Line 9: statement : expression_statement
 
-if_1 (   );
+assignop_1 (   );
 
 
-Line 32: statements : statement
+Line 9: statements : statement
 
-if_1 (   );
+assignop_1 (   );
 
 
-Line 33: argument_list : |
-
- 
-
-Line 33: factor	: ID LPAREN argument_list RPAREN
-
-if_2 (   )
-
-Line 33: unary_expression : factor
-
-if_2 (   )
-
-Line 33: term :	unary_expression
-
-if_2 (   )
-
-Line 33: simple_expression : term
-
-if_2 (   )
-
-Line 33: rel_expression	: simple_expression
-
-if_2 (   )
-
-Line 33: logic_expression : rel_expression
-
-if_2 (   )
-
-Line 33: expression : logic expression
-
-if_2 (   )
-
-Line 33: expression_statement 	: expression SEMICOLON
-
-if_2 (   );
-
-
-Line 33: statement : expression_statement
-
-if_2 (   );
-
-
-Line 33: statements : statements statement
-
-if_1 (   );
- if_2 (   );
-
-
-Line 34: argument_list : |
-
- 
-
-Line 34: factor	: ID LPAREN argument_list RPAREN
-
-if_3 (   )
-
-Line 34: unary_expression : factor
-
-if_3 (   )
-
-Line 34: term :	unary_expression
-
-if_3 (   )
-
-Line 34: simple_expression : term
-
-if_3 (   )
-
-Line 34: rel_expression	: simple_expression
-
-if_3 (   )
-
-Line 34: logic_expression : rel_expression
-
-if_3 (   )
-
-Line 34: expression : logic expression
-
-if_3 (   )
-
-Line 34: expression_statement 	: expression SEMICOLON
-
-if_3 (   );
-
-
-Line 34: statement : expression_statement
-
-if_3 (   );
-
-
-Line 34: statements : statements statement
-
-if_1 (   );
- if_2 (   );
- if_3 (   );
-
-
-Line 35: argument_list : |
-
- 
-
-Line 35: factor	: ID LPAREN argument_list RPAREN
-
-if_4 (   )
-
-Line 35: unary_expression : factor
-
-if_4 (   )
-
-Line 35: term :	unary_expression
-
-if_4 (   )
-
-Line 35: simple_expression : term
-
-if_4 (   )
-
-Line 35: rel_expression	: simple_expression
-
-if_4 (   )
-
-Line 35: logic_expression : rel_expression
-
-if_4 (   )
-
-Line 35: expression : logic expression
-
-if_4 (   )
-
-Line 35: expression_statement 	: expression SEMICOLON
-
-if_4 (   );
-
-
-Line 35: statement : expression_statement
-
-if_4 (   );
-
-
-Line 35: statements : statements statement
-
-if_1 (   );
- if_2 (   );
- if_3 (   );
- if_4 (   );
-
-
-Line 36: compound_statement : LCURL statements RCURL
+Line 10: compound_statement : LCURL statements RCURL
 
 {
-if_1 (   );
- if_2 (   );
- if_3 (   );
- if_4 (   );
+assignop_1 (   );
 }
 
 
-ScopeTable # 1.5
+ScopeTable # 1.2
 
 ScopeTable # 1
 1 -->  < main , ID >  
 7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-23 -->  < if_3 , ID >  
-24 -->  < if_4 , ID >  
+22 -->  < assignop_1 , ID >  
 
-Line 36: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 10: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-if_1 (   );
- if_2 (   );
- if_3 (   );
- if_4 (   );
+assignop_1 (   );
 }
 
 
-Line 36: unit : func_definition
+Line 10: unit : func_definition
 
 int main ( ) {
-if_1 (   );
- if_2 (   );
- if_3 (   );
- if_4 (   );
+assignop_1 (   );
 }
 
 
-Line 36: program : program unit
+Line 10: program : program unit
 
 int a ;
- void if_1 ( ) {
+ void assignop_1 ( ) {
 a = 10;
- if ( 5 ) {
-println ( a ) ;
-}
-}
- void if_2 ( ) {
-a = 10;
- if ( a ) {
-println ( a ) ;
-}
-}
- void if_3 ( ) {
-a = 10;
- if ( 0 ) {
-println ( a ) ;
-}
-}
- void if_4 ( ) {
-a = 0;
- if ( a ) {
-println ( a ) ;
-}
+ println ( a ) ;
 }
  int main ( ) {
-if_1 (   );
- if_2 (   );
- if_3 (   );
- if_4 (   );
+assignop_1 (   );
 }
 
 
-if_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 5
-CMP AX, 0
-JE L1
-MOV AX, a
-CALL OUTDEC
-L1:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_1 ENDP
-if_2 PROC
+assignop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
@@ -1269,76 +243,28 @@ PUSH DX
 MOV AX, 10
 MOV a, AX
 MOV AX, a
-CMP AX, 0
-JE L2
-MOV AX, a
 CALL OUTDEC
-L2:
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-if_2 ENDP
-if_3 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, 0
-CMP AX, 0
-JE L3
-MOV AX, a
-CALL OUTDEC
-L3:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_3 ENDP
-if_4 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 0
-MOV a, AX
-MOV AX, a
-CMP AX, 0
-JE L4
-MOV AX, a
-CALL OUTDEC
-L4:
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-if_4 ENDP
+assignop_1 ENDP
 main PROC
 MOV AX, @DATA 
 MOV DS, AX
-CALL if_1
-CALL if_2
-CALL if_3
-CALL if_4
+CALL assignop_1
 
 MOV AH, 4CH
 INT 21H
 main ENDP
 
-Line 36: start : program
+Line 11: start : program
 
 ScopeTable # 1
 1 -->  < main , ID >  
 7 -->  < a , ID >  
-21 -->  < if_1 , ID >  
-22 -->  < if_2 , ID >  
-23 -->  < if_3 , ID >  
-24 -->  < if_4 , ID >  
+22 -->  < assignop_1 , ID >  
 
-Total lines: 36
+Total lines: 11
 Total errors: 0

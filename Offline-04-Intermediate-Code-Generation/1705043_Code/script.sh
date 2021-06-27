@@ -11,6 +11,6 @@ g++ -w -c -o l.o lex.yy.c
 echo 'Generated the scanner object file'
 g++ y.o l.o -lfl 
 echo 'All ready, running'
-./a.out input2.c
+./a.out input3.c
 rm lex.yy.c l.o y.tab.c y.tab.h y.o a.out
 echo 'Deleted lex yacc files'
