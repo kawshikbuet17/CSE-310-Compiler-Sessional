@@ -693,11 +693,13 @@ statement: var_declaration	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							string label = newLabel();
-							$$->code += "mov ax, "+$3->getSymbolName()+"\n";
-							$$->code += "cmp ax, 0\n";
-							$$->code += $5->code;
-							$$->code += label + ":\n";
-							CodePrint(lineCount, $$->code);
+							codeString = "MOV AX, "+$3->getSymbolName()+"\n";
+							codeString += "CMP AX, 0\n";
+							codeString += "JE "+label+"\n";
+							codeString += $5->code;
+							codeString += label + ":\n";
+							$$->code += codeString;
+							CodePrint(lineCount, codeString);
 						}
 	  | IF LPAREN expression RPAREN statement ELSE statement	{
 							PrintGrammar(lineCount, "statement : IF LPAREN expression RPAREN statement ELSE statement");
@@ -705,6 +707,15 @@ statement: var_declaration	{
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							string label = newLabel();
+							codeString = "MOV AX, "+$3->getSymbolName()+"\n";
+							codeString += "CMP AX, 0\n";
+							codeString += "JE "+label+"\n";
+							codeString += $5->code;
+							codeString += label + ":\n";
+							codeString += $7->code;
+							$$->code += codeString;
+							CodePrint(lineCount, codeString);
 						}
 	  | WHILE LPAREN expression RPAREN statement	{
 							PrintGrammar(lineCount, "statement : WHILE LPAREN expression RPAREN statement");
