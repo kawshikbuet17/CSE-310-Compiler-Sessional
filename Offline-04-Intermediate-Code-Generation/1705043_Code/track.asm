@@ -1,7 +1,265 @@
-;line 4:
+;line 5:
 MOV AX, 10
 
-;line 4:
+;line 5:
 MOV AX, 10
 MOV a, AX
+
+;line 6:
+MOV AX, 50
+
+;line 6:
+MOV AX, 50
+MOV b, AX
+
+;line 7:
+MOV AX, 5
+
+;line 10:
+MOV AX, 10
+
+;line 13:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+
+;line 13:
+MOV AX, 5
+CMP AX, 0
+JE L2
+MOV AX, a
+CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
+
+;line 18:
+MOV AX, 10
+
+;line 18:
+MOV AX, 10
+MOV a, AX
+
+;line 19:
+MOV AX, 50
+
+;line 19:
+MOV AX, 50
+MOV b, AX
+
+;line 20:
+MOV AX, 100
+
+;line 20:
+MOV AX, 100
+MOV c, AX
+
+;line 24:
+MOV AX, 10
+
+;line 29:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+
+;line 29:
+MOV AX, a
+CMP AX, 0
+JE L6
+MOV AX, a
+CALL OUTDEC
+JMP L7
+L6:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+L7:
+
+;line 35:
+MOV AX, 10
+
+;line 35:
+MOV AX, 10
+MOV a, AX
+
+;line 36:
+MOV AX, 50
+
+;line 36:
+MOV AX, 50
+MOV b, AX
+
+;line 37:
+MOV AX, 100
+
+;line 37:
+MOV AX, 100
+MOV c, AX
+
+;line 38:
+MOV AX, 0
+
+;line 41:
+MOV AX, 10
+
+;line 46:
+MOV AX, 10
+CMP AX, 0
+JE L8
+MOV AX, b
+CALL OUTDEC
+JMP L9
+L8:
+MOV AX, c
+CALL OUTDEC
+L9:
+
+;line 46:
+MOV AX, 0
+CMP AX, 0
+JE L10
+MOV AX, a
+CALL OUTDEC
+JMP L11
+L10:
+MOV AX, 10
+CMP AX, 0
+JE L8
+MOV AX, b
+CALL OUTDEC
+JMP L9
+L8:
+MOV AX, c
+CALL OUTDEC
+L9:
+L11:
+
+;line 52:
+MOV AX, 0
+
+;line 52:
+MOV AX, 0
+MOV a, AX
+
+;line 53:
+MOV AX, 50
+
+;line 53:
+MOV AX, 50
+MOV b, AX
+
+;line 54:
+MOV AX, 100
+
+;line 54:
+MOV AX, 100
+MOV c, AX
+
+;line 63:
+MOV AX, b
+CMP AX, 0
+JE L12
+MOV AX, b
+CALL OUTDEC
+JMP L13
+L12:
+MOV AX, c
+CALL OUTDEC
+L13:
+
+;line 63:
+MOV AX, a
+CMP AX, 0
+JE L14
+MOV AX, a
+CALL OUTDEC
+JMP L15
+L14:
+MOV AX, b
+CMP AX, 0
+JE L12
+MOV AX, b
+CALL OUTDEC
+JMP L13
+L12:
+MOV AX, c
+CALL OUTDEC
+L13:
+L15:
+
+;line 69:
+MOV AX, 0
+
+;line 69:
+MOV AX, 0
+MOV a, AX
+
+;line 70:
+MOV AX, 0
+
+;line 70:
+MOV AX, 0
+MOV b, AX
+
+;line 71:
+MOV AX, 100
+
+;line 71:
+MOV AX, 100
+MOV c, AX
+
+;line 80:
+MOV AX, b
+CMP AX, 0
+JE L16
+MOV AX, b
+CALL OUTDEC
+JMP L17
+L16:
+MOV AX, c
+CALL OUTDEC
+L17:
+
+;line 80:
+MOV AX, a
+CMP AX, 0
+JE L18
+MOV AX, a
+CALL OUTDEC
+JMP L19
+L18:
+MOV AX, b
+CMP AX, 0
+JE L16
+MOV AX, b
+CALL OUTDEC
+JMP L17
+L16:
+MOV AX, c
+CALL OUTDEC
+L17:
+L19:
 

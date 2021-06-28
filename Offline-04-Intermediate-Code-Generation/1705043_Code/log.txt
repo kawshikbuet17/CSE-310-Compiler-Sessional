@@ -30,241 +30,3596 @@ Line 3: type_specifier	: VOID
 
 void
 
-Line 4: variable : ID
-
-a
-
-Line 4: factor	: CONST_INT
-
-10
-
-Line 4: unary_expression : factor
-
-10
-
-Line 4: term :	unary_expression
-
-10
-
-Line 4: simple_expression : term
-
-10
-
-Line 4: rel_expression	: simple_expression
-
-10
-
-Line 4: logic_expression : rel_expression
-
-10
-
-Line 4: expression : variable ASSIGNOP logic_expression
-
-a = 10
-
-Line 4: expression_statement 	: expression SEMICOLON
-
-a = 10;
-
-
-Line 4: statement : expression_statement
-
-a = 10;
-
-
-Line 4: statements : statement
-
-a = 10;
-
-
-Line 5: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 5: statements : statements statement
-
-a = 10;
- println ( a ) ;
-
-
-Line 6: compound_statement : LCURL statements RCURL
-
-{
-a = 10;
- println ( a ) ;
-}
-
-
-ScopeTable # 1.1
-
-ScopeTable # 1
-7 -->  < a , ID >  
-22 -->  < assignop_1 , ID >  
-
-Line 6: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void assignop_1 ( ) {
-a = 10;
- println ( a ) ;
-}
-
-
-Line 6: unit : func_definition
-
-void assignop_1 ( ) {
-a = 10;
- println ( a ) ;
-}
-
-
-Line 6: program : program unit
-
-int a ;
- void assignop_1 ( ) {
-a = 10;
- println ( a ) ;
-}
-
-
-assignop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 10
-MOV a, AX
-MOV AX, a
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-assignop_1 ENDP
-
-Line 8: type_specifier	: INT
+Line 4: type_specifier	: INT
 
 int
 
 
-Line 9: argument_list : |
+Line 4: declaration_list : ID
 
- 
-
-Line 9: factor	: ID LPAREN argument_list RPAREN
-
-assignop_1 (   )
-
-Line 9: unary_expression : factor
-
-assignop_1 (   )
-
-Line 9: term :	unary_expression
-
-assignop_1 (   )
-
-Line 9: simple_expression : term
-
-assignop_1 (   )
-
-Line 9: rel_expression	: simple_expression
-
-assignop_1 (   )
-
-Line 9: logic_expression : rel_expression
-
-assignop_1 (   )
-
-Line 9: expression : logic expression
-
-assignop_1 (   )
-
-Line 9: expression_statement 	: expression SEMICOLON
-
-assignop_1 (   );
+b
 
 
-Line 9: statement : expression_statement
+Line 4: var_declaration : type_specifier declaration_list SEMICOLON
 
-assignop_1 (   );
-
-
-Line 9: statements : statement
-
-assignop_1 (   );
+int b ;
 
 
-Line 10: compound_statement : LCURL statements RCURL
+
+Line 4: statement : var_declaration
+
+int b ;
+
+
+Line 4: statements : statement
+
+int b ;
+
+
+Line 5: variable : ID
+
+a
+
+Line 5: factor	: CONST_INT
+
+10
+
+Line 5: unary_expression : factor
+
+10
+
+Line 5: term :	unary_expression
+
+10
+
+Line 5: simple_expression : term
+
+10
+
+Line 5: rel_expression	: simple_expression
+
+10
+
+Line 5: logic_expression : rel_expression
+
+10
+
+Line 5: expression : variable ASSIGNOP logic_expression
+
+a = 10
+
+Line 5: expression_statement 	: expression SEMICOLON
+
+a = 10;
+
+
+Line 5: statement : expression_statement
+
+a = 10;
+
+
+Line 5: statements : statements statement
+
+int b ;
+ a = 10;
+
+
+Line 6: variable : ID
+
+b
+
+Line 6: factor	: CONST_INT
+
+50
+
+Line 6: unary_expression : factor
+
+50
+
+Line 6: term :	unary_expression
+
+50
+
+Line 6: simple_expression : term
+
+50
+
+Line 6: rel_expression	: simple_expression
+
+50
+
+Line 6: logic_expression : rel_expression
+
+50
+
+Line 6: expression : variable ASSIGNOP logic_expression
+
+b = 50
+
+Line 6: expression_statement 	: expression SEMICOLON
+
+b = 50;
+
+
+Line 6: statement : expression_statement
+
+b = 50;
+
+
+Line 6: statements : statements statement
+
+int b ;
+ a = 10;
+ b = 50;
+
+
+Line 7: factor	: CONST_INT
+
+5
+
+Line 7: unary_expression : factor
+
+5
+
+Line 7: term :	unary_expression
+
+5
+
+Line 7: simple_expression : term
+
+5
+
+Line 7: rel_expression	: simple_expression
+
+5
+
+Line 7: logic_expression : rel_expression
+
+5
+
+Line 7: expression : logic expression
+
+5
+
+Line 8: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 8: statements : statement
+
+println ( a ) ;
+
+
+Line 9: compound_statement : LCURL statements RCURL
 
 {
-assignop_1 (   );
+println ( a ) ;
 }
 
 
-ScopeTable # 1.2
+ScopeTable # 1.1.1
+
+ScopeTable # 1.1
+8 -->  < b , ID >  
 
 ScopeTable # 1
-1 -->  < main , ID >  
+3 -->  < if_else_if_1 , ID >  
 7 -->  < a , ID >  
-22 -->  < assignop_1 , ID >  
 
-Line 10: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 9: statement : compound_statement
 
-int main ( ) {
-assignop_1 (   );
+{
+println ( a ) ;
 }
 
 
-Line 10: unit : func_definition
+Line 10: factor	: CONST_INT
 
-int main ( ) {
-assignop_1 (   );
+10
+
+Line 10: unary_expression : factor
+
+10
+
+Line 10: term :	unary_expression
+
+10
+
+Line 10: simple_expression : term
+
+10
+
+Line 10: rel_expression	: simple_expression
+
+10
+
+Line 10: logic_expression : rel_expression
+
+10
+
+Line 10: expression : logic expression
+
+10
+
+Line 11: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 11: statements : statement
+
+println ( b ) ;
+
+
+Line 12: compound_statement : LCURL statements RCURL
+
+{
+println ( b ) ;
 }
 
 
-Line 10: program : program unit
+ScopeTable # 1.1.2
+
+ScopeTable # 1.1
+8 -->  < b , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+7 -->  < a , ID >  
+
+Line 12: statement : compound_statement
+
+{
+println ( b ) ;
+}
+
+
+Line 13: statement : IF LPAREN expression RPAREN statement
+
+if ( 10 ) {
+println ( b ) ;
+}
+
+
+Line 13: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+
+
+Line 13: statements : statements statement
+
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+
+
+Line 13: compound_statement : LCURL statements RCURL
+
+{
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+
+
+ScopeTable # 1.1
+8 -->  < b , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+7 -->  < a , ID >  
+
+Line 13: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+
+
+Line 13: unit : func_definition
+
+void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+
+
+Line 13: program : program unit
 
 int a ;
- void assignop_1 ( ) {
-a = 10;
- println ( a ) ;
+ void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
 }
- int main ( ) {
-assignop_1 (   );
+ else if ( 10 ) {
+println ( b ) ;
+}
 }
 
 
-assignop_1 PROC
+if_else_if_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
 MOV AX, 10
 MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 5
+CMP AX, 0
+JE L2
 MOV AX, a
 CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-assignop_1 ENDP
+if_else_if_1 ENDP
+
+Line 15: type_specifier	: VOID
+
+void
+
+Line 16: type_specifier	: INT
+
+int
+
+
+Line 16: declaration_list : ID
+
+b
+
+
+Line 16: var_declaration : type_specifier declaration_list SEMICOLON
+
+int b ;
+
+
+
+Line 16: statement : var_declaration
+
+int b ;
+
+
+Line 16: statements : statement
+
+int b ;
+
+
+Line 17: type_specifier	: INT
+
+int
+
+
+Line 17: declaration_list : ID
+
+c
+
+
+Line 17: var_declaration : type_specifier declaration_list SEMICOLON
+
+int c ;
+
+
+
+Line 17: statement : var_declaration
+
+int c ;
+
+
+Line 17: statements : statements statement
+
+int b ;
+ int c ;
+
+
+Line 18: variable : ID
+
+a
+
+Line 18: factor	: CONST_INT
+
+10
+
+Line 18: unary_expression : factor
+
+10
+
+Line 18: term :	unary_expression
+
+10
+
+Line 18: simple_expression : term
+
+10
+
+Line 18: rel_expression	: simple_expression
+
+10
+
+Line 18: logic_expression : rel_expression
+
+10
+
+Line 18: expression : variable ASSIGNOP logic_expression
+
+a = 10
+
+Line 18: expression_statement 	: expression SEMICOLON
+
+a = 10;
+
+
+Line 18: statement : expression_statement
+
+a = 10;
+
+
+Line 18: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+
+
+Line 19: variable : ID
+
+b
+
+Line 19: factor	: CONST_INT
+
+50
+
+Line 19: unary_expression : factor
+
+50
+
+Line 19: term :	unary_expression
+
+50
+
+Line 19: simple_expression : term
+
+50
+
+Line 19: rel_expression	: simple_expression
+
+50
+
+Line 19: logic_expression : rel_expression
+
+50
+
+Line 19: expression : variable ASSIGNOP logic_expression
+
+b = 50
+
+Line 19: expression_statement 	: expression SEMICOLON
+
+b = 50;
+
+
+Line 19: statement : expression_statement
+
+b = 50;
+
+
+Line 19: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+
+
+Line 20: variable : ID
+
+c
+
+Line 20: factor	: CONST_INT
+
+100
+
+Line 20: unary_expression : factor
+
+100
+
+Line 20: term :	unary_expression
+
+100
+
+Line 20: simple_expression : term
+
+100
+
+Line 20: rel_expression	: simple_expression
+
+100
+
+Line 20: logic_expression : rel_expression
+
+100
+
+Line 20: expression : variable ASSIGNOP logic_expression
+
+c = 100
+
+Line 20: expression_statement 	: expression SEMICOLON
+
+c = 100;
+
+
+Line 20: statement : expression_statement
+
+c = 100;
+
+
+Line 20: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+
+
+Line 21: variable : ID
+
+a
+
+Line 21: factor	: variable
+
+a
+
+Line 21: unary_expression : factor
+
+a
+
+Line 21: term :	unary_expression
+
+a
+
+Line 21: simple_expression : term
+
+a
+
+Line 21: rel_expression	: simple_expression
+
+a
+
+Line 21: logic_expression : rel_expression
+
+a
+
+Line 21: expression : logic expression
+
+a
+
+Line 22: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 22: statements : statement
+
+println ( a ) ;
+
+
+Line 23: compound_statement : LCURL statements RCURL
+
+{
+println ( a ) ;
+}
+
+
+ScopeTable # 1.2.1
+
+ScopeTable # 1.2
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+7 -->  < a , ID >  
+
+Line 23: statement : compound_statement
+
+{
+println ( a ) ;
+}
+
+
+Line 24: factor	: CONST_INT
+
+10
+
+Line 24: unary_expression : factor
+
+10
+
+Line 24: term :	unary_expression
+
+10
+
+Line 24: simple_expression : term
+
+10
+
+Line 24: rel_expression	: simple_expression
+
+10
+
+Line 24: logic_expression : rel_expression
+
+10
+
+Line 24: expression : logic expression
+
+10
+
+Line 25: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 25: statements : statement
+
+println ( b ) ;
+
+
+Line 26: compound_statement : LCURL statements RCURL
+
+{
+println ( b ) ;
+}
+
+
+ScopeTable # 1.2.2
+
+ScopeTable # 1.2
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+7 -->  < a , ID >  
+
+Line 26: statement : compound_statement
+
+{
+println ( b ) ;
+}
+
+
+Line 28: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( c ) ;
+
+
+Line 28: statements : statement
+
+println ( c ) ;
+
+
+Line 29: compound_statement : LCURL statements RCURL
+
+{
+println ( c ) ;
+}
+
+
+ScopeTable # 1.2.3
+
+ScopeTable # 1.2
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+7 -->  < a , ID >  
+
+Line 29: statement : compound_statement
+
+{
+println ( c ) ;
+}
+
+
+Line 29: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 29: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 29: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 30: compound_statement : LCURL statements RCURL
+
+{
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+ScopeTable # 1.2
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+7 -->  < a , ID >  
+
+Line 30: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 30: unit : func_definition
+
+void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 30: program : program unit
+
+int a ;
+ void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+ void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+if_else_if_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 5
+CMP AX, 0
+JE L2
+MOV AX, a
+CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_1 ENDP
+if_else_if_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L6
+MOV AX, a
+CALL OUTDEC
+JMP L7
+L6:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+L7:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_2 ENDP
+
+Line 32: type_specifier	: VOID
+
+void
+
+Line 33: type_specifier	: INT
+
+int
+
+
+Line 33: declaration_list : ID
+
+b
+
+
+Line 33: var_declaration : type_specifier declaration_list SEMICOLON
+
+int b ;
+
+
+
+Line 33: statement : var_declaration
+
+int b ;
+
+
+Line 33: statements : statement
+
+int b ;
+
+
+Line 34: type_specifier	: INT
+
+int
+
+
+Line 34: declaration_list : ID
+
+c
+
+
+Line 34: var_declaration : type_specifier declaration_list SEMICOLON
+
+int c ;
+
+
+
+Line 34: statement : var_declaration
+
+int c ;
+
+
+Line 34: statements : statements statement
+
+int b ;
+ int c ;
+
+
+Line 35: variable : ID
+
+a
+
+Line 35: factor	: CONST_INT
+
+10
+
+Line 35: unary_expression : factor
+
+10
+
+Line 35: term :	unary_expression
+
+10
+
+Line 35: simple_expression : term
+
+10
+
+Line 35: rel_expression	: simple_expression
+
+10
+
+Line 35: logic_expression : rel_expression
+
+10
+
+Line 35: expression : variable ASSIGNOP logic_expression
+
+a = 10
+
+Line 35: expression_statement 	: expression SEMICOLON
+
+a = 10;
+
+
+Line 35: statement : expression_statement
+
+a = 10;
+
+
+Line 35: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+
+
+Line 36: variable : ID
+
+b
+
+Line 36: factor	: CONST_INT
+
+50
+
+Line 36: unary_expression : factor
+
+50
+
+Line 36: term :	unary_expression
+
+50
+
+Line 36: simple_expression : term
+
+50
+
+Line 36: rel_expression	: simple_expression
+
+50
+
+Line 36: logic_expression : rel_expression
+
+50
+
+Line 36: expression : variable ASSIGNOP logic_expression
+
+b = 50
+
+Line 36: expression_statement 	: expression SEMICOLON
+
+b = 50;
+
+
+Line 36: statement : expression_statement
+
+b = 50;
+
+
+Line 36: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+
+
+Line 37: variable : ID
+
+c
+
+Line 37: factor	: CONST_INT
+
+100
+
+Line 37: unary_expression : factor
+
+100
+
+Line 37: term :	unary_expression
+
+100
+
+Line 37: simple_expression : term
+
+100
+
+Line 37: rel_expression	: simple_expression
+
+100
+
+Line 37: logic_expression : rel_expression
+
+100
+
+Line 37: expression : variable ASSIGNOP logic_expression
+
+c = 100
+
+Line 37: expression_statement 	: expression SEMICOLON
+
+c = 100;
+
+
+Line 37: statement : expression_statement
+
+c = 100;
+
+
+Line 37: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+
+
+Line 38: factor	: CONST_INT
+
+0
+
+Line 38: unary_expression : factor
+
+0
+
+Line 38: term :	unary_expression
+
+0
+
+Line 38: simple_expression : term
+
+0
+
+Line 38: rel_expression	: simple_expression
+
+0
+
+Line 38: logic_expression : rel_expression
+
+0
+
+Line 38: expression : logic expression
+
+0
+
+Line 39: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 39: statements : statement
+
+println ( a ) ;
+
+
+Line 40: compound_statement : LCURL statements RCURL
+
+{
+println ( a ) ;
+}
+
+
+ScopeTable # 1.3.1
+
+ScopeTable # 1.3
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+7 -->  < a , ID >  
+
+Line 40: statement : compound_statement
+
+{
+println ( a ) ;
+}
+
+
+Line 41: factor	: CONST_INT
+
+10
+
+Line 41: unary_expression : factor
+
+10
+
+Line 41: term :	unary_expression
+
+10
+
+Line 41: simple_expression : term
+
+10
+
+Line 41: rel_expression	: simple_expression
+
+10
+
+Line 41: logic_expression : rel_expression
+
+10
+
+Line 41: expression : logic expression
+
+10
+
+Line 42: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 42: statements : statement
+
+println ( b ) ;
+
+
+Line 43: compound_statement : LCURL statements RCURL
+
+{
+println ( b ) ;
+}
+
+
+ScopeTable # 1.3.2
+
+ScopeTable # 1.3
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+7 -->  < a , ID >  
+
+Line 43: statement : compound_statement
+
+{
+println ( b ) ;
+}
+
+
+Line 45: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( c ) ;
+
+
+Line 45: statements : statement
+
+println ( c ) ;
+
+
+Line 46: compound_statement : LCURL statements RCURL
+
+{
+println ( c ) ;
+}
+
+
+ScopeTable # 1.3.3
+
+ScopeTable # 1.3
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+7 -->  < a , ID >  
+
+Line 46: statement : compound_statement
+
+{
+println ( c ) ;
+}
+
+
+Line 46: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 46: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 46: statements : statements statement
+
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 47: compound_statement : LCURL statements RCURL
+
+{
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+ScopeTable # 1.3
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+7 -->  < a , ID >  
+
+Line 47: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void if_else_if_3 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 47: unit : func_definition
+
+void if_else_if_3 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 47: program : program unit
+
+int a ;
+ void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+ void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_3 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+if_else_if_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 5
+CMP AX, 0
+JE L2
+MOV AX, a
+CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_1 ENDP
+if_else_if_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L6
+MOV AX, a
+CALL OUTDEC
+JMP L7
+L6:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+L7:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_2 ENDP
+if_else_if_3 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, 0
+CMP AX, 0
+JE L10
+MOV AX, a
+CALL OUTDEC
+JMP L11
+L10:
+MOV AX, 10
+CMP AX, 0
+JE L8
+MOV AX, b
+CALL OUTDEC
+JMP L9
+L8:
+MOV AX, c
+CALL OUTDEC
+L9:
+L11:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_3 ENDP
+
+Line 49: type_specifier	: VOID
+
+void
+
+Line 50: type_specifier	: INT
+
+int
+
+
+Line 50: declaration_list : ID
+
+b
+
+
+Line 50: var_declaration : type_specifier declaration_list SEMICOLON
+
+int b ;
+
+
+
+Line 50: statement : var_declaration
+
+int b ;
+
+
+Line 50: statements : statement
+
+int b ;
+
+
+Line 51: type_specifier	: INT
+
+int
+
+
+Line 51: declaration_list : ID
+
+c
+
+
+Line 51: var_declaration : type_specifier declaration_list SEMICOLON
+
+int c ;
+
+
+
+Line 51: statement : var_declaration
+
+int c ;
+
+
+Line 51: statements : statements statement
+
+int b ;
+ int c ;
+
+
+Line 52: variable : ID
+
+a
+
+Line 52: factor	: CONST_INT
+
+0
+
+Line 52: unary_expression : factor
+
+0
+
+Line 52: term :	unary_expression
+
+0
+
+Line 52: simple_expression : term
+
+0
+
+Line 52: rel_expression	: simple_expression
+
+0
+
+Line 52: logic_expression : rel_expression
+
+0
+
+Line 52: expression : variable ASSIGNOP logic_expression
+
+a = 0
+
+Line 52: expression_statement 	: expression SEMICOLON
+
+a = 0;
+
+
+Line 52: statement : expression_statement
+
+a = 0;
+
+
+Line 52: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+
+
+Line 53: variable : ID
+
+b
+
+Line 53: factor	: CONST_INT
+
+50
+
+Line 53: unary_expression : factor
+
+50
+
+Line 53: term :	unary_expression
+
+50
+
+Line 53: simple_expression : term
+
+50
+
+Line 53: rel_expression	: simple_expression
+
+50
+
+Line 53: logic_expression : rel_expression
+
+50
+
+Line 53: expression : variable ASSIGNOP logic_expression
+
+b = 50
+
+Line 53: expression_statement 	: expression SEMICOLON
+
+b = 50;
+
+
+Line 53: statement : expression_statement
+
+b = 50;
+
+
+Line 53: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+
+
+Line 54: variable : ID
+
+c
+
+Line 54: factor	: CONST_INT
+
+100
+
+Line 54: unary_expression : factor
+
+100
+
+Line 54: term :	unary_expression
+
+100
+
+Line 54: simple_expression : term
+
+100
+
+Line 54: rel_expression	: simple_expression
+
+100
+
+Line 54: logic_expression : rel_expression
+
+100
+
+Line 54: expression : variable ASSIGNOP logic_expression
+
+c = 100
+
+Line 54: expression_statement 	: expression SEMICOLON
+
+c = 100;
+
+
+Line 54: statement : expression_statement
+
+c = 100;
+
+
+Line 54: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+
+
+Line 55: variable : ID
+
+a
+
+Line 55: factor	: variable
+
+a
+
+Line 55: unary_expression : factor
+
+a
+
+Line 55: term :	unary_expression
+
+a
+
+Line 55: simple_expression : term
+
+a
+
+Line 55: rel_expression	: simple_expression
+
+a
+
+Line 55: logic_expression : rel_expression
+
+a
+
+Line 55: expression : logic expression
+
+a
+
+Line 56: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 56: statements : statement
+
+println ( a ) ;
+
+
+Line 57: compound_statement : LCURL statements RCURL
+
+{
+println ( a ) ;
+}
+
+
+ScopeTable # 1.4.1
+
+ScopeTable # 1.4
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >  
+
+Line 57: statement : compound_statement
+
+{
+println ( a ) ;
+}
+
+
+Line 58: variable : ID
+
+b
+
+Line 58: factor	: variable
+
+b
+
+Line 58: unary_expression : factor
+
+b
+
+Line 58: term :	unary_expression
+
+b
+
+Line 58: simple_expression : term
+
+b
+
+Line 58: rel_expression	: simple_expression
+
+b
+
+Line 58: logic_expression : rel_expression
+
+b
+
+Line 58: expression : logic expression
+
+b
+
+Line 59: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 59: statements : statement
+
+println ( b ) ;
+
+
+Line 60: compound_statement : LCURL statements RCURL
+
+{
+println ( b ) ;
+}
+
+
+ScopeTable # 1.4.2
+
+ScopeTable # 1.4
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >  
+
+Line 60: statement : compound_statement
+
+{
+println ( b ) ;
+}
+
+
+Line 62: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( c ) ;
+
+
+Line 62: statements : statement
+
+println ( c ) ;
+
+
+Line 63: compound_statement : LCURL statements RCURL
+
+{
+println ( c ) ;
+}
+
+
+ScopeTable # 1.4.3
+
+ScopeTable # 1.4
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >  
+
+Line 63: statement : compound_statement
+
+{
+println ( c ) ;
+}
+
+
+Line 63: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 63: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 63: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 64: compound_statement : LCURL statements RCURL
+
+{
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+ScopeTable # 1.4
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >  
+
+Line 64: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void if_else_if_4 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 64: unit : func_definition
+
+void if_else_if_4 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 64: program : program unit
+
+int a ;
+ void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+ void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_3 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_4 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+if_else_if_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 5
+CMP AX, 0
+JE L2
+MOV AX, a
+CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_1 ENDP
+if_else_if_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L6
+MOV AX, a
+CALL OUTDEC
+JMP L7
+L6:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+L7:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_2 ENDP
+if_else_if_3 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, 0
+CMP AX, 0
+JE L10
+MOV AX, a
+CALL OUTDEC
+JMP L11
+L10:
+MOV AX, 10
+CMP AX, 0
+JE L8
+MOV AX, b
+CALL OUTDEC
+JMP L9
+L8:
+MOV AX, c
+CALL OUTDEC
+L9:
+L11:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_3 ENDP
+if_else_if_4 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 0
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L14
+MOV AX, a
+CALL OUTDEC
+JMP L15
+L14:
+MOV AX, b
+CMP AX, 0
+JE L12
+MOV AX, b
+CALL OUTDEC
+JMP L13
+L12:
+MOV AX, c
+CALL OUTDEC
+L13:
+L15:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_4 ENDP
+
+Line 66: type_specifier	: VOID
+
+void
+
+Line 67: type_specifier	: INT
+
+int
+
+
+Line 67: declaration_list : ID
+
+b
+
+
+Line 67: var_declaration : type_specifier declaration_list SEMICOLON
+
+int b ;
+
+
+
+Line 67: statement : var_declaration
+
+int b ;
+
+
+Line 67: statements : statement
+
+int b ;
+
+
+Line 68: type_specifier	: INT
+
+int
+
+
+Line 68: declaration_list : ID
+
+c
+
+
+Line 68: var_declaration : type_specifier declaration_list SEMICOLON
+
+int c ;
+
+
+
+Line 68: statement : var_declaration
+
+int c ;
+
+
+Line 68: statements : statements statement
+
+int b ;
+ int c ;
+
+
+Line 69: variable : ID
+
+a
+
+Line 69: factor	: CONST_INT
+
+0
+
+Line 69: unary_expression : factor
+
+0
+
+Line 69: term :	unary_expression
+
+0
+
+Line 69: simple_expression : term
+
+0
+
+Line 69: rel_expression	: simple_expression
+
+0
+
+Line 69: logic_expression : rel_expression
+
+0
+
+Line 69: expression : variable ASSIGNOP logic_expression
+
+a = 0
+
+Line 69: expression_statement 	: expression SEMICOLON
+
+a = 0;
+
+
+Line 69: statement : expression_statement
+
+a = 0;
+
+
+Line 69: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+
+
+Line 70: variable : ID
+
+b
+
+Line 70: factor	: CONST_INT
+
+0
+
+Line 70: unary_expression : factor
+
+0
+
+Line 70: term :	unary_expression
+
+0
+
+Line 70: simple_expression : term
+
+0
+
+Line 70: rel_expression	: simple_expression
+
+0
+
+Line 70: logic_expression : rel_expression
+
+0
+
+Line 70: expression : variable ASSIGNOP logic_expression
+
+b = 0
+
+Line 70: expression_statement 	: expression SEMICOLON
+
+b = 0;
+
+
+Line 70: statement : expression_statement
+
+b = 0;
+
+
+Line 70: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+
+
+Line 71: variable : ID
+
+c
+
+Line 71: factor	: CONST_INT
+
+100
+
+Line 71: unary_expression : factor
+
+100
+
+Line 71: term :	unary_expression
+
+100
+
+Line 71: simple_expression : term
+
+100
+
+Line 71: rel_expression	: simple_expression
+
+100
+
+Line 71: logic_expression : rel_expression
+
+100
+
+Line 71: expression : variable ASSIGNOP logic_expression
+
+c = 100
+
+Line 71: expression_statement 	: expression SEMICOLON
+
+c = 100;
+
+
+Line 71: statement : expression_statement
+
+c = 100;
+
+
+Line 71: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+
+
+Line 72: variable : ID
+
+a
+
+Line 72: factor	: variable
+
+a
+
+Line 72: unary_expression : factor
+
+a
+
+Line 72: term :	unary_expression
+
+a
+
+Line 72: simple_expression : term
+
+a
+
+Line 72: rel_expression	: simple_expression
+
+a
+
+Line 72: logic_expression : rel_expression
+
+a
+
+Line 72: expression : logic expression
+
+a
+
+Line 73: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 73: statements : statement
+
+println ( a ) ;
+
+
+Line 74: compound_statement : LCURL statements RCURL
+
+{
+println ( a ) ;
+}
+
+
+ScopeTable # 1.5.1
+
+ScopeTable # 1.5
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >   < if_else_if_5 , ID >  
+
+Line 74: statement : compound_statement
+
+{
+println ( a ) ;
+}
+
+
+Line 75: variable : ID
+
+b
+
+Line 75: factor	: variable
+
+b
+
+Line 75: unary_expression : factor
+
+b
+
+Line 75: term :	unary_expression
+
+b
+
+Line 75: simple_expression : term
+
+b
+
+Line 75: rel_expression	: simple_expression
+
+b
+
+Line 75: logic_expression : rel_expression
+
+b
+
+Line 75: expression : logic expression
+
+b
+
+Line 76: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 76: statements : statement
+
+println ( b ) ;
+
+
+Line 77: compound_statement : LCURL statements RCURL
+
+{
+println ( b ) ;
+}
+
+
+ScopeTable # 1.5.2
+
+ScopeTable # 1.5
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >   < if_else_if_5 , ID >  
+
+Line 77: statement : compound_statement
+
+{
+println ( b ) ;
+}
+
+
+Line 79: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( c ) ;
+
+
+Line 79: statements : statement
+
+println ( c ) ;
+
+
+Line 80: compound_statement : LCURL statements RCURL
+
+{
+println ( c ) ;
+}
+
+
+ScopeTable # 1.5.3
+
+ScopeTable # 1.5
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >   < if_else_if_5 , ID >  
+
+Line 80: statement : compound_statement
+
+{
+println ( c ) ;
+}
+
+
+Line 80: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 80: statement : IF LPAREN expression RPAREN statement ELSE statement
+
+if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 80: statements : statements statement
+
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+
+
+Line 81: compound_statement : LCURL statements RCURL
+
+{
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+ScopeTable # 1.5
+8 -->  < b , ID >  
+9 -->  < c , ID >  
+
+ScopeTable # 1
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >   < if_else_if_5 , ID >  
+
+Line 81: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void if_else_if_5 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 81: unit : func_definition
+
+void if_else_if_5 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+Line 81: program : program unit
+
+int a ;
+ void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+ void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_3 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_4 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_5 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+
+
+if_else_if_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 5
+CMP AX, 0
+JE L2
+MOV AX, a
+CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_1 ENDP
+if_else_if_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L6
+MOV AX, a
+CALL OUTDEC
+JMP L7
+L6:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+L7:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_2 ENDP
+if_else_if_3 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, 0
+CMP AX, 0
+JE L10
+MOV AX, a
+CALL OUTDEC
+JMP L11
+L10:
+MOV AX, 10
+CMP AX, 0
+JE L8
+MOV AX, b
+CALL OUTDEC
+JMP L9
+L8:
+MOV AX, c
+CALL OUTDEC
+L9:
+L11:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_3 ENDP
+if_else_if_4 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 0
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L14
+MOV AX, a
+CALL OUTDEC
+JMP L15
+L14:
+MOV AX, b
+CMP AX, 0
+JE L12
+MOV AX, b
+CALL OUTDEC
+JMP L13
+L12:
+MOV AX, c
+CALL OUTDEC
+L13:
+L15:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_4 ENDP
+if_else_if_5 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 0
+MOV a, AX
+MOV AX, 0
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L18
+MOV AX, a
+CALL OUTDEC
+JMP L19
+L18:
+MOV AX, b
+CMP AX, 0
+JE L16
+MOV AX, b
+CALL OUTDEC
+JMP L17
+L16:
+MOV AX, c
+CALL OUTDEC
+L17:
+L19:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_5 ENDP
+
+Line 83: type_specifier	: INT
+
+int
+
+
+Line 84: argument_list : |
+
+ 
+
+Line 84: factor	: ID LPAREN argument_list RPAREN
+
+if_else_if_1 (   )
+
+Line 84: unary_expression : factor
+
+if_else_if_1 (   )
+
+Line 84: term :	unary_expression
+
+if_else_if_1 (   )
+
+Line 84: simple_expression : term
+
+if_else_if_1 (   )
+
+Line 84: rel_expression	: simple_expression
+
+if_else_if_1 (   )
+
+Line 84: logic_expression : rel_expression
+
+if_else_if_1 (   )
+
+Line 84: expression : logic expression
+
+if_else_if_1 (   )
+
+Line 84: expression_statement 	: expression SEMICOLON
+
+if_else_if_1 (   );
+
+
+Line 84: statement : expression_statement
+
+if_else_if_1 (   );
+
+
+Line 84: statements : statement
+
+if_else_if_1 (   );
+
+
+Line 85: argument_list : |
+
+ 
+
+Line 85: factor	: ID LPAREN argument_list RPAREN
+
+if_else_if_2 (   )
+
+Line 85: unary_expression : factor
+
+if_else_if_2 (   )
+
+Line 85: term :	unary_expression
+
+if_else_if_2 (   )
+
+Line 85: simple_expression : term
+
+if_else_if_2 (   )
+
+Line 85: rel_expression	: simple_expression
+
+if_else_if_2 (   )
+
+Line 85: logic_expression : rel_expression
+
+if_else_if_2 (   )
+
+Line 85: expression : logic expression
+
+if_else_if_2 (   )
+
+Line 85: expression_statement 	: expression SEMICOLON
+
+if_else_if_2 (   );
+
+
+Line 85: statement : expression_statement
+
+if_else_if_2 (   );
+
+
+Line 85: statements : statements statement
+
+if_else_if_1 (   );
+ if_else_if_2 (   );
+
+
+Line 86: argument_list : |
+
+ 
+
+Line 86: factor	: ID LPAREN argument_list RPAREN
+
+if_else_if_3 (   )
+
+Line 86: unary_expression : factor
+
+if_else_if_3 (   )
+
+Line 86: term :	unary_expression
+
+if_else_if_3 (   )
+
+Line 86: simple_expression : term
+
+if_else_if_3 (   )
+
+Line 86: rel_expression	: simple_expression
+
+if_else_if_3 (   )
+
+Line 86: logic_expression : rel_expression
+
+if_else_if_3 (   )
+
+Line 86: expression : logic expression
+
+if_else_if_3 (   )
+
+Line 86: expression_statement 	: expression SEMICOLON
+
+if_else_if_3 (   );
+
+
+Line 86: statement : expression_statement
+
+if_else_if_3 (   );
+
+
+Line 86: statements : statements statement
+
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+
+
+Line 87: argument_list : |
+
+ 
+
+Line 87: factor	: ID LPAREN argument_list RPAREN
+
+if_else_if_4 (   )
+
+Line 87: unary_expression : factor
+
+if_else_if_4 (   )
+
+Line 87: term :	unary_expression
+
+if_else_if_4 (   )
+
+Line 87: simple_expression : term
+
+if_else_if_4 (   )
+
+Line 87: rel_expression	: simple_expression
+
+if_else_if_4 (   )
+
+Line 87: logic_expression : rel_expression
+
+if_else_if_4 (   )
+
+Line 87: expression : logic expression
+
+if_else_if_4 (   )
+
+Line 87: expression_statement 	: expression SEMICOLON
+
+if_else_if_4 (   );
+
+
+Line 87: statement : expression_statement
+
+if_else_if_4 (   );
+
+
+Line 87: statements : statements statement
+
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+ if_else_if_4 (   );
+
+
+Line 88: argument_list : |
+
+ 
+
+Line 88: factor	: ID LPAREN argument_list RPAREN
+
+if_else_if_5 (   )
+
+Line 88: unary_expression : factor
+
+if_else_if_5 (   )
+
+Line 88: term :	unary_expression
+
+if_else_if_5 (   )
+
+Line 88: simple_expression : term
+
+if_else_if_5 (   )
+
+Line 88: rel_expression	: simple_expression
+
+if_else_if_5 (   )
+
+Line 88: logic_expression : rel_expression
+
+if_else_if_5 (   )
+
+Line 88: expression : logic expression
+
+if_else_if_5 (   )
+
+Line 88: expression_statement 	: expression SEMICOLON
+
+if_else_if_5 (   );
+
+
+Line 88: statement : expression_statement
+
+if_else_if_5 (   );
+
+
+Line 88: statements : statements statement
+
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+ if_else_if_4 (   );
+ if_else_if_5 (   );
+
+
+Line 89: compound_statement : LCURL statements RCURL
+
+{
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+ if_else_if_4 (   );
+ if_else_if_5 (   );
+}
+
+
+ScopeTable # 1.6
+
+ScopeTable # 1
+1 -->  < main , ID >  
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >   < if_else_if_5 , ID >  
+
+Line 89: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+int main ( ) {
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+ if_else_if_4 (   );
+ if_else_if_5 (   );
+}
+
+
+Line 89: unit : func_definition
+
+int main ( ) {
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+ if_else_if_4 (   );
+ if_else_if_5 (   );
+}
+
+
+Line 89: program : program unit
+
+int a ;
+ void if_else_if_1 ( ) {
+int b ;
+ a = 10;
+ b = 50;
+ if ( 5 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+}
+ void if_else_if_2 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_3 ( ) {
+int b ;
+ int c ;
+ a = 10;
+ b = 50;
+ c = 100;
+ if ( 0 ) {
+println ( a ) ;
+}
+ else if ( 10 ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_4 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 50;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ void if_else_if_5 ( ) {
+int b ;
+ int c ;
+ a = 0;
+ b = 0;
+ c = 100;
+ if ( a ) {
+println ( a ) ;
+}
+ else if ( b ) {
+println ( b ) ;
+}
+ else {
+println ( c ) ;
+}
+}
+ int main ( ) {
+if_else_if_1 (   );
+ if_else_if_2 (   );
+ if_else_if_3 (   );
+ if_else_if_4 (   );
+ if_else_if_5 (   );
+}
+
+
+if_else_if_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 5
+CMP AX, 0
+JE L2
+MOV AX, a
+CALL OUTDEC
+JMP L3
+L2:
+MOV AX, 10
+CMP AX, 0
+JE L1
+MOV AX, b
+CALL OUTDEC
+L1:
+L3:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_1 ENDP
+if_else_if_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L6
+MOV AX, a
+CALL OUTDEC
+JMP L7
+L6:
+MOV AX, 10
+CMP AX, 0
+JE L4
+MOV AX, b
+CALL OUTDEC
+JMP L5
+L4:
+MOV AX, c
+CALL OUTDEC
+L5:
+L7:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_2 ENDP
+if_else_if_3 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 10
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, 0
+CMP AX, 0
+JE L10
+MOV AX, a
+CALL OUTDEC
+JMP L11
+L10:
+MOV AX, 10
+CMP AX, 0
+JE L8
+MOV AX, b
+CALL OUTDEC
+JMP L9
+L8:
+MOV AX, c
+CALL OUTDEC
+L9:
+L11:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_3 ENDP
+if_else_if_4 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 0
+MOV a, AX
+MOV AX, 50
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L14
+MOV AX, a
+CALL OUTDEC
+JMP L15
+L14:
+MOV AX, b
+CMP AX, 0
+JE L12
+MOV AX, b
+CALL OUTDEC
+JMP L13
+L12:
+MOV AX, c
+CALL OUTDEC
+L13:
+L15:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_4 ENDP
+if_else_if_5 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 0
+MOV a, AX
+MOV AX, 0
+MOV b, AX
+MOV AX, 100
+MOV c, AX
+MOV AX, a
+CMP AX, 0
+JE L18
+MOV AX, a
+CALL OUTDEC
+JMP L19
+L18:
+MOV AX, b
+CMP AX, 0
+JE L16
+MOV AX, b
+CALL OUTDEC
+JMP L17
+L16:
+MOV AX, c
+CALL OUTDEC
+L17:
+L19:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+if_else_if_5 ENDP
 main PROC
 MOV AX, @DATA 
 MOV DS, AX
-CALL assignop_1
+CALL if_else_if_1
+CALL if_else_if_2
+CALL if_else_if_3
+CALL if_else_if_4
+CALL if_else_if_5
 
 MOV AH, 4CH
 INT 21H
 main ENDP
 
-Line 11: start : program
+Line 89: start : program
 
 ScopeTable # 1
 1 -->  < main , ID >  
-7 -->  < a , ID >  
-22 -->  < assignop_1 , ID >  
+3 -->  < if_else_if_1 , ID >  
+4 -->  < if_else_if_2 , ID >  
+5 -->  < if_else_if_3 , ID >  
+6 -->  < if_else_if_4 , ID >  
+7 -->  < a , ID >   < if_else_if_5 , ID >  
 
-Total lines: 11
+Total lines: 89
 Total errors: 0
