@@ -1249,7 +1249,7 @@ factor: variable	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							codeString = "MOV AX, "+$1->getSymbolName()+"\n";
 							codeString += "INC AX\n";
-							codeString += "MOV "+$1->getSymbolName()+", AX";
+							codeString += "MOV "+$1->getSymbolName()+", AX\n";
 							CodePrint(lineCount, codeString);
 							$$->code += codeString;
 						} 
@@ -1261,7 +1261,7 @@ factor: variable	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							codeString = "MOV AX, "+$1->getSymbolName()+"\n";
 							codeString += "DEC AX\n";
-							codeString += "MOV "+$1->getSymbolName()+", AX";
+							codeString += "MOV "+$1->getSymbolName()+", AX\n";
 							$$->code += codeString;
 						}
 	;

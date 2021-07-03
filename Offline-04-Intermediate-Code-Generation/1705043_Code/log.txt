@@ -55,868 +55,332 @@ int a ;
 
 
 
-Line 3: type_specifier	: INT
-
-int
-
-
-Line 3: declaration_list : ID
-
-c
-
-
-Line 3: var_declaration : type_specifier declaration_list SEMICOLON
-
-int c ;
-
-
-
-Line 3: unit : var_declaration
-
-int c ;
-
-
-
-Line 3: program : program unit
-
-int a ;
- int b ;
- int c ;
-
-
-
-Line 5: type_specifier	: VOID
+Line 4: type_specifier	: VOID
 
 void
 
-Line 6: variable : ID
+Line 5: variable : ID
 
 a
 
-Line 6: factor	: CONST_INT
+Line 5: factor	: CONST_INT
 
 1
 
-Line 6: unary_expression : factor
+Line 5: unary_expression : factor
 
 1
 
-Line 6: term :	unary_expression
+Line 5: term :	unary_expression
 
 1
 
-Line 6: simple_expression : term
+Line 5: simple_expression : term
 
 1
 
-Line 6: rel_expression	: simple_expression
+Line 5: rel_expression	: simple_expression
 
 1
 
-Line 6: logic_expression : rel_expression
+Line 5: logic_expression : rel_expression
 
 1
 
-Line 6: expression : variable ASSIGNOP logic_expression
+Line 5: expression : variable ASSIGNOP logic_expression
 
 a = 1
 
-Line 6: expression_statement 	: expression SEMICOLON
+Line 5: expression_statement 	: expression SEMICOLON
 
 a = 1;
+
+
+Line 5: statement : expression_statement
+
+a = 1;
+
+
+Line 5: statements : statement
+
+a = 1;
+
+
+Line 6: variable : ID
+
+b
+
+Line 6: factor	: CONST_INT
+
+2
+
+Line 6: unary_expression : factor
+
+2
+
+Line 6: term :	unary_expression
+
+2
+
+Line 6: simple_expression : term
+
+2
+
+Line 6: rel_expression	: simple_expression
+
+2
+
+Line 6: logic_expression : rel_expression
+
+2
+
+Line 6: expression : variable ASSIGNOP logic_expression
+
+b = 2
+
+Line 6: expression_statement 	: expression SEMICOLON
+
+b = 2;
 
 
 Line 6: statement : expression_statement
 
-a = 1;
-
-
-Line 6: statements : statement
-
-a = 1;
-
-
-Line 7: variable : ID
-
-b
-
-Line 7: factor	: CONST_INT
-
-2
-
-Line 7: unary_expression : factor
-
-2
-
-Line 7: term :	unary_expression
-
-2
-
-Line 7: simple_expression : term
-
-2
-
-Line 7: rel_expression	: simple_expression
-
-2
-
-Line 7: logic_expression : rel_expression
-
-2
-
-Line 7: expression : variable ASSIGNOP logic_expression
-
-b = 2
-
-Line 7: expression_statement 	: expression SEMICOLON
-
 b = 2;
 
 
-Line 7: statement : expression_statement
+Line 6: statements : statements statement
 
-b = 2;
+a = 1;
+ b = 2;
+
+
+Line 7: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
 
 
 Line 7: statements : statements statement
 
 a = 1;
  b = 2;
+ println ( a ) ;
 
 
-Line 8: variable : ID
+Line 8: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-c
-
-Line 8: factor	: CONST_INT
-
-3
-
-Line 8: unary_expression : factor
-
-3
-
-Line 8: term :	unary_expression
-
-3
-
-Line 8: simple_expression : term
-
-3
-
-Line 8: rel_expression	: simple_expression
-
-3
-
-Line 8: logic_expression : rel_expression
-
-3
-
-Line 8: expression : variable ASSIGNOP logic_expression
-
-c = 3
-
-Line 8: expression_statement 	: expression SEMICOLON
-
-c = 3;
-
-
-Line 8: statement : expression_statement
-
-c = 3;
+println ( b ) ;
 
 
 Line 8: statements : statements statement
 
 a = 1;
  b = 2;
- c = 3;
+ println ( a ) ;
+ println ( b ) ;
 
-
-Line 10: variable : ID
-
-c
 
 Line 10: variable : ID
 
 a
 
-Line 10: factor	: variable
+Line 10: factor	: variable INCOP
 
-a
+a ++
 
 Line 10: unary_expression : factor
 
-a
+a ++
 
 Line 10: term :	unary_expression
 
-a
+a ++
 
 Line 10: simple_expression : term
 
-a
+a ++
 
-Line 10: variable : ID
+Line 10: rel_expression	: simple_expression
 
-b
-
-Line 10: factor	: variable
-
-b
-
-Line 10: unary_expression : factor
-
-b
-
-Line 10: term :	unary_expression
-
-b
-
-Line 10: simple_expression : term
-
-b
-
-Line 10: rel_expression	: simple_expression RELOP simple_expression
-
-a < b
+a ++
 
 Line 10: logic_expression : rel_expression
 
-t1
+a ++
 
-Line 10: expression : variable ASSIGNOP logic_expression
+Line 10: expression : logic expression
 
-c = t1
+a ++
 
 Line 10: expression_statement 	: expression SEMICOLON
 
-c = t1;
+a ++;
 
 
 Line 10: statement : expression_statement
 
-c = t1;
+a ++;
 
 
 Line 10: statements : statements statement
 
 a = 1;
  b = 2;
- c = 3;
- c = t1;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
 
 
-Line 11: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 11: variable : ID
 
-println ( c ) ;
+b
+
+Line 11: factor	: variable INCOP
+
+b ++
+
+Line 11: unary_expression : factor
+
+b ++
+
+Line 11: term :	unary_expression
+
+b ++
+
+Line 11: simple_expression : term
+
+b ++
+
+Line 11: rel_expression	: simple_expression
+
+b ++
+
+Line 11: logic_expression : rel_expression
+
+b ++
+
+Line 11: expression : logic expression
+
+b ++
+
+Line 11: expression_statement 	: expression SEMICOLON
+
+b ++;
+
+
+Line 11: statement : expression_statement
+
+b ++;
 
 
 Line 11: statements : statements statement
 
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
 
 
-Line 13: variable : ID
+Line 12: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-c
-
-Line 13: variable : ID
-
-a
-
-Line 13: factor	: variable
-
-a
-
-Line 13: unary_expression : factor
-
-a
-
-Line 13: term :	unary_expression
-
-a
-
-Line 13: simple_expression : term
-
-a
-
-Line 13: variable : ID
-
-b
-
-Line 13: factor	: variable
-
-b
-
-Line 13: unary_expression : factor
-
-b
-
-Line 13: term :	unary_expression
-
-b
-
-Line 13: simple_expression : term
-
-b
-
-Line 13: rel_expression	: simple_expression RELOP simple_expression
-
-a <= b
-
-Line 13: logic_expression : rel_expression
-
-t2
-
-Line 13: expression : variable ASSIGNOP logic_expression
-
-c = t2
-
-Line 13: expression_statement 	: expression SEMICOLON
-
-c = t2;
+println ( a ) ;
 
 
-Line 13: statement : expression_statement
+Line 12: statements : statements statement
 
-c = t2;
+a = 1;
+ b = 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+
+
+Line 13: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
 
 
 Line 13: statements : statements statement
 
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
-
-
-Line 14: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 14: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
-
-
-Line 16: variable : ID
-
-c
-
-Line 16: variable : ID
-
-a
-
-Line 16: factor	: variable
-
-a
-
-Line 16: unary_expression : factor
-
-a
-
-Line 16: term :	unary_expression
-
-a
-
-Line 16: simple_expression : term
-
-a
-
-Line 16: variable : ID
-
-b
-
-Line 16: factor	: variable
-
-b
-
-Line 16: unary_expression : factor
-
-b
-
-Line 16: term :	unary_expression
-
-b
-
-Line 16: simple_expression : term
-
-b
-
-Line 16: rel_expression	: simple_expression RELOP simple_expression
-
-a > b
-
-Line 16: logic_expression : rel_expression
-
-t3
-
-Line 16: expression : variable ASSIGNOP logic_expression
-
-c = t3
-
-Line 16: expression_statement 	: expression SEMICOLON
-
-c = t3;
-
-
-Line 16: statement : expression_statement
-
-c = t3;
-
-
-Line 16: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
-
-
-Line 17: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 17: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
-
-
-Line 19: variable : ID
-
-c
-
-Line 19: variable : ID
-
-a
-
-Line 19: factor	: variable
-
-a
-
-Line 19: unary_expression : factor
-
-a
-
-Line 19: term :	unary_expression
-
-a
-
-Line 19: simple_expression : term
-
-a
-
-Line 19: variable : ID
-
-b
-
-Line 19: factor	: variable
-
-b
-
-Line 19: unary_expression : factor
-
-b
-
-Line 19: term :	unary_expression
-
-b
-
-Line 19: simple_expression : term
-
-b
-
-Line 19: rel_expression	: simple_expression RELOP simple_expression
-
-a >= b
-
-Line 19: logic_expression : rel_expression
-
-t4
-
-Line 19: expression : variable ASSIGNOP logic_expression
-
-c = t4
-
-Line 19: expression_statement 	: expression SEMICOLON
-
-c = t4;
-
-
-Line 19: statement : expression_statement
-
-c = t4;
-
-
-Line 19: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
-
-
-Line 20: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 20: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
-
-
-Line 22: variable : ID
-
-c
-
-Line 22: variable : ID
-
-a
-
-Line 22: factor	: variable
-
-a
-
-Line 22: unary_expression : factor
-
-a
-
-Line 22: term :	unary_expression
-
-a
-
-Line 22: simple_expression : term
-
-a
-
-Line 22: variable : ID
-
-b
-
-Line 22: factor	: variable
-
-b
-
-Line 22: unary_expression : factor
-
-b
-
-Line 22: term :	unary_expression
-
-b
-
-Line 22: simple_expression : term
-
-b
-
-Line 22: rel_expression	: simple_expression RELOP simple_expression
-
-a == b
-
-Line 22: logic_expression : rel_expression
-
-t5
-
-Line 22: expression : variable ASSIGNOP logic_expression
-
-c = t5
-
-Line 22: expression_statement 	: expression SEMICOLON
-
-c = t5;
-
-
-Line 22: statement : expression_statement
-
-c = t5;
-
-
-Line 22: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
-
-
-Line 23: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 23: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
-
-
-Line 25: variable : ID
-
-c
-
-Line 25: variable : ID
-
-a
-
-Line 25: factor	: variable
-
-a
-
-Line 25: unary_expression : factor
-
-a
-
-Line 25: term :	unary_expression
-
-a
-
-Line 25: simple_expression : term
-
-a
-
-Line 25: variable : ID
-
-b
-
-Line 25: factor	: variable
-
-b
-
-Line 25: unary_expression : factor
-
-b
-
-Line 25: term :	unary_expression
-
-b
-
-Line 25: simple_expression : term
-
-b
-
-Line 25: rel_expression	: simple_expression RELOP simple_expression
-
-a != b
-
-Line 25: logic_expression : rel_expression
-
-t6
-
-Line 25: expression : variable ASSIGNOP logic_expression
-
-c = t6
-
-Line 25: expression_statement 	: expression SEMICOLON
-
-c = t6;
-
-
-Line 25: statement : expression_statement
-
-c = t6;
-
-
-Line 25: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
-
-
-Line 26: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 26: statements : statements statement
-
-a = 1;
- b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
-
-
-Line 27: compound_statement : LCURL statements RCURL
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+
+
+Line 14: compound_statement : LCURL statements RCURL
 
 {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
 ScopeTable # 1.1
 
 ScopeTable # 1
-0 -->  < relop_1 , ID >  
 7 -->  < a , ID >  
 8 -->  < b , ID >  
-9 -->  < c , ID >  
+21 -->  < incop_1 , ID >  
 
-Line 27: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 14: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-void relop_1 ( ) {
+void incop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-Line 27: unit : func_definition
+Line 14: unit : func_definition
 
-void relop_1 ( ) {
+void incop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-Line 27: program : program unit
+Line 14: program : program unit
 
 int a ;
  int b ;
- int c ;
- void relop_1 ( ) {
+ void incop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-relop_1 PROC
+incop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
@@ -927,101 +391,488 @@ MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t1, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L1
-MOV AX, 1
-MOV t1, AX
-L1:
-MOV AX, t1
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t2, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L2
-MOV AX, 1
-MOV t2, AX
-L2:
-MOV AX, t2
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t3, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L3
-MOV AX, 1
-MOV t3, AX
-L3:
-MOV AX, t3
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t4, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L4
-MOV AX, 1
-MOV t4, AX
-L4:
-MOV AX, t4
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t5, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L5
-MOV AX, 1
-MOV t5, AX
-L5:
-MOV AX, t5
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t6, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L6
-MOV AX, 1
-MOV t6, AX
-L6:
-MOV AX, t6
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_1 ENDP
+incop_1 ENDP
 
-Line 29: type_specifier	: VOID
+Line 16: type_specifier	: VOID
 
 void
 
-Line 30: variable : ID
+Line 17: variable : ID
 
 a
+
+Line 17: factor	: CONST_INT
+
+1
+
+Line 17: unary_expression : factor
+
+1
+
+Line 17: unary_expression : ADDOP unary_expression
+
+- 1
+
+Line 17: term :	unary_expression
+
+- 1
+
+Line 17: simple_expression : term
+
+- 1
+
+Line 17: rel_expression	: simple_expression
+
+- 1
+
+Line 17: logic_expression : rel_expression
+
+- 1
+
+Line 17: expression : variable ASSIGNOP logic_expression
+
+a = - 1
+
+Line 17: expression_statement 	: expression SEMICOLON
+
+a = - 1;
+
+
+Line 17: statement : expression_statement
+
+a = - 1;
+
+
+Line 17: statements : statement
+
+a = - 1;
+
+
+Line 18: variable : ID
+
+b
+
+Line 18: factor	: CONST_INT
+
+2
+
+Line 18: unary_expression : factor
+
+2
+
+Line 18: unary_expression : ADDOP unary_expression
+
+- 2
+
+Line 18: term :	unary_expression
+
+- 2
+
+Line 18: simple_expression : term
+
+- 2
+
+Line 18: rel_expression	: simple_expression
+
+- 2
+
+Line 18: logic_expression : rel_expression
+
+- 2
+
+Line 18: expression : variable ASSIGNOP logic_expression
+
+b = - 2
+
+Line 18: expression_statement 	: expression SEMICOLON
+
+b = - 2;
+
+
+Line 18: statement : expression_statement
+
+b = - 2;
+
+
+Line 18: statements : statements statement
+
+a = - 1;
+ b = - 2;
+
+
+Line 19: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 19: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+
+
+Line 20: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 20: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+
+
+Line 22: variable : ID
+
+a
+
+Line 22: factor	: variable INCOP
+
+a ++
+
+Line 22: unary_expression : factor
+
+a ++
+
+Line 22: term :	unary_expression
+
+a ++
+
+Line 22: simple_expression : term
+
+a ++
+
+Line 22: rel_expression	: simple_expression
+
+a ++
+
+Line 22: logic_expression : rel_expression
+
+a ++
+
+Line 22: expression : logic expression
+
+a ++
+
+Line 22: expression_statement 	: expression SEMICOLON
+
+a ++;
+
+
+Line 22: statement : expression_statement
+
+a ++;
+
+
+Line 22: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+
+
+Line 23: variable : ID
+
+b
+
+Line 23: factor	: variable INCOP
+
+b ++
+
+Line 23: unary_expression : factor
+
+b ++
+
+Line 23: term :	unary_expression
+
+b ++
+
+Line 23: simple_expression : term
+
+b ++
+
+Line 23: rel_expression	: simple_expression
+
+b ++
+
+Line 23: logic_expression : rel_expression
+
+b ++
+
+Line 23: expression : logic expression
+
+b ++
+
+Line 23: expression_statement 	: expression SEMICOLON
+
+b ++;
+
+
+Line 23: statement : expression_statement
+
+b ++;
+
+
+Line 23: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+
+
+Line 24: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 24: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+
+
+Line 25: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 25: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+
+
+Line 26: compound_statement : LCURL statements RCURL
+
+{
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+}
+
+
+ScopeTable # 1.2
+
+ScopeTable # 1
+7 -->  < a , ID >  
+8 -->  < b , ID >  
+21 -->  < incop_1 , ID >  
+22 -->  < incop_2 , ID >  
+
+Line 26: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void incop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+}
+
+
+Line 26: unit : func_definition
+
+void incop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+}
+
+
+Line 26: program : program unit
+
+int a ;
+ int b ;
+ void incop_1 ( ) {
+a = 1;
+ b = 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+}
+ void incop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
+}
+
+
+incop_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 1
+MOV AX, 1
+MOV a, AX
+MOV AX, 2
+MOV AX, 2
+MOV b, AX
+MOV AX, a
+CALL OUTDEC
+MOV AX, b
+CALL OUTDEC
+MOV AX, a
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
+CALL OUTDEC
+MOV AX, b
+CALL OUTDEC
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+incop_1 ENDP
+incop_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 1
+MOV AX, - 1
+MOV a, AX
+MOV AX, 2
+MOV AX, - 2
+MOV b, AX
+MOV AX, a
+CALL OUTDEC
+MOV AX, b
+CALL OUTDEC
+MOV AX, a
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
+CALL OUTDEC
+MOV AX, b
+CALL OUTDEC
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+incop_2 ENDP
+
+Line 28: type_specifier	: VOID
+
+void
+
+Line 29: variable : ID
+
+a
+
+Line 29: factor	: CONST_INT
+
+1
+
+Line 29: unary_expression : factor
+
+1
+
+Line 29: term :	unary_expression
+
+1
+
+Line 29: simple_expression : term
+
+1
+
+Line 29: rel_expression	: simple_expression
+
+1
+
+Line 29: logic_expression : rel_expression
+
+1
+
+Line 29: expression : variable ASSIGNOP logic_expression
+
+a = 1
+
+Line 29: expression_statement 	: expression SEMICOLON
+
+a = 1;
+
+
+Line 29: statement : expression_statement
+
+a = 1;
+
+
+Line 29: statements : statement
+
+a = 1;
+
+
+Line 30: variable : ID
+
+b
 
 Line 30: factor	: CONST_INT
 
@@ -1049,1886 +900,272 @@ Line 30: logic_expression : rel_expression
 
 Line 30: expression : variable ASSIGNOP logic_expression
 
-a = 2
+b = 2
 
 Line 30: expression_statement 	: expression SEMICOLON
 
-a = 2;
+b = 2;
 
 
 Line 30: statement : expression_statement
 
-a = 2;
+b = 2;
 
 
-Line 30: statements : statement
+Line 30: statements : statements statement
 
-a = 2;
-
-
-Line 31: variable : ID
-
-b
-
-Line 31: factor	: CONST_INT
-
-1
-
-Line 31: unary_expression : factor
-
-1
-
-Line 31: term :	unary_expression
-
-1
-
-Line 31: simple_expression : term
-
-1
-
-Line 31: rel_expression	: simple_expression
-
-1
-
-Line 31: logic_expression : rel_expression
-
-1
-
-Line 31: expression : variable ASSIGNOP logic_expression
-
-b = 1
-
-Line 31: expression_statement 	: expression SEMICOLON
-
-b = 1;
+a = 1;
+ b = 2;
 
 
-Line 31: statement : expression_statement
+Line 31: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-b = 1;
+println ( a ) ;
 
 
 Line 31: statements : statements statement
 
-a = 2;
- b = 1;
+a = 1;
+ b = 2;
+ println ( a ) ;
 
 
-Line 32: variable : ID
+Line 32: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-c
-
-Line 32: factor	: CONST_INT
-
-3
-
-Line 32: unary_expression : factor
-
-3
-
-Line 32: term :	unary_expression
-
-3
-
-Line 32: simple_expression : term
-
-3
-
-Line 32: rel_expression	: simple_expression
-
-3
-
-Line 32: logic_expression : rel_expression
-
-3
-
-Line 32: expression : variable ASSIGNOP logic_expression
-
-c = 3
-
-Line 32: expression_statement 	: expression SEMICOLON
-
-c = 3;
-
-
-Line 32: statement : expression_statement
-
-c = 3;
+println ( b ) ;
 
 
 Line 32: statements : statements statement
 
-a = 2;
- b = 1;
- c = 3;
+a = 1;
+ b = 2;
+ println ( a ) ;
+ println ( b ) ;
 
-
-Line 34: variable : ID
-
-c
 
 Line 34: variable : ID
 
 a
 
-Line 34: factor	: variable
+Line 34: factor	: variable DECOP
 
-a
+a --
 
 Line 34: unary_expression : factor
 
-a
+a --
 
 Line 34: term :	unary_expression
 
-a
+a --
 
 Line 34: simple_expression : term
 
-a
+a --
 
-Line 34: variable : ID
+Line 34: rel_expression	: simple_expression
 
-b
-
-Line 34: factor	: variable
-
-b
-
-Line 34: unary_expression : factor
-
-b
-
-Line 34: term :	unary_expression
-
-b
-
-Line 34: simple_expression : term
-
-b
-
-Line 34: rel_expression	: simple_expression RELOP simple_expression
-
-a < b
+a --
 
 Line 34: logic_expression : rel_expression
 
-t7
+a --
 
-Line 34: expression : variable ASSIGNOP logic_expression
+Line 34: expression : logic expression
 
-c = t7
+a --
 
 Line 34: expression_statement 	: expression SEMICOLON
 
-c = t7;
+a --;
 
 
 Line 34: statement : expression_statement
 
-c = t7;
+a --;
 
 
 Line 34: statements : statements statement
 
-a = 2;
- b = 1;
- c = 3;
- c = t7;
+a = 1;
+ b = 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
 
 
-Line 35: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 35: variable : ID
 
-println ( c ) ;
+b
+
+Line 35: factor	: variable DECOP
+
+b --
+
+Line 35: unary_expression : factor
+
+b --
+
+Line 35: term :	unary_expression
+
+b --
+
+Line 35: simple_expression : term
+
+b --
+
+Line 35: rel_expression	: simple_expression
+
+b --
+
+Line 35: logic_expression : rel_expression
+
+b --
+
+Line 35: expression : logic expression
+
+b --
+
+Line 35: expression_statement 	: expression SEMICOLON
+
+b --;
+
+
+Line 35: statement : expression_statement
+
+b --;
 
 
 Line 35: statements : statements statement
 
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
+a = 1;
+ b = 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
 
 
-Line 37: variable : ID
+Line 36: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-c
-
-Line 37: variable : ID
-
-a
-
-Line 37: factor	: variable
-
-a
-
-Line 37: unary_expression : factor
-
-a
-
-Line 37: term :	unary_expression
-
-a
-
-Line 37: simple_expression : term
-
-a
-
-Line 37: variable : ID
-
-b
-
-Line 37: factor	: variable
-
-b
-
-Line 37: unary_expression : factor
-
-b
-
-Line 37: term :	unary_expression
-
-b
-
-Line 37: simple_expression : term
-
-b
-
-Line 37: rel_expression	: simple_expression RELOP simple_expression
-
-a <= b
-
-Line 37: logic_expression : rel_expression
-
-t8
-
-Line 37: expression : variable ASSIGNOP logic_expression
-
-c = t8
-
-Line 37: expression_statement 	: expression SEMICOLON
-
-c = t8;
+println ( a ) ;
 
 
-Line 37: statement : expression_statement
+Line 36: statements : statements statement
 
-c = t8;
+a = 1;
+ b = 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+
+
+Line 37: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
 
 
 Line 37: statements : statements statement
 
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
-
-
-Line 38: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 38: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
-
-
-Line 40: variable : ID
-
-c
-
-Line 40: variable : ID
-
-a
-
-Line 40: factor	: variable
-
-a
-
-Line 40: unary_expression : factor
-
-a
-
-Line 40: term :	unary_expression
-
-a
-
-Line 40: simple_expression : term
-
-a
-
-Line 40: variable : ID
-
-b
-
-Line 40: factor	: variable
-
-b
-
-Line 40: unary_expression : factor
-
-b
-
-Line 40: term :	unary_expression
-
-b
-
-Line 40: simple_expression : term
-
-b
-
-Line 40: rel_expression	: simple_expression RELOP simple_expression
-
-a > b
-
-Line 40: logic_expression : rel_expression
-
-t9
-
-Line 40: expression : variable ASSIGNOP logic_expression
-
-c = t9
-
-Line 40: expression_statement 	: expression SEMICOLON
-
-c = t9;
-
-
-Line 40: statement : expression_statement
-
-c = t9;
-
-
-Line 40: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
-
-
-Line 41: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 41: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
-
-
-Line 43: variable : ID
-
-c
-
-Line 43: variable : ID
-
-a
-
-Line 43: factor	: variable
-
-a
-
-Line 43: unary_expression : factor
-
-a
-
-Line 43: term :	unary_expression
-
-a
-
-Line 43: simple_expression : term
-
-a
-
-Line 43: variable : ID
-
-b
-
-Line 43: factor	: variable
-
-b
-
-Line 43: unary_expression : factor
-
-b
-
-Line 43: term :	unary_expression
-
-b
-
-Line 43: simple_expression : term
-
-b
-
-Line 43: rel_expression	: simple_expression RELOP simple_expression
-
-a >= b
-
-Line 43: logic_expression : rel_expression
-
-t10
-
-Line 43: expression : variable ASSIGNOP logic_expression
-
-c = t10
-
-Line 43: expression_statement 	: expression SEMICOLON
-
-c = t10;
-
-
-Line 43: statement : expression_statement
-
-c = t10;
-
-
-Line 43: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
-
-
-Line 44: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 44: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
-
-
-Line 46: variable : ID
-
-c
-
-Line 46: variable : ID
-
-a
-
-Line 46: factor	: variable
-
-a
-
-Line 46: unary_expression : factor
-
-a
-
-Line 46: term :	unary_expression
-
-a
-
-Line 46: simple_expression : term
-
-a
-
-Line 46: variable : ID
-
-b
-
-Line 46: factor	: variable
-
-b
-
-Line 46: unary_expression : factor
-
-b
-
-Line 46: term :	unary_expression
-
-b
-
-Line 46: simple_expression : term
-
-b
-
-Line 46: rel_expression	: simple_expression RELOP simple_expression
-
-a == b
-
-Line 46: logic_expression : rel_expression
-
-t11
-
-Line 46: expression : variable ASSIGNOP logic_expression
-
-c = t11
-
-Line 46: expression_statement 	: expression SEMICOLON
-
-c = t11;
-
-
-Line 46: statement : expression_statement
-
-c = t11;
-
-
-Line 46: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
-
-
-Line 47: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 47: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
-
-
-Line 49: variable : ID
-
-c
-
-Line 49: variable : ID
-
-a
-
-Line 49: factor	: variable
-
-a
-
-Line 49: unary_expression : factor
-
-a
-
-Line 49: term :	unary_expression
-
-a
-
-Line 49: simple_expression : term
-
-a
-
-Line 49: variable : ID
-
-b
-
-Line 49: factor	: variable
-
-b
-
-Line 49: unary_expression : factor
-
-b
-
-Line 49: term :	unary_expression
-
-b
-
-Line 49: simple_expression : term
-
-b
-
-Line 49: rel_expression	: simple_expression RELOP simple_expression
-
-a != b
-
-Line 49: logic_expression : rel_expression
-
-t12
-
-Line 49: expression : variable ASSIGNOP logic_expression
-
-c = t12
-
-Line 49: expression_statement 	: expression SEMICOLON
-
-c = t12;
-
-
-Line 49: statement : expression_statement
-
-c = t12;
-
-
-Line 49: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
-
-
-Line 50: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 50: statements : statements statement
-
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
-
-
-Line 51: compound_statement : LCURL statements RCURL
-
-{
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.2
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 51: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void relop_2 ( ) {
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
-}
-
-
-Line 51: unit : func_definition
-
-void relop_2 ( ) {
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
-}
-
-
-Line 51: program : program unit
-
-int a ;
- int b ;
- int c ;
- void relop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
-}
- void relop_2 ( ) {
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
-}
-
-
-relop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t1, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L1
-MOV AX, 1
-MOV t1, AX
-L1:
-MOV AX, t1
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t2, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L2
-MOV AX, 1
-MOV t2, AX
-L2:
-MOV AX, t2
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t3, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L3
-MOV AX, 1
-MOV t3, AX
-L3:
-MOV AX, t3
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t4, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L4
-MOV AX, 1
-MOV t4, AX
-L4:
-MOV AX, t4
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t5, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L5
-MOV AX, 1
-MOV t5, AX
-L5:
-MOV AX, t5
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t6, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L6
-MOV AX, 1
-MOV t6, AX
-L6:
-MOV AX, t6
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-relop_1 ENDP
-relop_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 2
-MOV AX, 2
-MOV a, AX
-MOV AX, 1
-MOV AX, 1
-MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t7, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L7
-MOV AX, 1
-MOV t7, AX
-L7:
-MOV AX, t7
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t8, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L8
-MOV AX, 1
-MOV t8, AX
-L8:
-MOV AX, t8
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t9, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L9
-MOV AX, 1
-MOV t9, AX
-L9:
-MOV AX, t9
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t10, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L10
-MOV AX, 1
-MOV t10, AX
-L10:
-MOV AX, t10
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t11, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L11
-MOV AX, 1
-MOV t11, AX
-L11:
-MOV AX, t11
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t12, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L12
-MOV AX, 1
-MOV t12, AX
-L12:
-MOV AX, t12
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-relop_2 ENDP
-
-Line 53: type_specifier	: VOID
-
-void
-
-Line 54: variable : ID
-
-a
-
-Line 54: factor	: CONST_INT
-
-2
-
-Line 54: unary_expression : factor
-
-2
-
-Line 54: term :	unary_expression
-
-2
-
-Line 54: simple_expression : term
-
-2
-
-Line 54: rel_expression	: simple_expression
-
-2
-
-Line 54: logic_expression : rel_expression
-
-2
-
-Line 54: expression : variable ASSIGNOP logic_expression
-
-a = 2
-
-Line 54: expression_statement 	: expression SEMICOLON
-
-a = 2;
-
-
-Line 54: statement : expression_statement
-
-a = 2;
-
-
-Line 54: statements : statement
-
-a = 2;
-
-
-Line 55: variable : ID
-
-b
-
-Line 55: factor	: CONST_INT
-
-2
-
-Line 55: unary_expression : factor
-
-2
-
-Line 55: term :	unary_expression
-
-2
-
-Line 55: simple_expression : term
-
-2
-
-Line 55: rel_expression	: simple_expression
-
-2
-
-Line 55: logic_expression : rel_expression
-
-2
-
-Line 55: expression : variable ASSIGNOP logic_expression
-
-b = 2
-
-Line 55: expression_statement 	: expression SEMICOLON
-
-b = 2;
-
-
-Line 55: statement : expression_statement
-
-b = 2;
-
-
-Line 55: statements : statements statement
-
-a = 2;
- b = 2;
-
-
-Line 56: variable : ID
-
-c
-
-Line 56: factor	: CONST_INT
-
-3
-
-Line 56: unary_expression : factor
-
-3
-
-Line 56: term :	unary_expression
-
-3
-
-Line 56: simple_expression : term
-
-3
-
-Line 56: rel_expression	: simple_expression
-
-3
-
-Line 56: logic_expression : rel_expression
-
-3
-
-Line 56: expression : variable ASSIGNOP logic_expression
-
-c = 3
-
-Line 56: expression_statement 	: expression SEMICOLON
-
-c = 3;
-
-
-Line 56: statement : expression_statement
-
-c = 3;
-
-
-Line 56: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
-
-
-Line 58: variable : ID
-
-c
-
-Line 58: variable : ID
-
-a
-
-Line 58: factor	: variable
-
-a
-
-Line 58: unary_expression : factor
-
-a
-
-Line 58: term :	unary_expression
-
-a
-
-Line 58: simple_expression : term
-
-a
-
-Line 58: variable : ID
-
-b
-
-Line 58: factor	: variable
-
-b
-
-Line 58: unary_expression : factor
-
-b
-
-Line 58: term :	unary_expression
-
-b
-
-Line 58: simple_expression : term
-
-b
-
-Line 58: rel_expression	: simple_expression RELOP simple_expression
-
-a < b
-
-Line 58: logic_expression : rel_expression
-
-t13
-
-Line 58: expression : variable ASSIGNOP logic_expression
-
-c = t13
-
-Line 58: expression_statement 	: expression SEMICOLON
-
-c = t13;
-
-
-Line 58: statement : expression_statement
-
-c = t13;
-
-
-Line 58: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
-
-
-Line 59: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 59: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
-
-
-Line 61: variable : ID
-
-c
-
-Line 61: variable : ID
-
-a
-
-Line 61: factor	: variable
-
-a
-
-Line 61: unary_expression : factor
-
-a
-
-Line 61: term :	unary_expression
-
-a
-
-Line 61: simple_expression : term
-
-a
-
-Line 61: variable : ID
-
-b
-
-Line 61: factor	: variable
-
-b
-
-Line 61: unary_expression : factor
-
-b
-
-Line 61: term :	unary_expression
-
-b
-
-Line 61: simple_expression : term
-
-b
-
-Line 61: rel_expression	: simple_expression RELOP simple_expression
-
-a <= b
-
-Line 61: logic_expression : rel_expression
-
-t14
-
-Line 61: expression : variable ASSIGNOP logic_expression
-
-c = t14
-
-Line 61: expression_statement 	: expression SEMICOLON
-
-c = t14;
-
-
-Line 61: statement : expression_statement
-
-c = t14;
-
-
-Line 61: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
-
-
-Line 62: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 62: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
-
-
-Line 64: variable : ID
-
-c
-
-Line 64: variable : ID
-
-a
-
-Line 64: factor	: variable
-
-a
-
-Line 64: unary_expression : factor
-
-a
-
-Line 64: term :	unary_expression
-
-a
-
-Line 64: simple_expression : term
-
-a
-
-Line 64: variable : ID
-
-b
-
-Line 64: factor	: variable
-
-b
-
-Line 64: unary_expression : factor
-
-b
-
-Line 64: term :	unary_expression
-
-b
-
-Line 64: simple_expression : term
-
-b
-
-Line 64: rel_expression	: simple_expression RELOP simple_expression
-
-a > b
-
-Line 64: logic_expression : rel_expression
-
-t15
-
-Line 64: expression : variable ASSIGNOP logic_expression
-
-c = t15
-
-Line 64: expression_statement 	: expression SEMICOLON
-
-c = t15;
-
-
-Line 64: statement : expression_statement
-
-c = t15;
-
-
-Line 64: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
-
-
-Line 65: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 65: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
-
-
-Line 67: variable : ID
-
-c
-
-Line 67: variable : ID
-
-a
-
-Line 67: factor	: variable
-
-a
-
-Line 67: unary_expression : factor
-
-a
-
-Line 67: term :	unary_expression
-
-a
-
-Line 67: simple_expression : term
-
-a
-
-Line 67: variable : ID
-
-b
-
-Line 67: factor	: variable
-
-b
-
-Line 67: unary_expression : factor
-
-b
-
-Line 67: term :	unary_expression
-
-b
-
-Line 67: simple_expression : term
-
-b
-
-Line 67: rel_expression	: simple_expression RELOP simple_expression
-
-a >= b
-
-Line 67: logic_expression : rel_expression
-
-t16
-
-Line 67: expression : variable ASSIGNOP logic_expression
-
-c = t16
-
-Line 67: expression_statement 	: expression SEMICOLON
-
-c = t16;
-
-
-Line 67: statement : expression_statement
-
-c = t16;
-
-
-Line 67: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
-
-
-Line 68: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 68: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
-
-
-Line 70: variable : ID
-
-c
-
-Line 70: variable : ID
-
-a
-
-Line 70: factor	: variable
-
-a
-
-Line 70: unary_expression : factor
-
-a
-
-Line 70: term :	unary_expression
-
-a
-
-Line 70: simple_expression : term
-
-a
-
-Line 70: variable : ID
-
-b
-
-Line 70: factor	: variable
-
-b
-
-Line 70: unary_expression : factor
-
-b
-
-Line 70: term :	unary_expression
-
-b
-
-Line 70: simple_expression : term
-
-b
-
-Line 70: rel_expression	: simple_expression RELOP simple_expression
-
-a == b
-
-Line 70: logic_expression : rel_expression
-
-t17
-
-Line 70: expression : variable ASSIGNOP logic_expression
-
-c = t17
-
-Line 70: expression_statement 	: expression SEMICOLON
-
-c = t17;
-
-
-Line 70: statement : expression_statement
-
-c = t17;
-
-
-Line 70: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
-
-
-Line 71: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 71: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
-
-
-Line 73: variable : ID
-
-c
-
-Line 73: variable : ID
-
-a
-
-Line 73: factor	: variable
-
-a
-
-Line 73: unary_expression : factor
-
-a
-
-Line 73: term :	unary_expression
-
-a
-
-Line 73: simple_expression : term
-
-a
-
-Line 73: variable : ID
-
-b
-
-Line 73: factor	: variable
-
-b
-
-Line 73: unary_expression : factor
-
-b
-
-Line 73: term :	unary_expression
-
-b
-
-Line 73: simple_expression : term
-
-b
-
-Line 73: rel_expression	: simple_expression RELOP simple_expression
-
-a != b
-
-Line 73: logic_expression : rel_expression
-
-t18
-
-Line 73: expression : variable ASSIGNOP logic_expression
-
-c = t18
-
-Line 73: expression_statement 	: expression SEMICOLON
-
-c = t18;
-
-
-Line 73: statement : expression_statement
-
-c = t18;
-
-
-Line 73: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
-
-
-Line 74: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 74: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
-
-
-Line 75: compound_statement : LCURL statements RCURL
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
+
+
+Line 38: compound_statement : LCURL statements RCURL
 
 {
-a = 2;
+a = 1;
  b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
 ScopeTable # 1.3
 
 ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-7 -->  < a , ID >  
+7 -->  < a , ID >   < decop_1 , ID >  
 8 -->  < b , ID >  
-9 -->  < c , ID >  
+21 -->  < incop_1 , ID >  
+22 -->  < incop_2 , ID >  
 
-Line 75: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 38: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-void relop_3 ( ) {
-a = 2;
+void decop_1 ( ) {
+a = 1;
  b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-Line 75: unit : func_definition
+Line 38: unit : func_definition
 
-void relop_3 ( ) {
-a = 2;
+void decop_1 ( ) {
+a = 1;
  b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-Line 75: program : program unit
+Line 38: program : program unit
 
 int a ;
  int b ;
- int c ;
- void relop_1 ( ) {
+ void incop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_2 ( ) {
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
+ void incop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_3 ( ) {
-a = 2;
+ void decop_1 ( ) {
+a = 1;
  b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-relop_1 PROC
+incop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
@@ -2939,1950 +1176,454 @@ MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t1, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L1
-MOV AX, 1
-MOV t1, AX
-L1:
-MOV AX, t1
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t2, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L2
-MOV AX, 1
-MOV t2, AX
-L2:
-MOV AX, t2
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t3, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L3
-MOV AX, 1
-MOV t3, AX
-L3:
-MOV AX, t3
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t4, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L4
-MOV AX, 1
-MOV t4, AX
-L4:
-MOV AX, t4
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t5, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L5
-MOV AX, 1
-MOV t5, AX
-L5:
-MOV AX, t5
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t6, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L6
-MOV AX, 1
-MOV t6, AX
-L6:
-MOV AX, t6
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_1 ENDP
-relop_2 PROC
+incop_1 ENDP
+incop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, - 1
 MOV a, AX
-MOV AX, 1
-MOV AX, 1
+MOV AX, 2
+MOV AX, - 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t7, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L7
-MOV AX, 1
-MOV t7, AX
-L7:
-MOV AX, t7
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t8, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L8
-MOV AX, 1
-MOV t8, AX
-L8:
-MOV AX, t8
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t9, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L9
-MOV AX, 1
-MOV t9, AX
-L9:
-MOV AX, t9
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t10, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L10
-MOV AX, 1
-MOV t10, AX
-L10:
-MOV AX, t10
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t11, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L11
-MOV AX, 1
-MOV t11, AX
-L11:
-MOV AX, t11
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t12, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L12
-MOV AX, 1
-MOV t12, AX
-L12:
-MOV AX, t12
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_2 ENDP
-relop_3 PROC
+incop_2 ENDP
+decop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, 1
 MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t13, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L13
-MOV AX, 1
-MOV t13, AX
-L13:
-MOV AX, t13
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t14, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L14
-MOV AX, 1
-MOV t14, AX
-L14:
-MOV AX, t14
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t15, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L15
-MOV AX, 1
-MOV t15, AX
-L15:
-MOV AX, t15
-MOV c, AX
-MOV AX, c
+DEC AX
+MOV a, AX
+MOV AX, b
+DEC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t16, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L16
-MOV AX, 1
-MOV t16, AX
-L16:
-MOV AX, t16
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t17, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L17
-MOV AX, 1
-MOV t17, AX
-L17:
-MOV AX, t17
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t18, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L18
-MOV AX, 1
-MOV t18, AX
-L18:
-MOV AX, t18
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_3 ENDP
+decop_1 ENDP
 
-Line 77: type_specifier	: VOID
+Line 40: type_specifier	: VOID
 
 void
 
-Line 78: variable : ID
+Line 41: variable : ID
 
 a
 
-Line 78: factor	: CONST_INT
+Line 41: factor	: CONST_INT
+
+1
+
+Line 41: unary_expression : factor
+
+1
+
+Line 41: unary_expression : ADDOP unary_expression
+
+- 1
+
+Line 41: term :	unary_expression
+
+- 1
+
+Line 41: simple_expression : term
+
+- 1
+
+Line 41: rel_expression	: simple_expression
+
+- 1
+
+Line 41: logic_expression : rel_expression
+
+- 1
+
+Line 41: expression : variable ASSIGNOP logic_expression
+
+a = - 1
+
+Line 41: expression_statement 	: expression SEMICOLON
+
+a = - 1;
+
+
+Line 41: statement : expression_statement
+
+a = - 1;
+
+
+Line 41: statements : statement
+
+a = - 1;
+
+
+Line 42: variable : ID
+
+b
+
+Line 42: factor	: CONST_INT
 
 2
 
-Line 78: unary_expression : factor
+Line 42: unary_expression : factor
 
 2
 
-Line 78: term :	unary_expression
+Line 42: unary_expression : ADDOP unary_expression
 
-2
+- 2
 
-Line 78: simple_expression : term
+Line 42: term :	unary_expression
 
-2
+- 2
 
-Line 78: rel_expression	: simple_expression
+Line 42: simple_expression : term
 
-2
+- 2
 
-Line 78: logic_expression : rel_expression
+Line 42: rel_expression	: simple_expression
 
-2
+- 2
 
-Line 78: expression : variable ASSIGNOP logic_expression
+Line 42: logic_expression : rel_expression
 
-a = 2
+- 2
 
-Line 78: expression_statement 	: expression SEMICOLON
+Line 42: expression : variable ASSIGNOP logic_expression
 
-a = 2;
+b = - 2
 
+Line 42: expression_statement 	: expression SEMICOLON
 
-Line 78: statement : expression_statement
+b = - 2;
 
-a = 2;
 
+Line 42: statement : expression_statement
 
-Line 78: statements : statement
+b = - 2;
 
-a = 2;
 
+Line 42: statements : statements statement
 
-Line 79: variable : ID
+a = - 1;
+ b = - 2;
 
-b
 
-Line 79: factor	: CONST_INT
+Line 43: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-2
+println ( a ) ;
 
-Line 79: unary_expression : factor
 
-2
+Line 43: statements : statements statement
 
-Line 79: term :	unary_expression
+a = - 1;
+ b = - 2;
+ println ( a ) ;
 
-2
 
-Line 79: simple_expression : term
+Line 44: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-2
+println ( b ) ;
 
-Line 79: rel_expression	: simple_expression
 
-2
+Line 44: statements : statements statement
 
-Line 79: logic_expression : rel_expression
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
 
-2
 
-Line 79: expression : variable ASSIGNOP logic_expression
-
-b = 2
-
-Line 79: expression_statement 	: expression SEMICOLON
-
-b = 2;
-
-
-Line 79: statement : expression_statement
-
-b = 2;
-
-
-Line 79: statements : statements statement
-
-a = 2;
- b = 2;
-
-
-Line 80: variable : ID
-
-c
-
-Line 80: factor	: CONST_INT
-
-3
-
-Line 80: unary_expression : factor
-
-3
-
-Line 80: term :	unary_expression
-
-3
-
-Line 80: simple_expression : term
-
-3
-
-Line 80: rel_expression	: simple_expression
-
-3
-
-Line 80: logic_expression : rel_expression
-
-3
-
-Line 80: expression : variable ASSIGNOP logic_expression
-
-c = 3
-
-Line 80: expression_statement 	: expression SEMICOLON
-
-c = 3;
-
-
-Line 80: statement : expression_statement
-
-c = 3;
-
-
-Line 80: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
-
-
-Line 82: variable : ID
+Line 46: variable : ID
 
 a
 
-Line 82: factor	: variable
+Line 46: factor	: variable DECOP
 
-a
+a --
 
-Line 82: unary_expression : factor
+Line 46: unary_expression : factor
 
-a
+a --
 
-Line 82: term :	unary_expression
+Line 46: term :	unary_expression
 
-a
+a --
 
-Line 82: simple_expression : term
+Line 46: simple_expression : term
 
-a
+a --
 
-Line 82: variable : ID
+Line 46: rel_expression	: simple_expression
 
-b
+a --
 
-Line 82: factor	: variable
+Line 46: logic_expression : rel_expression
 
-b
+a --
 
-Line 82: unary_expression : factor
+Line 46: expression : logic expression
 
-b
+a --
 
-Line 82: term :	unary_expression
+Line 46: expression_statement 	: expression SEMICOLON
 
-b
+a --;
 
-Line 82: simple_expression : term
 
-b
+Line 46: statement : expression_statement
 
-Line 82: rel_expression	: simple_expression RELOP simple_expression
+a --;
 
-a < b
 
-Line 82: logic_expression : rel_expression
+Line 46: statements : statements statement
 
-t19
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
 
-Line 82: expression : logic expression
 
-t19
-
-Line 83: variable : ID
-
-c
-
-Line 83: variable : ID
-
-a
-
-Line 83: factor	: variable
-
-a
-
-Line 83: unary_expression : factor
-
-a
-
-Line 83: term :	unary_expression
-
-a
-
-Line 83: simple_expression : term
-
-a
-
-Line 83: variable : ID
+Line 47: variable : ID
 
 b
 
-Line 83: factor	: variable
+Line 47: factor	: variable DECOP
 
-b
+b --
 
-Line 83: unary_expression : factor
+Line 47: unary_expression : factor
 
-b
+b --
 
-Line 83: term :	unary_expression
+Line 47: term :	unary_expression
 
-b
+b --
 
-Line 83: simple_expression : term
+Line 47: simple_expression : term
 
-b
+b --
 
-Line 83: rel_expression	: simple_expression RELOP simple_expression
+Line 47: rel_expression	: simple_expression
 
-a < b
+b --
 
-Line 83: logic_expression : rel_expression
+Line 47: logic_expression : rel_expression
 
-t20
+b --
 
-Line 83: expression : variable ASSIGNOP logic_expression
+Line 47: expression : logic expression
 
-c = t20
+b --
 
-Line 83: expression_statement 	: expression SEMICOLON
+Line 47: expression_statement 	: expression SEMICOLON
 
-c = t20;
-
-
-Line 83: statement : expression_statement
-
-c = t20;
+b --;
 
 
-Line 83: statements : statement
+Line 47: statement : expression_statement
 
-c = t20;
-
-
-Line 84: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
+b --;
 
 
-Line 84: statements : statements statement
+Line 47: statements : statements statement
 
-c = t20;
- println ( c ) ;
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
 
 
-Line 85: compound_statement : LCURL statements RCURL
+Line 48: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( a ) ;
+
+
+Line 48: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+
+
+Line 49: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( b ) ;
+
+
+Line 49: statements : statements statement
+
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
+
+
+Line 50: compound_statement : LCURL statements RCURL
 
 {
-c = t20;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.4.1
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 85: statement : compound_statement
-
-{
-c = t20;
- println ( c ) ;
-}
-
-
-Line 87: statement : IF LPAREN expression RPAREN statement
-
-if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
-
-
-MOV AX, 0
-MOV t19, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L19
-MOV AX, 1
-MOV t19, AX
-L19:
-MOV AX, t19
-CMP AX, 0
-JE L21
-MOV AX, 0
-MOV t20, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L20
-MOV AX, 1
-MOV t20, AX
-L20:
-MOV AX, t20
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L21:
-
-Line 87: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
-
-
-Line 87: variable : ID
-
-a
-
-Line 87: factor	: variable
-
-a
-
-Line 87: unary_expression : factor
-
-a
-
-Line 87: term :	unary_expression
-
-a
-
-Line 87: simple_expression : term
-
-a
-
-Line 87: variable : ID
-
-b
-
-Line 87: factor	: variable
-
-b
-
-Line 87: unary_expression : factor
-
-b
-
-Line 87: term :	unary_expression
-
-b
-
-Line 87: simple_expression : term
-
-b
-
-Line 87: rel_expression	: simple_expression RELOP simple_expression
-
-a <= b
-
-Line 87: logic_expression : rel_expression
-
-t21
-
-Line 87: expression : logic expression
-
-t21
-
-Line 88: variable : ID
-
-c
-
-Line 88: variable : ID
-
-a
-
-Line 88: factor	: variable
-
-a
-
-Line 88: unary_expression : factor
-
-a
-
-Line 88: term :	unary_expression
-
-a
-
-Line 88: simple_expression : term
-
-a
-
-Line 88: variable : ID
-
-b
-
-Line 88: factor	: variable
-
-b
-
-Line 88: unary_expression : factor
-
-b
-
-Line 88: term :	unary_expression
-
-b
-
-Line 88: simple_expression : term
-
-b
-
-Line 88: rel_expression	: simple_expression RELOP simple_expression
-
-a <= b
-
-Line 88: logic_expression : rel_expression
-
-t22
-
-Line 88: expression : variable ASSIGNOP logic_expression
-
-c = t22
-
-Line 88: expression_statement 	: expression SEMICOLON
-
-c = t22;
-
-
-Line 88: statement : expression_statement
-
-c = t22;
-
-
-Line 88: statements : statement
-
-c = t22;
-
-
-Line 89: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 89: statements : statements statement
-
-c = t22;
- println ( c ) ;
-
-
-Line 90: compound_statement : LCURL statements RCURL
-
-{
-c = t22;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.4.2
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 90: statement : compound_statement
-
-{
-c = t22;
- println ( c ) ;
-}
-
-
-Line 93: statement : IF LPAREN expression RPAREN statement
-
-if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
-
-
-MOV AX, 0
-MOV t21, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L22
-MOV AX, 1
-MOV t21, AX
-L22:
-MOV AX, t21
-CMP AX, 0
-JE L24
-MOV AX, 0
-MOV t22, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L23
-MOV AX, 1
-MOV t22, AX
-L23:
-MOV AX, t22
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L24:
-
-Line 93: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
-
-
-Line 93: variable : ID
-
-a
-
-Line 93: factor	: variable
-
-a
-
-Line 93: unary_expression : factor
-
-a
-
-Line 93: term :	unary_expression
-
-a
-
-Line 93: simple_expression : term
-
-a
-
-Line 93: variable : ID
-
-b
-
-Line 93: factor	: variable
-
-b
-
-Line 93: unary_expression : factor
-
-b
-
-Line 93: term :	unary_expression
-
-b
-
-Line 93: simple_expression : term
-
-b
-
-Line 93: rel_expression	: simple_expression RELOP simple_expression
-
-a > b
-
-Line 93: logic_expression : rel_expression
-
-t23
-
-Line 93: expression : logic expression
-
-t23
-
-Line 94: variable : ID
-
-c
-
-Line 94: variable : ID
-
-a
-
-Line 94: factor	: variable
-
-a
-
-Line 94: unary_expression : factor
-
-a
-
-Line 94: term :	unary_expression
-
-a
-
-Line 94: simple_expression : term
-
-a
-
-Line 94: variable : ID
-
-b
-
-Line 94: factor	: variable
-
-b
-
-Line 94: unary_expression : factor
-
-b
-
-Line 94: term :	unary_expression
-
-b
-
-Line 94: simple_expression : term
-
-b
-
-Line 94: rel_expression	: simple_expression RELOP simple_expression
-
-a > b
-
-Line 94: logic_expression : rel_expression
-
-t24
-
-Line 94: expression : variable ASSIGNOP logic_expression
-
-c = t24
-
-Line 94: expression_statement 	: expression SEMICOLON
-
-c = t24;
-
-
-Line 94: statement : expression_statement
-
-c = t24;
-
-
-Line 94: statements : statement
-
-c = t24;
-
-
-Line 95: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 95: statements : statements statement
-
-c = t24;
- println ( c ) ;
-
-
-Line 96: compound_statement : LCURL statements RCURL
-
-{
-c = t24;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.4.3
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 96: statement : compound_statement
-
-{
-c = t24;
- println ( c ) ;
-}
-
-
-Line 99: statement : IF LPAREN expression RPAREN statement
-
-if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
-
-
-MOV AX, 0
-MOV t23, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L25
-MOV AX, 1
-MOV t23, AX
-L25:
-MOV AX, t23
-CMP AX, 0
-JE L27
-MOV AX, 0
-MOV t24, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L26
-MOV AX, 1
-MOV t24, AX
-L26:
-MOV AX, t24
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L27:
-
-Line 99: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
-
-
-Line 99: variable : ID
-
-a
-
-Line 99: factor	: variable
-
-a
-
-Line 99: unary_expression : factor
-
-a
-
-Line 99: term :	unary_expression
-
-a
-
-Line 99: simple_expression : term
-
-a
-
-Line 99: variable : ID
-
-b
-
-Line 99: factor	: variable
-
-b
-
-Line 99: unary_expression : factor
-
-b
-
-Line 99: term :	unary_expression
-
-b
-
-Line 99: simple_expression : term
-
-b
-
-Line 99: rel_expression	: simple_expression RELOP simple_expression
-
-a >= b
-
-Line 99: logic_expression : rel_expression
-
-t25
-
-Line 99: expression : logic expression
-
-t25
-
-Line 100: variable : ID
-
-c
-
-Line 100: variable : ID
-
-a
-
-Line 100: factor	: variable
-
-a
-
-Line 100: unary_expression : factor
-
-a
-
-Line 100: term :	unary_expression
-
-a
-
-Line 100: simple_expression : term
-
-a
-
-Line 100: variable : ID
-
-b
-
-Line 100: factor	: variable
-
-b
-
-Line 100: unary_expression : factor
-
-b
-
-Line 100: term :	unary_expression
-
-b
-
-Line 100: simple_expression : term
-
-b
-
-Line 100: rel_expression	: simple_expression RELOP simple_expression
-
-a >= b
-
-Line 100: logic_expression : rel_expression
-
-t26
-
-Line 100: expression : variable ASSIGNOP logic_expression
-
-c = t26
-
-Line 100: expression_statement 	: expression SEMICOLON
-
-c = t26;
-
-
-Line 100: statement : expression_statement
-
-c = t26;
-
-
-Line 100: statements : statement
-
-c = t26;
-
-
-Line 101: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 101: statements : statements statement
-
-c = t26;
- println ( c ) ;
-
-
-Line 102: compound_statement : LCURL statements RCURL
-
-{
-c = t26;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.4.4
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 102: statement : compound_statement
-
-{
-c = t26;
- println ( c ) ;
-}
-
-
-Line 104: statement : IF LPAREN expression RPAREN statement
-
-if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
-
-
-MOV AX, 0
-MOV t25, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L28
-MOV AX, 1
-MOV t25, AX
-L28:
-MOV AX, t25
-CMP AX, 0
-JE L30
-MOV AX, 0
-MOV t26, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L29
-MOV AX, 1
-MOV t26, AX
-L29:
-MOV AX, t26
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L30:
-
-Line 104: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
-
-
-Line 104: variable : ID
-
-a
-
-Line 104: factor	: variable
-
-a
-
-Line 104: unary_expression : factor
-
-a
-
-Line 104: term :	unary_expression
-
-a
-
-Line 104: simple_expression : term
-
-a
-
-Line 104: variable : ID
-
-b
-
-Line 104: factor	: variable
-
-b
-
-Line 104: unary_expression : factor
-
-b
-
-Line 104: term :	unary_expression
-
-b
-
-Line 104: simple_expression : term
-
-b
-
-Line 104: rel_expression	: simple_expression RELOP simple_expression
-
-a == b
-
-Line 104: logic_expression : rel_expression
-
-t27
-
-Line 104: expression : logic expression
-
-t27
-
-Line 105: variable : ID
-
-c
-
-Line 105: variable : ID
-
-a
-
-Line 105: factor	: variable
-
-a
-
-Line 105: unary_expression : factor
-
-a
-
-Line 105: term :	unary_expression
-
-a
-
-Line 105: simple_expression : term
-
-a
-
-Line 105: variable : ID
-
-b
-
-Line 105: factor	: variable
-
-b
-
-Line 105: unary_expression : factor
-
-b
-
-Line 105: term :	unary_expression
-
-b
-
-Line 105: simple_expression : term
-
-b
-
-Line 105: rel_expression	: simple_expression RELOP simple_expression
-
-a == b
-
-Line 105: logic_expression : rel_expression
-
-t28
-
-Line 105: expression : variable ASSIGNOP logic_expression
-
-c = t28
-
-Line 105: expression_statement 	: expression SEMICOLON
-
-c = t28;
-
-
-Line 105: statement : expression_statement
-
-c = t28;
-
-
-Line 105: statements : statement
-
-c = t28;
-
-
-Line 106: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 106: statements : statements statement
-
-c = t28;
- println ( c ) ;
-
-
-Line 107: compound_statement : LCURL statements RCURL
-
-{
-c = t28;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.4.5
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 107: statement : compound_statement
-
-{
-c = t28;
- println ( c ) ;
-}
-
-
-Line 109: statement : IF LPAREN expression RPAREN statement
-
-if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
-
-
-MOV AX, 0
-MOV t27, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L31
-MOV AX, 1
-MOV t27, AX
-L31:
-MOV AX, t27
-CMP AX, 0
-JE L33
-MOV AX, 0
-MOV t28, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L32
-MOV AX, 1
-MOV t28, AX
-L32:
-MOV AX, t28
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L33:
-
-Line 109: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
-
-
-Line 109: variable : ID
-
-a
-
-Line 109: factor	: variable
-
-a
-
-Line 109: unary_expression : factor
-
-a
-
-Line 109: term :	unary_expression
-
-a
-
-Line 109: simple_expression : term
-
-a
-
-Line 109: variable : ID
-
-b
-
-Line 109: factor	: variable
-
-b
-
-Line 109: unary_expression : factor
-
-b
-
-Line 109: term :	unary_expression
-
-b
-
-Line 109: simple_expression : term
-
-b
-
-Line 109: rel_expression	: simple_expression RELOP simple_expression
-
-a != b
-
-Line 109: logic_expression : rel_expression
-
-t29
-
-Line 109: expression : logic expression
-
-t29
-
-Line 110: variable : ID
-
-c
-
-Line 110: variable : ID
-
-a
-
-Line 110: factor	: variable
-
-a
-
-Line 110: unary_expression : factor
-
-a
-
-Line 110: term :	unary_expression
-
-a
-
-Line 110: simple_expression : term
-
-a
-
-Line 110: variable : ID
-
-b
-
-Line 110: factor	: variable
-
-b
-
-Line 110: unary_expression : factor
-
-b
-
-Line 110: term :	unary_expression
-
-b
-
-Line 110: simple_expression : term
-
-b
-
-Line 110: rel_expression	: simple_expression RELOP simple_expression
-
-a != b
-
-Line 110: logic_expression : rel_expression
-
-t30
-
-Line 110: expression : variable ASSIGNOP logic_expression
-
-c = t30
-
-Line 110: expression_statement 	: expression SEMICOLON
-
-c = t30;
-
-
-Line 110: statement : expression_statement
-
-c = t30;
-
-
-Line 110: statements : statement
-
-c = t30;
-
-
-Line 111: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( c ) ;
-
-
-Line 111: statements : statements statement
-
-c = t30;
- println ( c ) ;
-
-
-Line 112: compound_statement : LCURL statements RCURL
-
-{
-c = t30;
- println ( c ) ;
-}
-
-
-ScopeTable # 1.4.6
-
-ScopeTable # 1.4
-
-ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
-
-Line 112: statement : compound_statement
-
-{
-c = t30;
- println ( c ) ;
-}
-
-
-Line 113: statement : IF LPAREN expression RPAREN statement
-
-if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
-
-
-MOV AX, 0
-MOV t29, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L34
-MOV AX, 1
-MOV t29, AX
-L34:
-MOV AX, t29
-CMP AX, 0
-JE L36
-MOV AX, 0
-MOV t30, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L35
-MOV AX, 1
-MOV t30, AX
-L35:
-MOV AX, t30
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L36:
-
-Line 113: statements : statements statement
-
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
- if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
-
-
-Line 113: compound_statement : LCURL statements RCURL
-
-{
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
- if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
 ScopeTable # 1.4
 
 ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
+7 -->  < a , ID >   < decop_1 , ID >  
+8 -->  < b , ID >   < decop_2 , ID >  
+21 -->  < incop_1 , ID >  
+22 -->  < incop_2 , ID >  
 
-Line 113: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 50: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-void relop_4 ( ) {
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
- if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
+void decop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-Line 113: unit : func_definition
+Line 50: unit : func_definition
 
-void relop_4 ( ) {
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
- if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
+void decop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-Line 113: program : program unit
+Line 50: program : program unit
 
 int a ;
  int b ;
- int c ;
- void relop_1 ( ) {
+ void incop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_2 ( ) {
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
+ void incop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_3 ( ) {
-a = 2;
+ void decop_1 ( ) {
+a = 1;
  b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_4 ( ) {
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
- if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
+ void decop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
 
 
-relop_1 PROC
+incop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
@@ -4893,800 +1634,411 @@ MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t1, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L1
-MOV AX, 1
-MOV t1, AX
-L1:
-MOV AX, t1
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t2, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L2
-MOV AX, 1
-MOV t2, AX
-L2:
-MOV AX, t2
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t3, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L3
-MOV AX, 1
-MOV t3, AX
-L3:
-MOV AX, t3
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t4, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L4
-MOV AX, 1
-MOV t4, AX
-L4:
-MOV AX, t4
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t5, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L5
-MOV AX, 1
-MOV t5, AX
-L5:
-MOV AX, t5
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t6, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L6
-MOV AX, 1
-MOV t6, AX
-L6:
-MOV AX, t6
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_1 ENDP
-relop_2 PROC
+incop_1 ENDP
+incop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, - 1
 MOV a, AX
-MOV AX, 1
-MOV AX, 1
+MOV AX, 2
+MOV AX, - 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t7, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L7
-MOV AX, 1
-MOV t7, AX
-L7:
-MOV AX, t7
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t8, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L8
-MOV AX, 1
-MOV t8, AX
-L8:
-MOV AX, t8
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t9, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L9
-MOV AX, 1
-MOV t9, AX
-L9:
-MOV AX, t9
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t10, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L10
-MOV AX, 1
-MOV t10, AX
-L10:
-MOV AX, t10
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t11, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L11
-MOV AX, 1
-MOV t11, AX
-L11:
-MOV AX, t11
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t12, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L12
-MOV AX, 1
-MOV t12, AX
-L12:
-MOV AX, t12
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_2 ENDP
-relop_3 PROC
+incop_2 ENDP
+decop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, 1
 MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t13, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L13
-MOV AX, 1
-MOV t13, AX
-L13:
-MOV AX, t13
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t14, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L14
-MOV AX, 1
-MOV t14, AX
-L14:
-MOV AX, t14
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t15, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L15
-MOV AX, 1
-MOV t15, AX
-L15:
-MOV AX, t15
-MOV c, AX
-MOV AX, c
+DEC AX
+MOV a, AX
+MOV AX, b
+DEC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t16, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L16
-MOV AX, 1
-MOV t16, AX
-L16:
-MOV AX, t16
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t17, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L17
-MOV AX, 1
-MOV t17, AX
-L17:
-MOV AX, t17
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t18, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L18
-MOV AX, 1
-MOV t18, AX
-L18:
-MOV AX, t18
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_3 ENDP
-relop_4 PROC
+decop_1 ENDP
+decop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, - 1
 MOV a, AX
 MOV AX, 2
-MOV AX, 2
+MOV AX, - 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t19, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L19
-MOV AX, 1
-MOV t19, AX
-L19:
-MOV AX, t19
-CMP AX, 0
-JE L21
-MOV AX, 0
-MOV t20, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L20
-MOV AX, 1
-MOV t20, AX
-L20:
-MOV AX, t20
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-L21:
-MOV AX, 0
-MOV t21, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L22
-MOV AX, 1
-MOV t21, AX
-L22:
-MOV AX, t21
-CMP AX, 0
-JE L24
-MOV AX, 0
-MOV t22, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L23
-MOV AX, 1
-MOV t22, AX
-L23:
-MOV AX, t22
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-L24:
-MOV AX, 0
-MOV t23, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L25
-MOV AX, 1
-MOV t23, AX
-L25:
-MOV AX, t23
-CMP AX, 0
-JE L27
-MOV AX, 0
-MOV t24, AX
+DEC AX
+MOV a, AX
+MOV AX, b
+DEC AX
+MOV b, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L26
-MOV AX, 1
-MOV t24, AX
-L26:
-MOV AX, t24
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-L27:
-MOV AX, 0
-MOV t25, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L28
-MOV AX, 1
-MOV t25, AX
-L28:
-MOV AX, t25
-CMP AX, 0
-JE L30
-MOV AX, 0
-MOV t26, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L29
-MOV AX, 1
-MOV t26, AX
-L29:
-MOV AX, t26
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-L30:
-MOV AX, 0
-MOV t27, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L31
-MOV AX, 1
-MOV t27, AX
-L31:
-MOV AX, t27
-CMP AX, 0
-JE L33
-MOV AX, 0
-MOV t28, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L32
-MOV AX, 1
-MOV t28, AX
-L32:
-MOV AX, t28
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L33:
-MOV AX, 0
-MOV t29, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L34
-MOV AX, 1
-MOV t29, AX
-L34:
-MOV AX, t29
-CMP AX, 0
-JE L36
-MOV AX, 0
-MOV t30, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L35
-MOV AX, 1
-MOV t30, AX
-L35:
-MOV AX, t30
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L36:
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_4 ENDP
+decop_2 ENDP
 
-Line 115: type_specifier	: INT
+Line 52: type_specifier	: INT
 
 int
 
 
-Line 116: argument_list : |
+Line 53: argument_list : |
 
  
 
-Line 116: factor	: ID LPAREN argument_list RPAREN
+Line 53: factor	: ID LPAREN argument_list RPAREN
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: unary_expression : factor
+Line 53: unary_expression : factor
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: term :	unary_expression
+Line 53: term :	unary_expression
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: simple_expression : term
+Line 53: simple_expression : term
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: rel_expression	: simple_expression
+Line 53: rel_expression	: simple_expression
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: logic_expression : rel_expression
+Line 53: logic_expression : rel_expression
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: expression : logic expression
+Line 53: expression : logic expression
 
-relop_1 (   )
+incop_1 (   )
 
-Line 116: expression_statement 	: expression SEMICOLON
+Line 53: expression_statement 	: expression SEMICOLON
 
-relop_1 (   );
-
-
-Line 116: statement : expression_statement
-
-relop_1 (   );
+incop_1 (   );
 
 
-Line 116: statements : statement
+Line 53: statement : expression_statement
 
-relop_1 (   );
-
-
-Line 117: argument_list : |
-
- 
-
-Line 117: factor	: ID LPAREN argument_list RPAREN
-
-relop_2 (   )
-
-Line 117: unary_expression : factor
-
-relop_2 (   )
-
-Line 117: term :	unary_expression
-
-relop_2 (   )
-
-Line 117: simple_expression : term
-
-relop_2 (   )
-
-Line 117: rel_expression	: simple_expression
-
-relop_2 (   )
-
-Line 117: logic_expression : rel_expression
-
-relop_2 (   )
-
-Line 117: expression : logic expression
-
-relop_2 (   )
-
-Line 117: expression_statement 	: expression SEMICOLON
-
-relop_2 (   );
+incop_1 (   );
 
 
-Line 117: statement : expression_statement
+Line 53: statements : statement
 
-relop_2 (   );
-
-
-Line 117: statements : statements statement
-
-relop_1 (   );
- relop_2 (   );
+incop_1 (   );
 
 
-Line 118: argument_list : |
+Line 54: argument_list : |
 
  
 
-Line 118: factor	: ID LPAREN argument_list RPAREN
+Line 54: factor	: ID LPAREN argument_list RPAREN
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: unary_expression : factor
+Line 54: unary_expression : factor
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: term :	unary_expression
+Line 54: term :	unary_expression
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: simple_expression : term
+Line 54: simple_expression : term
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: rel_expression	: simple_expression
+Line 54: rel_expression	: simple_expression
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: logic_expression : rel_expression
+Line 54: logic_expression : rel_expression
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: expression : logic expression
+Line 54: expression : logic expression
 
-relop_3 (   )
+incop_2 (   )
 
-Line 118: expression_statement 	: expression SEMICOLON
+Line 54: expression_statement 	: expression SEMICOLON
 
-relop_3 (   );
-
-
-Line 118: statement : expression_statement
-
-relop_3 (   );
+incop_2 (   );
 
 
-Line 118: statements : statements statement
+Line 54: statement : expression_statement
 
-relop_1 (   );
- relop_2 (   );
- relop_3 (   );
+incop_2 (   );
 
 
-Line 119: argument_list : |
+Line 54: statements : statements statement
+
+incop_1 (   );
+ incop_2 (   );
+
+
+Line 55: argument_list : |
 
  
 
-Line 119: factor	: ID LPAREN argument_list RPAREN
+Line 55: factor	: ID LPAREN argument_list RPAREN
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: unary_expression : factor
+Line 55: unary_expression : factor
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: term :	unary_expression
+Line 55: term :	unary_expression
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: simple_expression : term
+Line 55: simple_expression : term
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: rel_expression	: simple_expression
+Line 55: rel_expression	: simple_expression
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: logic_expression : rel_expression
+Line 55: logic_expression : rel_expression
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: expression : logic expression
+Line 55: expression : logic expression
 
-relop_4 (   )
+decop_1 (   )
 
-Line 119: expression_statement 	: expression SEMICOLON
+Line 55: expression_statement 	: expression SEMICOLON
 
-relop_4 (   );
-
-
-Line 119: statement : expression_statement
-
-relop_4 (   );
+decop_1 (   );
 
 
-Line 119: statements : statements statement
+Line 55: statement : expression_statement
 
-relop_1 (   );
- relop_2 (   );
- relop_3 (   );
- relop_4 (   );
+decop_1 (   );
 
 
-Line 120: compound_statement : LCURL statements RCURL
+Line 55: statements : statements statement
+
+incop_1 (   );
+ incop_2 (   );
+ decop_1 (   );
+
+
+Line 56: argument_list : |
+
+ 
+
+Line 56: factor	: ID LPAREN argument_list RPAREN
+
+decop_2 (   )
+
+Line 56: unary_expression : factor
+
+decop_2 (   )
+
+Line 56: term :	unary_expression
+
+decop_2 (   )
+
+Line 56: simple_expression : term
+
+decop_2 (   )
+
+Line 56: rel_expression	: simple_expression
+
+decop_2 (   )
+
+Line 56: logic_expression : rel_expression
+
+decop_2 (   )
+
+Line 56: expression : logic expression
+
+decop_2 (   )
+
+Line 56: expression_statement 	: expression SEMICOLON
+
+decop_2 (   );
+
+
+Line 56: statement : expression_statement
+
+decop_2 (   );
+
+
+Line 56: statements : statements statement
+
+incop_1 (   );
+ incop_2 (   );
+ decop_1 (   );
+ decop_2 (   );
+
+
+Line 57: compound_statement : LCURL statements RCURL
 
 {
-relop_1 (   );
- relop_2 (   );
- relop_3 (   );
- relop_4 (   );
+incop_1 (   );
+ incop_2 (   );
+ decop_1 (   );
+ decop_2 (   );
 }
 
 
 ScopeTable # 1.5
 
 ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >   < main , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
+1 -->  < main , ID >  
+7 -->  < a , ID >   < decop_1 , ID >  
+8 -->  < b , ID >   < decop_2 , ID >  
+21 -->  < incop_1 , ID >  
+22 -->  < incop_2 , ID >  
 
-Line 120: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 57: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-relop_1 (   );
- relop_2 (   );
- relop_3 (   );
- relop_4 (   );
+incop_1 (   );
+ incop_2 (   );
+ decop_1 (   );
+ decop_2 (   );
 }
 
 
-Line 120: unit : func_definition
+Line 57: unit : func_definition
 
 int main ( ) {
-relop_1 (   );
- relop_2 (   );
- relop_3 (   );
- relop_4 (   );
+incop_1 (   );
+ incop_2 (   );
+ decop_1 (   );
+ decop_2 (   );
 }
 
 
-Line 120: program : program unit
+Line 57: program : program unit
 
 int a ;
  int b ;
- int c ;
- void relop_1 ( ) {
+ void incop_1 ( ) {
 a = 1;
  b = 2;
- c = 3;
- c = t1;
- println ( c ) ;
- c = t2;
- println ( c ) ;
- c = t3;
- println ( c ) ;
- c = t4;
- println ( c ) ;
- c = t5;
- println ( c ) ;
- c = t6;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_2 ( ) {
-a = 2;
- b = 1;
- c = 3;
- c = t7;
- println ( c ) ;
- c = t8;
- println ( c ) ;
- c = t9;
- println ( c ) ;
- c = t10;
- println ( c ) ;
- c = t11;
- println ( c ) ;
- c = t12;
- println ( c ) ;
+ void incop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a ++;
+ b ++;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_3 ( ) {
-a = 2;
+ void decop_1 ( ) {
+a = 1;
  b = 2;
- c = 3;
- c = t13;
- println ( c ) ;
- c = t14;
- println ( c ) ;
- c = t15;
- println ( c ) ;
- c = t16;
- println ( c ) ;
- c = t17;
- println ( c ) ;
- c = t18;
- println ( c ) ;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
- void relop_4 ( ) {
-a = 2;
- b = 2;
- c = 3;
- if ( t19 ) {
-c = t20;
- println ( c ) ;
-}
- if ( t21 ) {
-c = t22;
- println ( c ) ;
-}
- if ( t23 ) {
-c = t24;
- println ( c ) ;
-}
- if ( t25 ) {
-c = t26;
- println ( c ) ;
-}
- if ( t27 ) {
-c = t28;
- println ( c ) ;
-}
- if ( t29 ) {
-c = t30;
- println ( c ) ;
-}
+ void decop_2 ( ) {
+a = - 1;
+ b = - 2;
+ println ( a ) ;
+ println ( b ) ;
+ a --;
+ b --;
+ println ( a ) ;
+ println ( b ) ;
 }
  int main ( ) {
-relop_1 (   );
- relop_2 (   );
- relop_3 (   );
- relop_4 (   );
+incop_1 (   );
+ incop_2 (   );
+ decop_1 (   );
+ decop_2 (   );
 }
 
 
-relop_1 PROC
+incop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
@@ -5697,487 +2049,139 @@ MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t1, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L1
-MOV AX, 1
-MOV t1, AX
-L1:
-MOV AX, t1
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t2, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L2
-MOV AX, 1
-MOV t2, AX
-L2:
-MOV AX, t2
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t3, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L3
-MOV AX, 1
-MOV t3, AX
-L3:
-MOV AX, t3
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t4, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L4
-MOV AX, 1
-MOV t4, AX
-L4:
-MOV AX, t4
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t5, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L5
-MOV AX, 1
-MOV t5, AX
-L5:
-MOV AX, t5
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t6, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L6
-MOV AX, 1
-MOV t6, AX
-L6:
-MOV AX, t6
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_1 ENDP
-relop_2 PROC
+incop_1 ENDP
+incop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, - 1
 MOV a, AX
-MOV AX, 1
-MOV AX, 1
+MOV AX, 2
+MOV AX, - 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t7, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L7
-MOV AX, 1
-MOV t7, AX
-L7:
-MOV AX, t7
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t8, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L8
-MOV AX, 1
-MOV t8, AX
-L8:
-MOV AX, t8
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t9, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L9
-MOV AX, 1
-MOV t9, AX
-L9:
-MOV AX, t9
-MOV c, AX
-MOV AX, c
+INC AX
+MOV a, AX
+MOV AX, b
+INC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t10, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L10
-MOV AX, 1
-MOV t10, AX
-L10:
-MOV AX, t10
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t11, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L11
-MOV AX, 1
-MOV t11, AX
-L11:
-MOV AX, t11
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t12, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L12
-MOV AX, 1
-MOV t12, AX
-L12:
-MOV AX, t12
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_2 ENDP
-relop_3 PROC
+incop_2 ENDP
+decop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, 1
 MOV a, AX
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t13, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L13
-MOV AX, 1
-MOV t13, AX
-L13:
-MOV AX, t13
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-MOV AX, 0
-MOV t14, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L14
-MOV AX, 1
-MOV t14, AX
-L14:
-MOV AX, t14
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-MOV AX, 0
-MOV t15, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L15
-MOV AX, 1
-MOV t15, AX
-L15:
-MOV AX, t15
-MOV c, AX
-MOV AX, c
+DEC AX
+MOV a, AX
+MOV AX, b
+DEC AX
+MOV b, AX
+MOV AX, a
 CALL OUTDEC
-MOV AX, 0
-MOV t16, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L16
-MOV AX, 1
-MOV t16, AX
-L16:
-MOV AX, t16
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t17, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L17
-MOV AX, 1
-MOV t17, AX
-L17:
-MOV AX, t17
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-MOV AX, 0
-MOV t18, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L18
-MOV AX, 1
-MOV t18, AX
-L18:
-MOV AX, t18
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_3 ENDP
-relop_4 PROC
+decop_1 ENDP
+decop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 2
-MOV AX, 2
+MOV AX, 1
+MOV AX, - 1
 MOV a, AX
 MOV AX, 2
-MOV AX, 2
+MOV AX, - 2
 MOV b, AX
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-MOV AX, 0
-MOV t19, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L19
-MOV AX, 1
-MOV t19, AX
-L19:
-MOV AX, t19
-CMP AX, 0
-JE L21
-MOV AX, 0
-MOV t20, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L20
-MOV AX, 1
-MOV t20, AX
-L20:
-MOV AX, t20
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-L21:
-MOV AX, 0
-MOV t21, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L22
-MOV AX, 1
-MOV t21, AX
-L22:
-MOV AX, t21
-CMP AX, 0
-JE L24
-MOV AX, 0
-MOV t22, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L23
-MOV AX, 1
-MOV t22, AX
-L23:
-MOV AX, t22
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-L24:
-MOV AX, 0
-MOV t23, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L25
-MOV AX, 1
-MOV t23, AX
-L25:
-MOV AX, t23
-CMP AX, 0
-JE L27
-MOV AX, 0
-MOV t24, AX
+DEC AX
+MOV a, AX
+MOV AX, b
+DEC AX
+MOV b, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L26
-MOV AX, 1
-MOV t24, AX
-L26:
-MOV AX, t24
-MOV c, AX
-MOV AX, c
 CALL OUTDEC
-L27:
-MOV AX, 0
-MOV t25, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L28
-MOV AX, 1
-MOV t25, AX
-L28:
-MOV AX, t25
-CMP AX, 0
-JE L30
-MOV AX, 0
-MOV t26, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L29
-MOV AX, 1
-MOV t26, AX
-L29:
-MOV AX, t26
-MOV c, AX
-MOV AX, c
+MOV AX, b
 CALL OUTDEC
-L30:
-MOV AX, 0
-MOV t27, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L31
-MOV AX, 1
-MOV t27, AX
-L31:
-MOV AX, t27
-CMP AX, 0
-JE L33
-MOV AX, 0
-MOV t28, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L32
-MOV AX, 1
-MOV t28, AX
-L32:
-MOV AX, t28
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L33:
-MOV AX, 0
-MOV t29, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L34
-MOV AX, 1
-MOV t29, AX
-L34:
-MOV AX, t29
-CMP AX, 0
-JE L36
-MOV AX, 0
-MOV t30, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L35
-MOV AX, 1
-MOV t30, AX
-L35:
-MOV AX, t30
-MOV c, AX
-MOV AX, c
-CALL OUTDEC
-L36:
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-relop_4 ENDP
+decop_2 ENDP
 main PROC
 MOV AX, @DATA 
 MOV DS, AX
-CALL relop_1
-CALL relop_2
-CALL relop_3
-CALL relop_4
+CALL incop_1
+CALL incop_2
+CALL decop_1
+CALL decop_2
 
 MOV AH, 4CH
 INT 21H
 main ENDP
 
-Line 120: start : program
+Line 57: start : program
 
 ScopeTable # 1
-0 -->  < relop_1 , ID >  
-1 -->  < relop_2 , ID >   < main , ID >  
-2 -->  < relop_3 , ID >  
-3 -->  < relop_4 , ID >  
-7 -->  < a , ID >  
-8 -->  < b , ID >  
-9 -->  < c , ID >  
+1 -->  < main , ID >  
+7 -->  < a , ID >   < decop_1 , ID >  
+8 -->  < b , ID >   < decop_2 , ID >  
+21 -->  < incop_1 , ID >  
+22 -->  < incop_2 , ID >  
 
-Total lines: 120
+Total lines: 57
 Total errors: 0

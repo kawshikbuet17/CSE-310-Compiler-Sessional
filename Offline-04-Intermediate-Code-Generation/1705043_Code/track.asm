@@ -1,104 +1,62 @@
-;line 6:
+;line 5:
 MOV AX, 1
 
-;line 6:
+;line 5:
 MOV AX, 1
 MOV AX, 1
 MOV a, AX
 
-;line 7:
+;line 6:
 MOV AX, 2
 
-;line 7:
+;line 6:
 MOV AX, 2
 MOV AX, 2
 MOV b, AX
-
-;line 8:
-MOV AX, 3
-
-;line 8:
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
 
 ;line 10:
-MOV AX, 0
-MOV t1, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L1
-MOV AX, 1
-MOV t1, AX
-L1:
-MOV AX, t1
-MOV c, AX
+INC AX
+MOV a, AX
 
-;line 13:
-MOV AX, 0
-MOV t2, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L2
-MOV AX, 1
-MOV t2, AX
-L2:
-MOV AX, t2
-MOV c, AX
+;line 11:
+MOV AX, b
+INC AX
+MOV b, AX
 
-;line 16:
-MOV AX, 0
-MOV t3, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L3
+;line 17:
 MOV AX, 1
-MOV t3, AX
-L3:
-MOV AX, t3
-MOV c, AX
 
-;line 19:
-MOV AX, 0
-MOV t4, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L4
+;line 17:
 MOV AX, 1
-MOV t4, AX
-L4:
-MOV AX, t4
-MOV c, AX
+MOV AX, - 1
+MOV a, AX
+
+;line 18:
+MOV AX, 2
+
+;line 18:
+MOV AX, 2
+MOV AX, - 2
+MOV b, AX
 
 ;line 22:
-MOV AX, 0
-MOV t5, AX
 MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L5
-MOV AX, 1
-MOV t5, AX
-L5:
-MOV AX, t5
-MOV c, AX
+INC AX
+MOV a, AX
 
-;line 25:
-MOV AX, 0
-MOV t6, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L6
+;line 23:
+MOV AX, b
+INC AX
+MOV b, AX
+
+;line 29:
 MOV AX, 1
-MOV t6, AX
-L6:
-MOV AX, t6
-MOV c, AX
+
+;line 29:
+MOV AX, 1
+MOV AX, 1
+MOV a, AX
 
 ;line 30:
 MOV AX, 2
@@ -106,303 +64,21 @@ MOV AX, 2
 ;line 30:
 MOV AX, 2
 MOV AX, 2
-MOV a, AX
-
-;line 31:
-MOV AX, 1
-
-;line 31:
-MOV AX, 1
-MOV AX, 1
 MOV b, AX
 
-;line 32:
-MOV AX, 3
-
-;line 32:
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-
-;line 34:
-MOV AX, 0
-MOV t7, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L7
+;line 41:
 MOV AX, 1
-MOV t7, AX
-L7:
-MOV AX, t7
-MOV c, AX
 
-;line 37:
-MOV AX, 0
-MOV t8, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L8
+;line 41:
 MOV AX, 1
-MOV t8, AX
-L8:
-MOV AX, t8
-MOV c, AX
-
-;line 40:
-MOV AX, 0
-MOV t9, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L9
-MOV AX, 1
-MOV t9, AX
-L9:
-MOV AX, t9
-MOV c, AX
-
-;line 43:
-MOV AX, 0
-MOV t10, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L10
-MOV AX, 1
-MOV t10, AX
-L10:
-MOV AX, t10
-MOV c, AX
-
-;line 46:
-MOV AX, 0
-MOV t11, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L11
-MOV AX, 1
-MOV t11, AX
-L11:
-MOV AX, t11
-MOV c, AX
-
-;line 49:
-MOV AX, 0
-MOV t12, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L12
-MOV AX, 1
-MOV t12, AX
-L12:
-MOV AX, t12
-MOV c, AX
-
-;line 54:
-MOV AX, 2
-
-;line 54:
-MOV AX, 2
-MOV AX, 2
+MOV AX, - 1
 MOV a, AX
 
-;line 55:
+;line 42:
 MOV AX, 2
 
-;line 55:
+;line 42:
 MOV AX, 2
-MOV AX, 2
+MOV AX, - 2
 MOV b, AX
-
-;line 56:
-MOV AX, 3
-
-;line 56:
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-
-;line 58:
-MOV AX, 0
-MOV t13, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L13
-MOV AX, 1
-MOV t13, AX
-L13:
-MOV AX, t13
-MOV c, AX
-
-;line 61:
-MOV AX, 0
-MOV t14, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L14
-MOV AX, 1
-MOV t14, AX
-L14:
-MOV AX, t14
-MOV c, AX
-
-;line 64:
-MOV AX, 0
-MOV t15, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L15
-MOV AX, 1
-MOV t15, AX
-L15:
-MOV AX, t15
-MOV c, AX
-
-;line 67:
-MOV AX, 0
-MOV t16, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L16
-MOV AX, 1
-MOV t16, AX
-L16:
-MOV AX, t16
-MOV c, AX
-
-;line 70:
-MOV AX, 0
-MOV t17, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L17
-MOV AX, 1
-MOV t17, AX
-L17:
-MOV AX, t17
-MOV c, AX
-
-;line 73:
-MOV AX, 0
-MOV t18, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L18
-MOV AX, 1
-MOV t18, AX
-L18:
-MOV AX, t18
-MOV c, AX
-
-;line 78:
-MOV AX, 2
-
-;line 78:
-MOV AX, 2
-MOV AX, 2
-MOV a, AX
-
-;line 79:
-MOV AX, 2
-
-;line 79:
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-
-;line 80:
-MOV AX, 3
-
-;line 80:
-MOV AX, 3
-MOV AX, 3
-MOV c, AX
-
-;line 83:
-MOV AX, 0
-MOV t20, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNL L20
-MOV AX, 1
-MOV t20, AX
-L20:
-MOV AX, t20
-MOV c, AX
-
-;line 88:
-MOV AX, 0
-MOV t22, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNLE L23
-MOV AX, 1
-MOV t22, AX
-L23:
-MOV AX, t22
-MOV c, AX
-
-;line 94:
-MOV AX, 0
-MOV t24, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNG L26
-MOV AX, 1
-MOV t24, AX
-L26:
-MOV AX, t24
-MOV c, AX
-
-;line 100:
-MOV AX, 0
-MOV t26, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNGE L29
-MOV AX, 1
-MOV t26, AX
-L29:
-MOV AX, t26
-MOV c, AX
-
-;line 105:
-MOV AX, 0
-MOV t28, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JNE L32
-MOV AX, 1
-MOV t28, AX
-L32:
-MOV AX, t28
-MOV c, AX
-
-;line 110:
-MOV AX, 0
-MOV t30, AX
-MOV AX, a
-MOV BX, b
-CMP AX, BX
-JE L35
-MOV AX, 1
-MOV t30, AX
-L35:
-MOV AX, t30
-MOV c, AX
 
