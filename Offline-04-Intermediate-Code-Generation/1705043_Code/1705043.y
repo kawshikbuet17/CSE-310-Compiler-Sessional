@@ -866,6 +866,8 @@ variable: ID	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->code +=$1->code+$2->code+$3->code;
 
+							$$->code += "MOV AX, "+$3->getSymbolName()+"\n";
+
 							$$->code += "MOV "+$1->getSymbolName()+", AX\n";
 							CodePrint(lineCount, $$->code);
 						} 	
@@ -955,22 +957,59 @@ rel_expression: simple_expression	{
 								PrintError(lineCount, "Void function used in expression");
 								
 							}
+							codeString = $1->code;
+							codeString += $3->code;
 
-							codeString = $3->code;
-							codeString+= "MOV AX, "+$1->getSymbolName()+"\n";
-							codeString+= "CMP AX, "+$3->getSymbolName()+"\n";
-
-							string temp = newTemp();
+							string temp1 = newTemp();
+							dataString.insert(temp1);
 							string label1 = newLabel();
-							string label2 = newLabel();
 
-							codeString += "MOV "+temp + "0\n";
-							codeString  += "JMP "+label2 + "\n";
-							codeString += label1 + ":\nMOV "+temp+", 1\n";
-							codeString += label2+":\n";
+							codeString += "MOV AX, 0\n";
+							codeString += "MOV "+temp1+", AX\n";
+
+							codeString+= "MOV AX, "+$1->getSymbolName()+"\n";
+							codeString+= "MOV BX, "+$3->getSymbolName()+"\n";
+							codeString += "CMP AX, BX\n";
+
+							if($2->getSymbolName()=="<"){
+								codeString += "JNL "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label1 + ":\n";
+							}
+							else if($2->getSymbolName()=="<="){
+								codeString += "JNLE "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label1 + ":\n";
+							}
+							else if($2->getSymbolName()==">"){
+								codeString += "JNG "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label1 + ":\n";
+							}
+							else if($2->getSymbolName()==">="){
+								codeString += "JNGE "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label1 + ":\n";
+							}
+							else if($2->getSymbolName()=="=="){
+								codeString += "JNE "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label1 + ":\n";
+							}
+							else if($2->getSymbolName()=="!="){
+								codeString += "JE "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label1 + ":\n";
+							}
+
 							$$->code += codeString;
-							$$->setSymbolName(temp);
-							CodePrint(lineCount, codeString);
+							$$->setSymbolName(temp1);
 						}	
 		;
 				
