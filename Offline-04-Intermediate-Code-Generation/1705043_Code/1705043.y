@@ -77,7 +77,6 @@ string newLabel(){
 	string lb = "L";
 	labelCount++;
 	lb += to_string(labelCount);
-	cout<<lb<<endl;
 	return lb;
 }
 
@@ -85,7 +84,6 @@ string newTemp(){
 	string t = "t";
 	tempCount++;
 	t+= to_string(tempCount);
-	cout<<t<<endl;
 	return t;
 }
 
@@ -695,13 +693,14 @@ statement: var_declaration	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 
 							string label = newLabel();
-							codeString = "MOV AX, "+$3->getSymbolName()+"\n";
+							codeString = $3->code;
+							codeString += "MOV AX, "+$3->getSymbolName()+"\n";
 							codeString += "CMP AX, 0\n";
 							codeString += "JE "+label+"\n";
 							codeString += $5->code;
 							codeString += label + ":\n";
 							$$->code += codeString;
-							CodePrint(lineCount, codeString);
+							log_file<<codeString<<endl;
 						}
 	  | IF LPAREN expression RPAREN statement ELSE statement	{
 							PrintGrammar(lineCount, "statement : IF LPAREN expression RPAREN statement ELSE statement");
@@ -711,7 +710,8 @@ statement: var_declaration	{
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							string label = newLabel();
 							string label2 = newLabel();
-							codeString = "MOV AX, "+$3->getSymbolName()+"\n";
+							codeString = $3->code;
+							codeString += "MOV AX, "+$3->getSymbolName()+"\n";
 							codeString += "CMP AX, 0\n";
 							codeString += "JE "+label+"\n";
 							codeString += $5->code;
@@ -852,17 +852,12 @@ variable: ID	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName();
 
-							//log_file<<$1->getDataType()<<" + "<<$3->getDataType()<<endl;
-
 							if($3->getDataType() != "none" && $1->getDataType() != "none") {
 								if($1->getDataType()=="void" || $3->getDataType()=="void" ){
 								PrintError(lineCount, "Void function used in expression");
-								
 								}
 								else if($1->getDataType()!="float" && ($1->getDataType() != $3->getDataType())){
-									// log_file<<$1->getDataType()<<" = "<<$3->getDataType()<<endl;
-									PrintError(lineCount, "Type Mismatch");
-									
+									PrintError(lineCount, "Type Mismatch");	
 								}
 							}
 							
@@ -893,10 +888,50 @@ logic_expression: rel_expression	{
 
 							if($1->getDataType()=="void" || $3->getDataType()=="void" ){
 								PrintError(lineCount, "Void function used in expression");
-								
 							}
-							$$->code += $1->code+$2->code+$3->code;
-							CodePrint(lineCount, $$->code);
+							codeString = $1->code+$3->code;
+							codeString += "MOV AX, "+$1->getSymbolName()+"\n";
+							codeString += "MOV BX, "+$3->getSymbolName()+"\n";
+		
+							if($2->getSymbolName()=="&&"){
+								string label1 = newLabel();
+								string label2 = newLabel();
+								string temp1 = newTemp();
+								dataString.insert(temp1);
+
+								codeString += "CMP AX, 0\n";
+								codeString += "JE "+label1+"\n";
+								codeString += "CMP BX, 0\n";
+								codeString += "JE "+label1+"\n";
+								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += "JMP "+label2+"\n";
+								codeString += label1 + ":\n";
+								codeString += "MOV AX, 0\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += label2 + ":\n";
+								$$->setSymbolName(temp1);
+							}
+							else if($2->getSymbolName()=="||"){
+								string label1 = newLabel();
+								string label2 = newLabel();
+								string temp1 = newTemp();
+								dataString.insert(temp1);
+
+								codeString += "CMP AX, 0\n";
+								codeString += "JNE "+label1+"\n";
+								codeString += "CMP BX, 0\n";
+								codeString += "JNE "+label1+"\n";
+								codeString += "MOV AX, 0\n";
+								codeString += "MOV "+temp1+", AX\n";
+								codeString += "JMP "+label2+"\n";
+								codeString += label1 + ":\n";
+								codeString += "MOV "+temp1+", 1\n";
+								codeString += label2 + ":\n";
+								$$->setSymbolName(temp1);
+							}
+							$$->code += codeString;
+							log_file<<codeString<<endl;
 						} 	
 		 ;
 			
