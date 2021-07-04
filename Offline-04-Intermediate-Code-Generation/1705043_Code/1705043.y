@@ -84,6 +84,7 @@ string newTemp(){
 	string t = "t";
 	tempCount++;
 	t+= to_string(tempCount);
+	dataString.insert(t);
 	return t;
 }
 
@@ -682,8 +683,28 @@ statement: var_declaration	{
 							PrintGrammar(lineCount, "statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement");
 							symbolName = $1->getSymbolName()+" "+$2->getSymbolName()+" "+$3->getSymbolName()+" "+$4->getSymbolName()+" "+$5->getSymbolName()+" "+$6->getSymbolName()+" "+$7->getSymbolName();
 							PrintToken(symbolName);
-
 							$$ = new SymbolInfo(symbolName, "nonterminal");
+							codeString = ";for i=0 start\n";
+							codeString += $3->code;
+							codeString += ";for i=0 end\n";
+							string label1 = newLabel();
+							string label2 = newLabel();
+							codeString += label1+":\n";
+							codeString += ";i<10 start\n";
+							codeString += $4->code;
+							codeString += ";i<10 end\n";
+							codeString += "MOV BX, 0\n";
+							codeString += "CMP AX, BX\n";
+							codeString += "JE "+label2+"\n";
+
+							codeString += $7->code;
+							codeString += ";i++ start\n";
+							codeString += $5->code;
+							codeString += ";i++ end\n";
+							codeString += "JMP "+label1+"\n";
+							codeString += label2 + ":\n";
+
+							$$->code += codeString;
 						}
 	  | IF LPAREN expression RPAREN statement %prec LOWER_THAN_ELSE	{
 							PrintGrammar(lineCount, "statement : IF LPAREN expression RPAREN statement");
@@ -963,8 +984,11 @@ rel_expression: simple_expression	{
 							string temp1 = newTemp();
 							dataString.insert(temp1);
 							string label1 = newLabel();
+							string temp2 = newTemp();
+							dataString.insert(temp2);
 
 							codeString += "MOV AX, 0\n";
+							codeString += "MOV "+temp2+", AX\n";
 							codeString += "MOV "+temp1+", AX\n";
 
 							codeString+= "MOV AX, "+$1->getSymbolName()+"\n";
@@ -974,38 +998,50 @@ rel_expression: simple_expression	{
 							if($2->getSymbolName()=="<"){
 								codeString += "JNL "+label1+"\n";
 								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp2+", AX\n";
 								codeString += "MOV "+temp1+", AX\n";
 								codeString += label1 + ":\n";
+								codeString += "MOV AX, "+temp2+"\n";
 							}
 							else if($2->getSymbolName()=="<="){
 								codeString += "JNLE "+label1+"\n";
 								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp2+", AX\n";
 								codeString += "MOV "+temp1+", AX\n";
 								codeString += label1 + ":\n";
+								codeString += "MOV AX, "+temp2+"\n";
 							}
 							else if($2->getSymbolName()==">"){
 								codeString += "JNG "+label1+"\n";
 								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp2+", AX\n";
 								codeString += "MOV "+temp1+", AX\n";
 								codeString += label1 + ":\n";
+								codeString += "MOV AX, "+temp2+"\n";
 							}
 							else if($2->getSymbolName()==">="){
 								codeString += "JNGE "+label1+"\n";
 								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp2+", AX\n";
 								codeString += "MOV "+temp1+", AX\n";
 								codeString += label1 + ":\n";
+								codeString += "MOV AX, "+temp2+"\n";
 							}
 							else if($2->getSymbolName()=="=="){
 								codeString += "JNE "+label1+"\n";
 								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp2+", AX\n";
 								codeString += "MOV "+temp1+", AX\n";
 								codeString += label1 + ":\n";
+								codeString += "MOV AX, "+temp2+"\n";
 							}
 							else if($2->getSymbolName()=="!="){
 								codeString += "JE "+label1+"\n";
 								codeString += "MOV AX, 1\n";
+								codeString += "MOV "+temp2+", AX\n";
 								codeString += "MOV "+temp1+", AX\n";
 								codeString += label1 + ":\n";
+								codeString += "MOV AX, "+temp2+"\n";
 							}
 
 							$$->code += codeString;
@@ -1044,16 +1080,20 @@ simple_expression: term	{
 
 							codeString = "MOV AX, "+$1->getSymbolName()+"\n";
 							codeString +="MOV BX, "+$3->getSymbolName()+"\n";
-							
+							string temp1 = newTemp();
 
 							if($2->getSymbolName()=="+"){
 								codeString+= "ADD AX, BX\n";
+								codeString += "MOV "+temp1+", AX\n";
 							}else if($2->getSymbolName()=="-"){
 								codeString+= "SUB AX, BX\n";
+								codeString += "MOV "+temp1+", AX\n";
 							}
 
 							$$->code+= codeString;
 							CodePrint(lineCount, codeString);
+							
+							$$->setSymbolName(temp1);
 						} 
 		  ;
 					

@@ -26,2162 +26,2194 @@ int a ;
 
 
 
-Line 2: type_specifier	: INT
+Line 3: type_specifier	: VOID
+
+void
+
+Line 4: type_specifier	: INT
 
 int
 
 
-Line 2: declaration_list : ID
+Line 4: declaration_list : ID
 
-b
-
-
-Line 2: var_declaration : type_specifier declaration_list SEMICOLON
-
-int b ;
+i
 
 
+Line 4: var_declaration : type_specifier declaration_list SEMICOLON
 
-Line 2: unit : var_declaration
-
-int b ;
+int i ;
 
 
 
-Line 2: program : program unit
+Line 4: statement : var_declaration
 
-int a ;
- int b ;
-
+int i ;
 
 
-Line 4: type_specifier	: VOID
+Line 4: statements : statement
 
-void
-
-Line 5: variable : ID
-
-a
-
-Line 5: factor	: CONST_INT
-
-1
-
-Line 5: unary_expression : factor
-
-1
-
-Line 5: term :	unary_expression
-
-1
-
-Line 5: simple_expression : term
-
-1
-
-Line 5: rel_expression	: simple_expression
-
-1
-
-Line 5: logic_expression : rel_expression
-
-1
-
-Line 5: expression : variable ASSIGNOP logic_expression
-
-a = 1
-
-Line 5: expression_statement 	: expression SEMICOLON
-
-a = 1;
+int i ;
 
 
-Line 5: statement : expression_statement
+Line 5: type_specifier	: INT
 
-a = 1;
+int
 
 
-Line 5: statements : statement
+Line 5: declaration_list : ID
 
-a = 1;
+sum
+
+
+Line 5: var_declaration : type_specifier declaration_list SEMICOLON
+
+int sum ;
+
+
+
+Line 5: statement : var_declaration
+
+int sum ;
+
+
+Line 5: statements : statements statement
+
+int i ;
+ int sum ;
 
 
 Line 6: variable : ID
 
-b
+sum
 
 Line 6: factor	: CONST_INT
 
-2
+0
 
 Line 6: unary_expression : factor
 
-2
+0
 
 Line 6: term :	unary_expression
 
-2
+0
 
 Line 6: simple_expression : term
 
-2
+0
 
 Line 6: rel_expression	: simple_expression
 
-2
+0
 
 Line 6: logic_expression : rel_expression
 
-2
+0
 
 Line 6: expression : variable ASSIGNOP logic_expression
 
-b = 2
+sum = 0
 
 Line 6: expression_statement 	: expression SEMICOLON
 
-b = 2;
+sum = 0;
 
 
 Line 6: statement : expression_statement
 
-b = 2;
+sum = 0;
 
 
 Line 6: statements : statements statement
 
-a = 1;
- b = 2;
+int i ;
+ int sum ;
+ sum = 0;
 
 
-Line 7: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 7: variable : ID
 
-println ( a ) ;
+i
 
+Line 7: factor	: CONST_INT
 
-Line 7: statements : statements statement
+0
 
-a = 1;
- b = 2;
- println ( a ) ;
+Line 7: unary_expression : factor
 
+0
 
-Line 8: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 7: term :	unary_expression
 
-println ( b ) ;
+0
 
+Line 7: simple_expression : term
 
-Line 8: statements : statements statement
+0
 
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
+Line 7: rel_expression	: simple_expression
 
+0
 
-Line 10: variable : ID
+Line 7: logic_expression : rel_expression
 
-a
+0
 
-Line 10: factor	: variable INCOP
+Line 7: expression : variable ASSIGNOP logic_expression
 
-a ++
+i = 0
 
-Line 10: unary_expression : factor
+Line 7: expression_statement 	: expression SEMICOLON
 
-a ++
-
-Line 10: term :	unary_expression
-
-a ++
-
-Line 10: simple_expression : term
-
-a ++
-
-Line 10: rel_expression	: simple_expression
-
-a ++
-
-Line 10: logic_expression : rel_expression
-
-a ++
-
-Line 10: expression : logic expression
-
-a ++
-
-Line 10: expression_statement 	: expression SEMICOLON
-
-a ++;
+i = 0;
 
 
-Line 10: statement : expression_statement
+Line 7: variable : ID
 
-a ++;
+i
+
+Line 7: factor	: variable
+
+i
+
+Line 7: unary_expression : factor
+
+i
+
+Line 7: term :	unary_expression
+
+i
+
+Line 7: simple_expression : term
+
+i
+
+Line 7: factor	: CONST_INT
+
+5
+
+Line 7: unary_expression : factor
+
+5
+
+Line 7: term :	unary_expression
+
+5
+
+Line 7: simple_expression : term
+
+5
+
+Line 7: rel_expression	: simple_expression RELOP simple_expression
+
+i < 5
+
+Line 7: logic_expression : rel_expression
+
+t1
+
+Line 7: expression : logic expression
+
+t1
+
+Line 7: expression_statement 	: expression SEMICOLON
+
+t1;
+
+
+Line 7: variable : ID
+
+i
+
+Line 7: factor	: variable INCOP
+
+i ++
+
+Line 7: unary_expression : factor
+
+i ++
+
+Line 7: term :	unary_expression
+
+i ++
+
+Line 7: simple_expression : term
+
+i ++
+
+Line 7: rel_expression	: simple_expression
+
+i ++
+
+Line 7: logic_expression : rel_expression
+
+i ++
+
+Line 7: expression : logic expression
+
+i ++
+
+Line 8: variable : ID
+
+sum
+
+Line 8: variable : ID
+
+sum
+
+Line 8: factor	: variable
+
+sum
+
+Line 8: unary_expression : factor
+
+sum
+
+Line 8: term :	unary_expression
+
+sum
+
+Line 8: simple_expression : term
+
+sum
+
+Line 8: variable : ID
+
+i
+
+Line 8: factor	: variable
+
+i
+
+Line 8: unary_expression : factor
+
+i
+
+Line 8: term :	unary_expression
+
+i
+
+Line 8: simple_expression : simple_expression ADDOP term
+
+sum+i
+
+Line 8: rel_expression	: simple_expression
+
+t3
+
+Line 8: logic_expression : rel_expression
+
+t3
+
+Line 8: expression : variable ASSIGNOP logic_expression
+
+sum = t3
+
+Line 8: expression_statement 	: expression SEMICOLON
+
+sum = t3;
+
+
+Line 8: statement : expression_statement
+
+sum = t3;
+
+
+Line 8: statements : statement
+
+sum = t3;
+
+
+Line 9: compound_statement : LCURL statements RCURL
+
+{
+sum = t3;
+}
+
+
+ScopeTable # 1.1.1
+
+ScopeTable # 1.1
+11 -->  < sum , ID >  
+15 -->  < i , ID >  
+
+ScopeTable # 1
+7 -->  < a , ID >  
+16 -->  < loop_1 , ID >  
+
+Line 9: statement : compound_statement
+
+{
+sum = t3;
+}
+
+
+Line 9: statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+
+
+Line 9: statements : statements statement
+
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+
+
+Line 10: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+
+println ( sum ) ;
 
 
 Line 10: statements : statements statement
 
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+ println ( sum ) ;
 
 
-Line 11: variable : ID
-
-b
-
-Line 11: factor	: variable INCOP
-
-b ++
-
-Line 11: unary_expression : factor
-
-b ++
-
-Line 11: term :	unary_expression
-
-b ++
-
-Line 11: simple_expression : term
-
-b ++
-
-Line 11: rel_expression	: simple_expression
-
-b ++
-
-Line 11: logic_expression : rel_expression
-
-b ++
-
-Line 11: expression : logic expression
-
-b ++
-
-Line 11: expression_statement 	: expression SEMICOLON
-
-b ++;
-
-
-Line 11: statement : expression_statement
-
-b ++;
-
-
-Line 11: statements : statements statement
-
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
-
-
-Line 12: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 12: statements : statements statement
-
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
-
-
-Line 13: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( b ) ;
-
-
-Line 13: statements : statements statement
-
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
-
-
-Line 14: compound_statement : LCURL statements RCURL
+Line 11: compound_statement : LCURL statements RCURL
 
 {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+ println ( sum ) ;
 }
 
 
 ScopeTable # 1.1
+11 -->  < sum , ID >  
+15 -->  < i , ID >  
 
 ScopeTable # 1
 7 -->  < a , ID >  
-8 -->  < b , ID >  
-21 -->  < incop_1 , ID >  
+16 -->  < loop_1 , ID >  
 
-Line 14: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 11: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+void loop_1 ( ) {
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+ println ( sum ) ;
 }
 
 
-Line 14: unit : func_definition
+Line 11: unit : func_definition
 
-void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+void loop_1 ( ) {
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+ println ( sum ) ;
 }
 
 
-Line 14: program : program unit
+Line 11: program : program unit
 
 int a ;
- int b ;
- void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+ void loop_1 ( ) {
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+ println ( sum ) ;
 }
 
 
-incop_1 PROC
+loop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L2:
+;i<10 start
+MOV AX, 5
+MOV AX, 0
+MOV t2, AX
+MOV t1, AX
+MOV AX, i
+MOV BX, 5
+CMP AX, BX
+JNL L1
 MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
+MOV t2, AX
+MOV t1, AX
+L1:
+MOV AX, t2
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L3
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t3, AX
+MOV AX, t3
+MOV sum, AX
+;i++ start
+MOV AX, i
 INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
+MOV i, AX
+;i++ end
+JMP L2
+L3:
+MOV AX, sum
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-incop_1 ENDP
+loop_1 ENDP
 
-Line 16: type_specifier	: VOID
+Line 12: type_specifier	: VOID
 
 void
+
+Line 13: type_specifier	: INT
+
+int
+
+
+Line 13: declaration_list : ID
+
+i
+
+
+Line 13: var_declaration : type_specifier declaration_list SEMICOLON
+
+int i ;
+
+
+
+Line 13: statement : var_declaration
+
+int i ;
+
+
+Line 13: statements : statement
+
+int i ;
+
+
+Line 14: type_specifier	: INT
+
+int
+
+
+Line 14: declaration_list : ID
+
+sum
+
+
+Line 14: var_declaration : type_specifier declaration_list SEMICOLON
+
+int sum ;
+
+
+
+Line 14: statement : var_declaration
+
+int sum ;
+
+
+Line 14: statements : statements statement
+
+int i ;
+ int sum ;
+
+
+Line 15: variable : ID
+
+a
+
+Line 15: factor	: CONST_INT
+
+5
+
+Line 15: unary_expression : factor
+
+5
+
+Line 15: term :	unary_expression
+
+5
+
+Line 15: simple_expression : term
+
+5
+
+Line 15: rel_expression	: simple_expression
+
+5
+
+Line 15: logic_expression : rel_expression
+
+5
+
+Line 15: expression : variable ASSIGNOP logic_expression
+
+a = 5
+
+Line 15: expression_statement 	: expression SEMICOLON
+
+a = 5;
+
+
+Line 15: statement : expression_statement
+
+a = 5;
+
+
+Line 15: statements : statements statement
+
+int i ;
+ int sum ;
+ a = 5;
+
+
+Line 16: variable : ID
+
+sum
+
+Line 16: factor	: CONST_INT
+
+0
+
+Line 16: unary_expression : factor
+
+0
+
+Line 16: term :	unary_expression
+
+0
+
+Line 16: simple_expression : term
+
+0
+
+Line 16: rel_expression	: simple_expression
+
+0
+
+Line 16: logic_expression : rel_expression
+
+0
+
+Line 16: expression : variable ASSIGNOP logic_expression
+
+sum = 0
+
+Line 16: expression_statement 	: expression SEMICOLON
+
+sum = 0;
+
+
+Line 16: statement : expression_statement
+
+sum = 0;
+
+
+Line 16: statements : statements statement
+
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+
+
+Line 17: variable : ID
+
+i
+
+Line 17: factor	: CONST_INT
+
+0
+
+Line 17: unary_expression : factor
+
+0
+
+Line 17: term :	unary_expression
+
+0
+
+Line 17: simple_expression : term
+
+0
+
+Line 17: rel_expression	: simple_expression
+
+0
+
+Line 17: logic_expression : rel_expression
+
+0
+
+Line 17: expression : variable ASSIGNOP logic_expression
+
+i = 0
+
+Line 17: expression_statement 	: expression SEMICOLON
+
+i = 0;
+
+
+Line 17: variable : ID
+
+i
+
+Line 17: factor	: variable
+
+i
+
+Line 17: unary_expression : factor
+
+i
+
+Line 17: term :	unary_expression
+
+i
+
+Line 17: simple_expression : term
+
+i
 
 Line 17: variable : ID
 
 a
 
-Line 17: factor	: CONST_INT
+Line 17: factor	: variable
 
-1
+a
 
 Line 17: unary_expression : factor
 
-1
-
-Line 17: unary_expression : ADDOP unary_expression
-
-- 1
+a
 
 Line 17: term :	unary_expression
 
-- 1
+a
 
 Line 17: simple_expression : term
 
-- 1
+a
 
-Line 17: rel_expression	: simple_expression
+Line 17: rel_expression	: simple_expression RELOP simple_expression
 
-- 1
+i < a
 
 Line 17: logic_expression : rel_expression
 
-- 1
+t4
 
-Line 17: expression : variable ASSIGNOP logic_expression
+Line 17: expression : logic expression
 
-a = - 1
+t4
 
 Line 17: expression_statement 	: expression SEMICOLON
 
-a = - 1;
+t4;
 
 
-Line 17: statement : expression_statement
+Line 17: variable : ID
 
-a = - 1;
+i
 
+Line 17: factor	: variable INCOP
 
-Line 17: statements : statement
+i ++
 
-a = - 1;
+Line 17: unary_expression : factor
 
+i ++
+
+Line 17: term :	unary_expression
+
+i ++
+
+Line 17: simple_expression : term
+
+i ++
+
+Line 17: rel_expression	: simple_expression
+
+i ++
+
+Line 17: logic_expression : rel_expression
+
+i ++
+
+Line 17: expression : logic expression
+
+i ++
 
 Line 18: variable : ID
 
-b
+sum
 
-Line 18: factor	: CONST_INT
+Line 18: variable : ID
 
-2
+sum
+
+Line 18: factor	: variable
+
+sum
 
 Line 18: unary_expression : factor
 
-2
-
-Line 18: unary_expression : ADDOP unary_expression
-
-- 2
+sum
 
 Line 18: term :	unary_expression
 
-- 2
+sum
 
 Line 18: simple_expression : term
 
-- 2
+sum
+
+Line 18: variable : ID
+
+i
+
+Line 18: factor	: variable
+
+i
+
+Line 18: unary_expression : factor
+
+i
+
+Line 18: term :	unary_expression
+
+i
+
+Line 18: simple_expression : simple_expression ADDOP term
+
+sum+i
 
 Line 18: rel_expression	: simple_expression
 
-- 2
+t6
 
 Line 18: logic_expression : rel_expression
 
-- 2
+t6
 
 Line 18: expression : variable ASSIGNOP logic_expression
 
-b = - 2
+sum = t6
 
 Line 18: expression_statement 	: expression SEMICOLON
 
-b = - 2;
+sum = t6;
 
 
 Line 18: statement : expression_statement
 
-b = - 2;
+sum = t6;
 
 
-Line 18: statements : statements statement
+Line 18: statements : statement
 
-a = - 1;
- b = - 2;
+sum = t6;
 
 
-Line 19: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 19: compound_statement : LCURL statements RCURL
 
-println ( a ) ;
+{
+sum = t6;
+}
+
+
+ScopeTable # 1.2.1
+
+ScopeTable # 1.2
+11 -->  < sum , ID >  
+15 -->  < i , ID >  
+
+ScopeTable # 1
+7 -->  < a , ID >  
+16 -->  < loop_1 , ID >  
+17 -->  < loop_2 , ID >  
+
+Line 19: statement : compound_statement
+
+{
+sum = t6;
+}
+
+
+Line 19: statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
 
 
 Line 19: statements : statements statement
 
-a = - 1;
- b = - 2;
- println ( a ) ;
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
 
 
 Line 20: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-println ( b ) ;
+println ( sum ) ;
 
 
 Line 20: statements : statements statement
 
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
-
-
-Line 22: variable : ID
-
-a
-
-Line 22: factor	: variable INCOP
-
-a ++
-
-Line 22: unary_expression : factor
-
-a ++
-
-Line 22: term :	unary_expression
-
-a ++
-
-Line 22: simple_expression : term
-
-a ++
-
-Line 22: rel_expression	: simple_expression
-
-a ++
-
-Line 22: logic_expression : rel_expression
-
-a ++
-
-Line 22: expression : logic expression
-
-a ++
-
-Line 22: expression_statement 	: expression SEMICOLON
-
-a ++;
-
-
-Line 22: statement : expression_statement
-
-a ++;
-
-
-Line 22: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
-
-
-Line 23: variable : ID
-
-b
-
-Line 23: factor	: variable INCOP
-
-b ++
-
-Line 23: unary_expression : factor
-
-b ++
-
-Line 23: term :	unary_expression
-
-b ++
-
-Line 23: simple_expression : term
-
-b ++
-
-Line 23: rel_expression	: simple_expression
-
-b ++
-
-Line 23: logic_expression : rel_expression
-
-b ++
-
-Line 23: expression : logic expression
-
-b ++
-
-Line 23: expression_statement 	: expression SEMICOLON
-
-b ++;
-
-
-Line 23: statement : expression_statement
-
-b ++;
-
-
-Line 23: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
-
-
-Line 24: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 24: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
-
-
-Line 25: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( b ) ;
-
-
-Line 25: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
-
-
-Line 26: compound_statement : LCURL statements RCURL
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
+ println ( sum ) ;
+
+
+Line 21: compound_statement : LCURL statements RCURL
 
 {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
+ println ( sum ) ;
 }
 
 
 ScopeTable # 1.2
+11 -->  < sum , ID >  
+15 -->  < i , ID >  
 
 ScopeTable # 1
 7 -->  < a , ID >  
-8 -->  < b , ID >  
-21 -->  < incop_1 , ID >  
-22 -->  < incop_2 , ID >  
+16 -->  < loop_1 , ID >  
+17 -->  < loop_2 , ID >  
 
-Line 26: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 21: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-void incop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+void loop_2 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
+ println ( sum ) ;
 }
 
 
-Line 26: unit : func_definition
+Line 21: unit : func_definition
 
-void incop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+void loop_2 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
+ println ( sum ) ;
 }
 
 
-Line 26: program : program unit
+Line 21: program : program unit
 
 int a ;
- int b ;
- void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+ void loop_1 ( ) {
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
 }
- void incop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+ println ( sum ) ;
+}
+ void loop_2 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
+ println ( sum ) ;
 }
 
 
-incop_1 PROC
+loop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L2:
+;i<10 start
+MOV AX, 5
+MOV AX, 0
+MOV t2, AX
+MOV t1, AX
+MOV AX, i
+MOV BX, 5
+CMP AX, BX
+JNL L1
 MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
+MOV t2, AX
+MOV t1, AX
+L1:
+MOV AX, t2
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L3
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t3, AX
+MOV AX, t3
+MOV sum, AX
+;i++ start
+MOV AX, i
 INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
+MOV i, AX
+;i++ end
+JMP L2
+L3:
+MOV AX, sum
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-incop_1 ENDP
-incop_2 PROC
+loop_1 ENDP
+loop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
+MOV AX, 5
+MOV AX, 5
+MOV a, AX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L5:
+;i<10 start
+MOV AX, 0
+MOV t5, AX
+MOV t4, AX
+MOV AX, i
+MOV BX, a
+CMP AX, BX
+JNL L4
 MOV AX, 1
-MOV AX, - 1
-MOV a, AX
-MOV AX, 2
-MOV AX, - 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
+MOV t5, AX
+MOV t4, AX
+L4:
+MOV AX, t5
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L6
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t6, AX
+MOV AX, t6
+MOV sum, AX
+;i++ start
+MOV AX, i
 INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
+MOV i, AX
+;i++ end
+JMP L5
+L6:
+MOV AX, sum
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-incop_2 ENDP
+loop_2 ENDP
 
-Line 28: type_specifier	: VOID
+Line 23: type_specifier	: VOID
 
 void
 
-Line 29: variable : ID
+Line 24: type_specifier	: INT
+
+int
+
+
+Line 24: declaration_list : ID
+
+i
+
+
+Line 24: var_declaration : type_specifier declaration_list SEMICOLON
+
+int i ;
+
+
+
+Line 24: statement : var_declaration
+
+int i ;
+
+
+Line 24: statements : statement
+
+int i ;
+
+
+Line 25: type_specifier	: INT
+
+int
+
+
+Line 25: declaration_list : ID
+
+sum
+
+
+Line 25: var_declaration : type_specifier declaration_list SEMICOLON
+
+int sum ;
+
+
+
+Line 25: statement : var_declaration
+
+int sum ;
+
+
+Line 25: statements : statements statement
+
+int i ;
+ int sum ;
+
+
+Line 26: variable : ID
 
 a
 
-Line 29: factor	: CONST_INT
+Line 26: factor	: CONST_INT
 
-1
+5
+
+Line 26: unary_expression : factor
+
+5
+
+Line 26: term :	unary_expression
+
+5
+
+Line 26: simple_expression : term
+
+5
+
+Line 26: rel_expression	: simple_expression
+
+5
+
+Line 26: logic_expression : rel_expression
+
+5
+
+Line 26: expression : variable ASSIGNOP logic_expression
+
+a = 5
+
+Line 26: expression_statement 	: expression SEMICOLON
+
+a = 5;
+
+
+Line 26: statement : expression_statement
+
+a = 5;
+
+
+Line 26: statements : statements statement
+
+int i ;
+ int sum ;
+ a = 5;
+
+
+Line 27: variable : ID
+
+sum
+
+Line 27: factor	: CONST_INT
+
+0
+
+Line 27: unary_expression : factor
+
+0
+
+Line 27: term :	unary_expression
+
+0
+
+Line 27: simple_expression : term
+
+0
+
+Line 27: rel_expression	: simple_expression
+
+0
+
+Line 27: logic_expression : rel_expression
+
+0
+
+Line 27: expression : variable ASSIGNOP logic_expression
+
+sum = 0
+
+Line 27: expression_statement 	: expression SEMICOLON
+
+sum = 0;
+
+
+Line 27: statement : expression_statement
+
+sum = 0;
+
+
+Line 27: statements : statements statement
+
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+
+
+Line 28: variable : ID
+
+i
+
+Line 28: factor	: CONST_INT
+
+0
+
+Line 28: unary_expression : factor
+
+0
+
+Line 28: term :	unary_expression
+
+0
+
+Line 28: simple_expression : term
+
+0
+
+Line 28: rel_expression	: simple_expression
+
+0
+
+Line 28: logic_expression : rel_expression
+
+0
+
+Line 28: expression : variable ASSIGNOP logic_expression
+
+i = 0
+
+Line 28: expression_statement 	: expression SEMICOLON
+
+i = 0;
+
+
+Line 28: variable : ID
+
+i
+
+Line 28: factor	: variable
+
+i
+
+Line 28: unary_expression : factor
+
+i
+
+Line 28: term :	unary_expression
+
+i
+
+Line 28: simple_expression : term
+
+i
+
+Line 28: variable : ID
+
+a
+
+Line 28: factor	: variable
+
+a
+
+Line 28: unary_expression : factor
+
+a
+
+Line 28: term :	unary_expression
+
+a
+
+Line 28: simple_expression : term
+
+a
+
+Line 28: rel_expression	: simple_expression RELOP simple_expression
+
+i < a
+
+Line 28: logic_expression : rel_expression
+
+t7
+
+Line 28: expression : logic expression
+
+t7
+
+Line 28: expression_statement 	: expression SEMICOLON
+
+t7;
+
+
+Line 28: variable : ID
+
+i
+
+Line 28: factor	: variable INCOP
+
+i ++
+
+Line 28: unary_expression : factor
+
+i ++
+
+Line 28: term :	unary_expression
+
+i ++
+
+Line 28: simple_expression : term
+
+i ++
+
+Line 28: rel_expression	: simple_expression
+
+i ++
+
+Line 28: logic_expression : rel_expression
+
+i ++
+
+Line 28: expression : logic expression
+
+i ++
+
+Line 29: variable : ID
+
+sum
+
+Line 29: variable : ID
+
+sum
+
+Line 29: factor	: variable
+
+sum
 
 Line 29: unary_expression : factor
 
-1
+sum
 
 Line 29: term :	unary_expression
 
-1
+sum
 
 Line 29: simple_expression : term
 
-1
+sum
+
+Line 29: variable : ID
+
+i
+
+Line 29: factor	: variable
+
+i
+
+Line 29: unary_expression : factor
+
+i
+
+Line 29: term :	unary_expression
+
+i
+
+Line 29: simple_expression : simple_expression ADDOP term
+
+sum+i
 
 Line 29: rel_expression	: simple_expression
 
-1
+t9
 
 Line 29: logic_expression : rel_expression
 
-1
+t9
 
 Line 29: expression : variable ASSIGNOP logic_expression
 
-a = 1
+sum = t9
 
 Line 29: expression_statement 	: expression SEMICOLON
 
-a = 1;
+sum = t9;
 
 
 Line 29: statement : expression_statement
 
-a = 1;
+sum = t9;
 
 
 Line 29: statements : statement
 
-a = 1;
+sum = t9;
 
 
-Line 30: variable : ID
+Line 30: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
 
-b
-
-Line 30: factor	: CONST_INT
-
-2
-
-Line 30: unary_expression : factor
-
-2
-
-Line 30: term :	unary_expression
-
-2
-
-Line 30: simple_expression : term
-
-2
-
-Line 30: rel_expression	: simple_expression
-
-2
-
-Line 30: logic_expression : rel_expression
-
-2
-
-Line 30: expression : variable ASSIGNOP logic_expression
-
-b = 2
-
-Line 30: expression_statement 	: expression SEMICOLON
-
-b = 2;
-
-
-Line 30: statement : expression_statement
-
-b = 2;
+println ( sum ) ;
 
 
 Line 30: statements : statements statement
 
-a = 1;
- b = 2;
+sum = t9;
+ println ( sum ) ;
 
 
-Line 31: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 31: compound_statement : LCURL statements RCURL
 
-println ( a ) ;
+{
+sum = t9;
+ println ( sum ) ;
+}
+
+
+ScopeTable # 1.3.1
+
+ScopeTable # 1.3
+11 -->  < sum , ID >  
+15 -->  < i , ID >  
+
+ScopeTable # 1
+7 -->  < a , ID >  
+16 -->  < loop_1 , ID >  
+17 -->  < loop_2 , ID >  
+18 -->  < loop_3 , ID >  
+
+Line 31: statement : compound_statement
+
+{
+sum = t9;
+ println ( sum ) ;
+}
+
+
+Line 31: statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
 
 
 Line 31: statements : statements statement
 
-a = 1;
- b = 2;
- println ( a ) ;
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
 
 
-Line 32: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 32: compound_statement : LCURL statements RCURL
 
-println ( b ) ;
-
-
-Line 32: statements : statements statement
-
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
-
-
-Line 34: variable : ID
-
-a
-
-Line 34: factor	: variable DECOP
-
-a --
-
-Line 34: unary_expression : factor
-
-a --
-
-Line 34: term :	unary_expression
-
-a --
-
-Line 34: simple_expression : term
-
-a --
-
-Line 34: rel_expression	: simple_expression
-
-a --
-
-Line 34: logic_expression : rel_expression
-
-a --
-
-Line 34: expression : logic expression
-
-a --
-
-Line 34: expression_statement 	: expression SEMICOLON
-
-a --;
+{
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
+}
 
 
-Line 34: statement : expression_statement
+ScopeTable # 1.3
+11 -->  < sum , ID >  
+15 -->  < i , ID >  
 
-a --;
+ScopeTable # 1
+7 -->  < a , ID >  
+16 -->  < loop_1 , ID >  
+17 -->  < loop_2 , ID >  
+18 -->  < loop_3 , ID >  
+
+Line 32: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void loop_3 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
+}
 
 
-Line 34: statements : statements statement
+Line 32: unit : func_definition
 
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
+void loop_3 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
+}
 
 
-Line 35: variable : ID
+Line 32: program : program unit
 
-b
+int a ;
+ void loop_1 ( ) {
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
+}
+ println ( sum ) ;
+}
+ void loop_2 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
+}
+ println ( sum ) ;
+}
+ void loop_3 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
+}
 
-Line 35: factor	: variable DECOP
 
-b --
+loop_1 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L2:
+;i<10 start
+MOV AX, 5
+MOV AX, 0
+MOV t2, AX
+MOV t1, AX
+MOV AX, i
+MOV BX, 5
+CMP AX, BX
+JNL L1
+MOV AX, 1
+MOV t2, AX
+MOV t1, AX
+L1:
+MOV AX, t2
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L3
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t3, AX
+MOV AX, t3
+MOV sum, AX
+;i++ start
+MOV AX, i
+INC AX
+MOV i, AX
+;i++ end
+JMP L2
+L3:
+MOV AX, sum
+CALL OUTDEC
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+loop_1 ENDP
+loop_2 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 5
+MOV AX, 5
+MOV a, AX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L5:
+;i<10 start
+MOV AX, 0
+MOV t5, AX
+MOV t4, AX
+MOV AX, i
+MOV BX, a
+CMP AX, BX
+JNL L4
+MOV AX, 1
+MOV t5, AX
+MOV t4, AX
+L4:
+MOV AX, t5
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L6
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t6, AX
+MOV AX, t6
+MOV sum, AX
+;i++ start
+MOV AX, i
+INC AX
+MOV i, AX
+;i++ end
+JMP L5
+L6:
+MOV AX, sum
+CALL OUTDEC
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+loop_2 ENDP
+loop_3 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 5
+MOV AX, 5
+MOV a, AX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L8:
+;i<10 start
+MOV AX, 0
+MOV t8, AX
+MOV t7, AX
+MOV AX, i
+MOV BX, a
+CMP AX, BX
+JNL L7
+MOV AX, 1
+MOV t8, AX
+MOV t7, AX
+L7:
+MOV AX, t8
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L9
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t9, AX
+MOV AX, t9
+MOV sum, AX
+MOV AX, sum
+CALL OUTDEC
+;i++ start
+MOV AX, i
+INC AX
+MOV i, AX
+;i++ end
+JMP L8
+L9:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+loop_3 ENDP
+
+Line 34: type_specifier	: INT
+
+int
+
+
+Line 35: argument_list : |
+
+ 
+
+Line 35: factor	: ID LPAREN argument_list RPAREN
+
+loop_1 (   )
 
 Line 35: unary_expression : factor
 
-b --
+loop_1 (   )
 
 Line 35: term :	unary_expression
 
-b --
+loop_1 (   )
 
 Line 35: simple_expression : term
 
-b --
+loop_1 (   )
 
 Line 35: rel_expression	: simple_expression
 
-b --
+loop_1 (   )
 
 Line 35: logic_expression : rel_expression
 
-b --
+loop_1 (   )
 
 Line 35: expression : logic expression
 
-b --
+loop_1 (   )
 
 Line 35: expression_statement 	: expression SEMICOLON
 
-b --;
+loop_1 (   );
 
 
 Line 35: statement : expression_statement
 
-b --;
+loop_1 (   );
 
 
-Line 35: statements : statements statement
+Line 35: statements : statement
 
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
+loop_1 (   );
 
 
-Line 36: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 36: argument_list : |
 
-println ( a ) ;
+ 
+
+Line 36: factor	: ID LPAREN argument_list RPAREN
+
+loop_2 (   )
+
+Line 36: unary_expression : factor
+
+loop_2 (   )
+
+Line 36: term :	unary_expression
+
+loop_2 (   )
+
+Line 36: simple_expression : term
+
+loop_2 (   )
+
+Line 36: rel_expression	: simple_expression
+
+loop_2 (   )
+
+Line 36: logic_expression : rel_expression
+
+loop_2 (   )
+
+Line 36: expression : logic expression
+
+loop_2 (   )
+
+Line 36: expression_statement 	: expression SEMICOLON
+
+loop_2 (   );
+
+
+Line 36: statement : expression_statement
+
+loop_2 (   );
 
 
 Line 36: statements : statements statement
 
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
+loop_1 (   );
+ loop_2 (   );
 
 
-Line 37: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
+Line 37: argument_list : |
 
-println ( b ) ;
+ 
+
+Line 37: factor	: ID LPAREN argument_list RPAREN
+
+loop_3 (   )
+
+Line 37: unary_expression : factor
+
+loop_3 (   )
+
+Line 37: term :	unary_expression
+
+loop_3 (   )
+
+Line 37: simple_expression : term
+
+loop_3 (   )
+
+Line 37: rel_expression	: simple_expression
+
+loop_3 (   )
+
+Line 37: logic_expression : rel_expression
+
+loop_3 (   )
+
+Line 37: expression : logic expression
+
+loop_3 (   )
+
+Line 37: expression_statement 	: expression SEMICOLON
+
+loop_3 (   );
+
+
+Line 37: statement : expression_statement
+
+loop_3 (   );
 
 
 Line 37: statements : statements statement
 
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
+loop_1 (   );
+ loop_2 (   );
+ loop_3 (   );
 
 
 Line 38: compound_statement : LCURL statements RCURL
 
 {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-ScopeTable # 1.3
-
-ScopeTable # 1
-7 -->  < a , ID >   < decop_1 , ID >  
-8 -->  < b , ID >  
-21 -->  < incop_1 , ID >  
-22 -->  < incop_2 , ID >  
-
-Line 38: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void decop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-Line 38: unit : func_definition
-
-void decop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-Line 38: program : program unit
-
-int a ;
- int b ;
- void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
-}
- void incop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
-}
- void decop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-incop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-incop_1 ENDP
-incop_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, - 1
-MOV a, AX
-MOV AX, 2
-MOV AX, - 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-incop_2 ENDP
-decop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-DEC AX
-MOV a, AX
-MOV AX, b
-DEC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-decop_1 ENDP
-
-Line 40: type_specifier	: VOID
-
-void
-
-Line 41: variable : ID
-
-a
-
-Line 41: factor	: CONST_INT
-
-1
-
-Line 41: unary_expression : factor
-
-1
-
-Line 41: unary_expression : ADDOP unary_expression
-
-- 1
-
-Line 41: term :	unary_expression
-
-- 1
-
-Line 41: simple_expression : term
-
-- 1
-
-Line 41: rel_expression	: simple_expression
-
-- 1
-
-Line 41: logic_expression : rel_expression
-
-- 1
-
-Line 41: expression : variable ASSIGNOP logic_expression
-
-a = - 1
-
-Line 41: expression_statement 	: expression SEMICOLON
-
-a = - 1;
-
-
-Line 41: statement : expression_statement
-
-a = - 1;
-
-
-Line 41: statements : statement
-
-a = - 1;
-
-
-Line 42: variable : ID
-
-b
-
-Line 42: factor	: CONST_INT
-
-2
-
-Line 42: unary_expression : factor
-
-2
-
-Line 42: unary_expression : ADDOP unary_expression
-
-- 2
-
-Line 42: term :	unary_expression
-
-- 2
-
-Line 42: simple_expression : term
-
-- 2
-
-Line 42: rel_expression	: simple_expression
-
-- 2
-
-Line 42: logic_expression : rel_expression
-
-- 2
-
-Line 42: expression : variable ASSIGNOP logic_expression
-
-b = - 2
-
-Line 42: expression_statement 	: expression SEMICOLON
-
-b = - 2;
-
-
-Line 42: statement : expression_statement
-
-b = - 2;
-
-
-Line 42: statements : statements statement
-
-a = - 1;
- b = - 2;
-
-
-Line 43: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 43: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
-
-
-Line 44: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( b ) ;
-
-
-Line 44: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
-
-
-Line 46: variable : ID
-
-a
-
-Line 46: factor	: variable DECOP
-
-a --
-
-Line 46: unary_expression : factor
-
-a --
-
-Line 46: term :	unary_expression
-
-a --
-
-Line 46: simple_expression : term
-
-a --
-
-Line 46: rel_expression	: simple_expression
-
-a --
-
-Line 46: logic_expression : rel_expression
-
-a --
-
-Line 46: expression : logic expression
-
-a --
-
-Line 46: expression_statement 	: expression SEMICOLON
-
-a --;
-
-
-Line 46: statement : expression_statement
-
-a --;
-
-
-Line 46: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
-
-
-Line 47: variable : ID
-
-b
-
-Line 47: factor	: variable DECOP
-
-b --
-
-Line 47: unary_expression : factor
-
-b --
-
-Line 47: term :	unary_expression
-
-b --
-
-Line 47: simple_expression : term
-
-b --
-
-Line 47: rel_expression	: simple_expression
-
-b --
-
-Line 47: logic_expression : rel_expression
-
-b --
-
-Line 47: expression : logic expression
-
-b --
-
-Line 47: expression_statement 	: expression SEMICOLON
-
-b --;
-
-
-Line 47: statement : expression_statement
-
-b --;
-
-
-Line 47: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
-
-
-Line 48: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( a ) ;
-
-
-Line 48: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
-
-
-Line 49: statement : PRINTLN LPAREN ID RPAREN SEMICOLON
-
-println ( b ) ;
-
-
-Line 49: statements : statements statement
-
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-
-
-Line 50: compound_statement : LCURL statements RCURL
-
-{
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
+loop_1 (   );
+ loop_2 (   );
+ loop_3 (   );
 }
 
 
 ScopeTable # 1.4
 
 ScopeTable # 1
-7 -->  < a , ID >   < decop_1 , ID >  
-8 -->  < b , ID >   < decop_2 , ID >  
-21 -->  < incop_1 , ID >  
-22 -->  < incop_2 , ID >  
-
-Line 50: func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-void decop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-Line 50: unit : func_definition
-
-void decop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-Line 50: program : program unit
-
-int a ;
- int b ;
- void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
-}
- void incop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
-}
- void decop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
- void decop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
-}
-
-
-incop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-incop_1 ENDP
-incop_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, - 1
-MOV a, AX
-MOV AX, 2
-MOV AX, - 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-incop_2 ENDP
-decop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-DEC AX
-MOV a, AX
-MOV AX, b
-DEC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-decop_1 ENDP
-decop_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, - 1
-MOV a, AX
-MOV AX, 2
-MOV AX, - 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-DEC AX
-MOV a, AX
-MOV AX, b
-DEC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-decop_2 ENDP
-
-Line 52: type_specifier	: INT
-
-int
-
-
-Line 53: argument_list : |
-
- 
-
-Line 53: factor	: ID LPAREN argument_list RPAREN
-
-incop_1 (   )
-
-Line 53: unary_expression : factor
-
-incop_1 (   )
-
-Line 53: term :	unary_expression
-
-incop_1 (   )
-
-Line 53: simple_expression : term
-
-incop_1 (   )
-
-Line 53: rel_expression	: simple_expression
-
-incop_1 (   )
-
-Line 53: logic_expression : rel_expression
-
-incop_1 (   )
-
-Line 53: expression : logic expression
-
-incop_1 (   )
-
-Line 53: expression_statement 	: expression SEMICOLON
-
-incop_1 (   );
-
-
-Line 53: statement : expression_statement
-
-incop_1 (   );
-
-
-Line 53: statements : statement
-
-incop_1 (   );
-
-
-Line 54: argument_list : |
-
- 
-
-Line 54: factor	: ID LPAREN argument_list RPAREN
-
-incop_2 (   )
-
-Line 54: unary_expression : factor
-
-incop_2 (   )
-
-Line 54: term :	unary_expression
-
-incop_2 (   )
-
-Line 54: simple_expression : term
-
-incop_2 (   )
-
-Line 54: rel_expression	: simple_expression
-
-incop_2 (   )
-
-Line 54: logic_expression : rel_expression
-
-incop_2 (   )
-
-Line 54: expression : logic expression
-
-incop_2 (   )
-
-Line 54: expression_statement 	: expression SEMICOLON
-
-incop_2 (   );
-
-
-Line 54: statement : expression_statement
-
-incop_2 (   );
-
-
-Line 54: statements : statements statement
-
-incop_1 (   );
- incop_2 (   );
-
-
-Line 55: argument_list : |
-
- 
-
-Line 55: factor	: ID LPAREN argument_list RPAREN
-
-decop_1 (   )
-
-Line 55: unary_expression : factor
-
-decop_1 (   )
-
-Line 55: term :	unary_expression
-
-decop_1 (   )
-
-Line 55: simple_expression : term
-
-decop_1 (   )
-
-Line 55: rel_expression	: simple_expression
-
-decop_1 (   )
-
-Line 55: logic_expression : rel_expression
-
-decop_1 (   )
-
-Line 55: expression : logic expression
-
-decop_1 (   )
-
-Line 55: expression_statement 	: expression SEMICOLON
-
-decop_1 (   );
-
-
-Line 55: statement : expression_statement
-
-decop_1 (   );
-
-
-Line 55: statements : statements statement
-
-incop_1 (   );
- incop_2 (   );
- decop_1 (   );
-
-
-Line 56: argument_list : |
-
- 
-
-Line 56: factor	: ID LPAREN argument_list RPAREN
-
-decop_2 (   )
-
-Line 56: unary_expression : factor
-
-decop_2 (   )
-
-Line 56: term :	unary_expression
-
-decop_2 (   )
-
-Line 56: simple_expression : term
-
-decop_2 (   )
-
-Line 56: rel_expression	: simple_expression
-
-decop_2 (   )
-
-Line 56: logic_expression : rel_expression
-
-decop_2 (   )
-
-Line 56: expression : logic expression
-
-decop_2 (   )
-
-Line 56: expression_statement 	: expression SEMICOLON
-
-decop_2 (   );
-
-
-Line 56: statement : expression_statement
-
-decop_2 (   );
-
-
-Line 56: statements : statements statement
-
-incop_1 (   );
- incop_2 (   );
- decop_1 (   );
- decop_2 (   );
-
-
-Line 57: compound_statement : LCURL statements RCURL
-
-{
-incop_1 (   );
- incop_2 (   );
- decop_1 (   );
- decop_2 (   );
-}
-
-
-ScopeTable # 1.5
-
-ScopeTable # 1
 1 -->  < main , ID >  
-7 -->  < a , ID >   < decop_1 , ID >  
-8 -->  < b , ID >   < decop_2 , ID >  
-21 -->  < incop_1 , ID >  
-22 -->  < incop_2 , ID >  
+7 -->  < a , ID >  
+16 -->  < loop_1 , ID >  
+17 -->  < loop_2 , ID >  
+18 -->  < loop_3 , ID >  
 
-Line 57: func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line 38: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-incop_1 (   );
- incop_2 (   );
- decop_1 (   );
- decop_2 (   );
+loop_1 (   );
+ loop_2 (   );
+ loop_3 (   );
 }
 
 
-Line 57: unit : func_definition
+Line 38: unit : func_definition
 
 int main ( ) {
-incop_1 (   );
- incop_2 (   );
- decop_1 (   );
- decop_2 (   );
+loop_1 (   );
+ loop_2 (   );
+ loop_3 (   );
 }
 
 
-Line 57: program : program unit
+Line 38: program : program unit
 
 int a ;
- int b ;
- void incop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+ void loop_1 ( ) {
+int i ;
+ int sum ;
+ sum = 0;
+ for ( i = 0;
+ t1;
+ i ++ ) {
+sum = t3;
 }
- void incop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a ++;
- b ++;
- println ( a ) ;
- println ( b ) ;
+ println ( sum ) ;
 }
- void decop_1 ( ) {
-a = 1;
- b = 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
+ void loop_2 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t4;
+ i ++ ) {
+sum = t6;
 }
- void decop_2 ( ) {
-a = - 1;
- b = - 2;
- println ( a ) ;
- println ( b ) ;
- a --;
- b --;
- println ( a ) ;
- println ( b ) ;
+ println ( sum ) ;
+}
+ void loop_3 ( ) {
+int i ;
+ int sum ;
+ a = 5;
+ sum = 0;
+ for ( i = 0;
+ t7;
+ i ++ ) {
+sum = t9;
+ println ( sum ) ;
+}
 }
  int main ( ) {
-incop_1 (   );
- incop_2 (   );
- decop_1 (   );
- decop_2 (   );
+loop_1 (   );
+ loop_2 (   );
+ loop_3 (   );
 }
 
 
-incop_1 PROC
+loop_1 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L2:
+;i<10 start
+MOV AX, 5
+MOV AX, 0
+MOV t2, AX
+MOV t1, AX
+MOV AX, i
+MOV BX, 5
+CMP AX, BX
+JNL L1
 MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
+MOV t2, AX
+MOV t1, AX
+L1:
+MOV AX, t2
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L3
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t3, AX
+MOV AX, t3
+MOV sum, AX
+;i++ start
+MOV AX, i
 INC AX
-MOV a, AX
-MOV AX, b
-INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
+MOV i, AX
+;i++ end
+JMP L2
+L3:
+MOV AX, sum
 CALL OUTDEC
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-incop_1 ENDP
-incop_2 PROC
+loop_1 ENDP
+loop_2 PROC
 PUSH AX
 PUSH BX
 PUSH CX
 PUSH DX
-MOV AX, 1
-MOV AX, - 1
+MOV AX, 5
+MOV AX, 5
 MOV a, AX
-MOV AX, 2
-MOV AX, - 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L5:
+;i<10 start
+MOV AX, 0
+MOV t5, AX
+MOV t4, AX
+MOV AX, i
+MOV BX, a
+CMP AX, BX
+JNL L4
+MOV AX, 1
+MOV t5, AX
+MOV t4, AX
+L4:
+MOV AX, t5
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L6
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t6, AX
+MOV AX, t6
+MOV sum, AX
+;i++ start
+MOV AX, i
 INC AX
+MOV i, AX
+;i++ end
+JMP L5
+L6:
+MOV AX, sum
+CALL OUTDEC
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+loop_2 ENDP
+loop_3 PROC
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+MOV AX, 5
+MOV AX, 5
 MOV a, AX
-MOV AX, b
+MOV AX, 0
+MOV AX, 0
+MOV sum, AX
+;for i=0 start
+MOV AX, 0
+MOV AX, 0
+MOV i, AX
+;for i=0 end
+L8:
+;i<10 start
+MOV AX, 0
+MOV t8, AX
+MOV t7, AX
+MOV AX, i
+MOV BX, a
+CMP AX, BX
+JNL L7
+MOV AX, 1
+MOV t8, AX
+MOV t7, AX
+L7:
+MOV AX, t8
+;i<10 end
+MOV BX, 0
+CMP AX, BX
+JE L9
+MOV AX, sum
+MOV BX, i
+ADD AX, BX
+MOV t9, AX
+MOV AX, t9
+MOV sum, AX
+MOV AX, sum
+CALL OUTDEC
+;i++ start
+MOV AX, i
 INC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
+MOV i, AX
+;i++ end
+JMP L8
+L9:
 POP DX
 POP CX
 POP BX
 POP AX
 RET
-incop_2 ENDP
-decop_1 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, 1
-MOV a, AX
-MOV AX, 2
-MOV AX, 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-DEC AX
-MOV a, AX
-MOV AX, b
-DEC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-decop_1 ENDP
-decop_2 PROC
-PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, 1
-MOV AX, - 1
-MOV a, AX
-MOV AX, 2
-MOV AX, - 2
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-MOV AX, a
-DEC AX
-MOV a, AX
-MOV AX, b
-DEC AX
-MOV b, AX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
-RET
-decop_2 ENDP
+loop_3 ENDP
 main PROC
 MOV AX, @DATA 
 MOV DS, AX
-CALL incop_1
-CALL incop_2
-CALL decop_1
-CALL decop_2
+CALL loop_1
+CALL loop_2
+CALL loop_3
 
 MOV AH, 4CH
 INT 21H
 main ENDP
 
-Line 57: start : program
+Line 38: start : program
 
 ScopeTable # 1
 1 -->  < main , ID >  
-7 -->  < a , ID >   < decop_1 , ID >  
-8 -->  < b , ID >   < decop_2 , ID >  
-21 -->  < incop_1 , ID >  
-22 -->  < incop_2 , ID >  
+7 -->  < a , ID >  
+16 -->  < loop_1 , ID >  
+17 -->  < loop_2 , ID >  
+18 -->  < loop_3 , ID >  
 
-Total lines: 57
+Total lines: 38
 Total errors: 0
