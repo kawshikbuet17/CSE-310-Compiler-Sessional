@@ -28,6 +28,7 @@ string currentFunction = "global";
 string currentCalled = "global";
 string codeString;
 set<string> dataString;
+set<pair<string, string>> arrayString;
 
 void yyerror(char *s)
 {
@@ -96,6 +97,9 @@ string assemblyTemplate(set<string> dataString, string codeString){
 ";
 	for(auto i : dataString){
 		finalCode+=i+" DW '?'\n";
+	}
+	for(auto i : arrayString){
+		finalCode+=i.first+" DW "+i.second+" (?)\n";
 	}
 	finalCode+=
 "\n\n.CODE\n\
@@ -318,13 +322,21 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							PrintToken(symbolName);
 
 							$$ = new SymbolInfo(symbolName, "func");	
-							func_done.insert(currentFunction);	
+							func_done.insert(currentFunction);
+	
+							SymbolInfo* temp = symbolTable->Lookup(currentFunction);
+							vector<SymbolInfo> v = temp->getFuncParams();
+							for(int i=v.size()-1; i>=0; i--){
+								$$->code += "POP AX\n";
+								$$->code += "MOV "+v[i].getSymbolName()+", AX\n";
+							}
 
 							$$->code += currentFunction + " PROC\n";
 							if(currentFunction=="main"){
 								$$->code += "MOV AX, @DATA \nMOV DS, AX\n";
 							}	
 							else{
+								
 								$$->code += "PUSH AX\n";
 								$$->code += "PUSH BX\n";
 								$$->code += "PUSH CX\n";
@@ -338,7 +350,14 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 								$$->code += "POP CX\n";
 								$$->code += "POP BX\n";
 								$$->code += "POP AX\n";
-								$$->code += "RET\n";
+								if(v.size()!=0){
+									int retsize = v.size()*2;
+									$$->code += "RET "+to_string(retsize)+"\n";
+								}
+								else{
+									$$->code += "RET\n";
+								}
+								
 							}else{
 								$$->code += "\nMOV AH, 4CH\nINT 21H\n";
 							}	
@@ -633,6 +652,8 @@ declaration_list: declaration_list COMMA ID	{
 							if(currentType != "void"){
 								symbolTable->Insert(*temp);
 							}
+
+							arrayString.insert(make_pair($1->getSymbolName(), $3->getSymbolName()));
 						}
  		  ;
  		  
@@ -856,8 +877,13 @@ variable: ID	{
 							}
 							PrintToken(symbolName);
 
-							$$->code += $3->code + "mov bx, "+$3->getSymbolName()+"\nadd bx, bx\n";
+							$$->code += $1->code+$2->code+$3->code+$4->code;
 							CodePrint(lineCount, $$->code);
+							$$->code += "MOV BX, "+$3->getSymbolName()+"\n";
+							$$->code += "INC BX\n";
+							$$->code += "ADD BX, BX\n";
+							$$->code += "SUB BX, 2\n";
+							$$->setSymbolName($1->getSymbolName()+$2->getSymbolName()+"BX"+$4->getSymbolName());
 						} 
 	 ;
 	 
@@ -1214,7 +1240,6 @@ factor: variable	{
 								PrintError(lineCount, "Undeclared function "+$1->getSymbolName());
 								
 								$$ = new SymbolInfo(symbolName, "nonterminal");
-								params_list.clear();
 							}
 							else{
 								vector<SymbolInfo> v = t->getFuncParams();
@@ -1238,13 +1263,18 @@ factor: variable	{
 											break;
 										}
 									}
-								}							
-								params_list.clear();
+								}
+															
+								
 								$$ = new SymbolInfo(symbolName, "nonterminal");
 								$$->setDataType(t->getDataType());
 							}
 							PrintToken(symbolName);
-
+							for(int i=0; i<params_list.size(); i++){
+									$$->code += "MOV AX, "+params_list[i].getSymbolName()+"\n";
+									$$->code += "PUSH AX\n";
+								}
+							params_list.clear();
 							$$->code += "CALL "+currentCalled+"\n";
 						}
 	| LPAREN expression RPAREN	{
