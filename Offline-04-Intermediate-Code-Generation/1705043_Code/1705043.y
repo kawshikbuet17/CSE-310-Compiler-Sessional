@@ -99,7 +99,7 @@ string assemblyTemplate(set<string> dataString, string codeString){
 		finalCode+=i+" DW '?'\n";
 	}
 	for(auto i : arrayString){
-		finalCode+=i.first+" DW "+i.second+" (?)\n";
+		finalCode+=i.first+" DW DUP "+i.second+" (?)\n";
 	}
 	finalCode+=
 "\n\n.CODE\n\
@@ -336,20 +336,22 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 								$$->code += "MOV AX, @DATA \nMOV DS, AX\n";
 							}	
 							else{
-								
-								$$->code += "PUSH AX\n";
-								$$->code += "PUSH BX\n";
-								$$->code += "PUSH CX\n";
-								$$->code += "PUSH DX\n";
+								// $$->code += "PUSH AX\n";
+								// $$->code += "PUSH BX\n";
+								// $$->code += "PUSH CX\n";
+								// $$->code += "PUSH DX\n";
 							}
 							
 							$$->code += $1->code+$2->code+$3->code+$4->code+$5->code+$7->code;	
 							
 							if(currentFunction!="main"){
-								$$->code += "POP DX\n";
-								$$->code += "POP CX\n";
-								$$->code += "POP BX\n";
-								$$->code += "POP AX\n";
+								// $$->code += "POP DX\n";
+								// $$->code += "POP CX\n";
+								// $$->code += "POP BX\n";
+								// $$->code += "POP AX\n";
+								if(temp->getDataType()!="void"){
+									$$->code += "PUSH AX\n";
+								}
 								if(v.size()!=0){
 									int retsize = v.size()*2;
 									$$->code += "RET "+to_string(retsize)+"\n";
@@ -435,6 +437,8 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							}
 							PrintToken(symbolName);
 							$$->code += $1->code+$2->code+$3->code+$4->code;
+
+							dataString.insert($4->getSymbolName());
 						}
 		| parameter_list COMMA type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : parameter_list COMMA type_specifier");
@@ -461,6 +465,7 @@ parameter_list: parameter_list COMMA type_specifier ID	{
 							temp->setDataType($1->getSymbolName());
 							params_list.push_back(*temp);
 							$$->code += $1->code+$2->code;
+							dataString.insert($2->getSymbolName());
 						}
 		| type_specifier	{
 							PrintGrammar(lineCount, "parameter_list  : type_specifier");
@@ -582,9 +587,7 @@ declaration_list: declaration_list COMMA ID	{
 								symbolTable->Insert(*temp);
 							}
 							
-							codeString = $3->getSymbolName()+" DB '?'\n";
-							CodePrint(lineCount, codeString);
-							$$->code+= codeString;
+							dataString.insert($3->getSymbolName());
 
 						}
  		  | declaration_list COMMA ID LTHIRD CONST_INT RTHIRD	{
@@ -607,6 +610,7 @@ declaration_list: declaration_list COMMA ID	{
 							if(currentType != "void"){
 								symbolTable->Insert(*temp);
 							}
+							arrayString.insert(make_pair($3->getSymbolName(), $5->getSymbolName()));
 						}
  		  | ID	{
 							PrintGrammar(lineCount, "declaration_list : ID");
@@ -742,7 +746,7 @@ statement: var_declaration	{
 							codeString += $5->code;
 							codeString += label + ":\n";
 							$$->code += codeString;
-							log_file<<codeString<<endl;
+							log_file<<$$->code<<endl;
 						}
 	  | IF LPAREN expression RPAREN statement ELSE statement	{
 							PrintGrammar(lineCount, "statement : IF LPAREN expression RPAREN statement ELSE statement");
@@ -820,6 +824,8 @@ expression_statement: SEMICOLON	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->code += $1->code+$2->code;
+
+							log_file<<$$->code<<endl;
 						} 
 			;
 	  
@@ -894,6 +900,7 @@ variable: ID	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
+							log_file<<$$->code<<endl;
 						}	
 	   | variable ASSIGNOP logic_expression	{
 							PrintGrammar(lineCount, "expression : variable ASSIGNOP logic_expression");
@@ -917,6 +924,8 @@ variable: ID	{
 
 							$$->code += "MOV "+$1->getSymbolName()+", AX\n";
 							CodePrint(lineCount, $$->code);
+
+							log_file<<$$->code<<endl;
 						} 	
 	   ;
 			
@@ -926,6 +935,7 @@ logic_expression: rel_expression	{
 							PrintToken(symbolName);
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
+							log_file<<$$->code<<endl;
 						} 	
 		 | rel_expression LOGICOP rel_expression	{
 							PrintGrammar(lineCount, "logic_expression : rel_expression LOGICOP rel_expression");
@@ -980,7 +990,7 @@ logic_expression: rel_expression	{
 								$$->setSymbolName(temp1);
 							}
 							$$->code += codeString;
-							log_file<<codeString<<endl;
+							log_file<<$$->code<<endl;
 						} 	
 		 ;
 			
@@ -991,6 +1001,7 @@ rel_expression: simple_expression	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
+							log_file<<$$->code<<endl;
 						} 
 		| simple_expression RELOP simple_expression	{
 							PrintGrammar(lineCount, "rel_expression	: simple_expression RELOP simple_expression");
@@ -1082,6 +1093,7 @@ simple_expression: term	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
+							log_file<<$$->code<<endl;
 						} 
 		  | simple_expression ADDOP term	{
 							PrintGrammar(lineCount, "simple_expression : simple_expression ADDOP term");
@@ -1118,6 +1130,7 @@ simple_expression: term	{
 
 							$$->code+= codeString;
 							CodePrint(lineCount, codeString);
+							log_file<<$$->code<<endl;
 							
 							$$->setSymbolName(temp1);
 						} 
@@ -1163,8 +1176,8 @@ term:	unary_expression	{
 								}
 							}
 							PrintToken(symbolName);
-
-							codeString= $3->code;
+							codeString = $1->code;
+							codeString += $3->code;
 							codeString += "MOV AX, "+$1->getSymbolName()+"\n";
 							codeString += "MOV BX, "+$3->getSymbolName()+"\n";
 							string temp = newTemp();
@@ -1174,11 +1187,17 @@ term:	unary_expression	{
 							}else if($2->getSymbolName()=="/"){
 								codeString += "XOR DX, DX\n";
 								codeString += "CWD\n";
-								codeString += "IDIV AX\n";
+								codeString += "IDIV BX\n";
 								codeString += "MOV "+temp+", AX\n";
+							}else if($2->getSymbolName()=="%"){
+								codeString += "XOR DX, DX\n";
+								codeString += "CWD\n";
+								codeString += "IDIV BX\n";
+								codeString += "MOV "+temp+", DX\n";
 							}
 							$$->setSymbolName(temp);
 							$$->code += codeString;
+							log_file<<$$->code<<endl;
 							CodePrint(lineCount, codeString);
 						}
      ;
@@ -1213,6 +1232,7 @@ unary_expression: ADDOP unary_expression	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$ = $1;
+							log_file<<$$->code<<endl;
 						} 
 		 ;
 	
@@ -1276,6 +1296,9 @@ factor: variable	{
 								}
 							params_list.clear();
 							$$->code += "CALL "+currentCalled+"\n";
+							if(t->getDataType()!="void"){
+								$$->code += "POP AX\n";
+							}
 						}
 	| LPAREN expression RPAREN	{
 							PrintGrammar(lineCount, "factor	: LPAREN expression RPAREN");
@@ -1284,6 +1307,9 @@ factor: variable	{
 
 							$$ = new SymbolInfo(symbolName, "nonterminal");
 							$$->setDataType($2->getDataType());
+							$$->code += $2->code;
+							$$->setSymbolName($2->getSymbolName());
+							log_file<<$$->code<<endl;
 						}
 	| CONST_INT	{
 							PrintGrammar(lineCount, "factor	: CONST_INT");
@@ -1297,6 +1323,7 @@ factor: variable	{
 							codeString = "MOV AX, "+$1->getSymbolName()+"\n";
 							$$->code += codeString;
 							CodePrint(lineCount, codeString);
+							log_file<<$$->code<<endl;
 						} 
 	| CONST_FLOAT	{
 							PrintGrammar(lineCount, "factor	: CONST_FLOAT");

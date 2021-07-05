@@ -4,28 +4,36 @@
 .DATA
 a DW '?'
 b DW '?'
+t1 DW '?'
+t2 DW '?'
+t3 DW '?'
+x DW '?'
 
 
 .CODE
 POP AX
+MOV a, AX
+f PROC
+MOV AX, 9
+MOV AX, 9
+MOV a, AX
+PUSH AX
+RET 2
+f ENDP
+POP AX
 MOV b, AX
 POP AX
 MOV a, AX
-func_1 PROC
+g PROC
+MOV AX, t2
+MOV BX, b
+ADD AX, BX
+MOV t3, AX
+MOV AX, t3
+MOV x, AX
 PUSH AX
-PUSH BX
-PUSH CX
-PUSH DX
-MOV AX, a
-CALL OUTDEC
-MOV AX, b
-CALL OUTDEC
-POP DX
-POP CX
-POP BX
-POP AX
 RET 4
-func_1 ENDP
+g ENDP
 main PROC
 MOV AX, @DATA 
 MOV DS, AX
@@ -39,7 +47,12 @@ MOV AX, a
 PUSH AX
 MOV AX, b
 PUSH AX
-CALL func_1
+CALL g
+POP AX
+MOV AX, g ( a , b )
+MOV a, AX
+MOV AX, a
+CALL OUTDEC
 
 MOV AH, 4CH
 INT 21H
